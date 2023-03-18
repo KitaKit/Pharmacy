@@ -31,3 +31,5 @@ C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.csproj.CoreC
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna.exe
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna.pdb
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna_Content.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy.mdf
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy_log.ldf

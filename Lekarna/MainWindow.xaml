@@ -20,12 +20,13 @@
             <MenuItem Header="Sort" Width="50">
             </MenuItem>
         </Menu>
-        <TabControl TabStripPlacement="Bottom" Margin="0,18,20,30" x:Name="TabControl">
+        <TabControl TabStripPlacement="Bottom" Margin="0,18,0,30" x:Name="TabControl">
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <ListView x:Name="listviewMedications" ScrollViewer.HorizontalScrollBarVisibility="Visible"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
@@ -33,13 +34,27 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <ListView x:Name="listviewWarehouses" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Manufactures" x:Name="tabItemManufactures">
+            <TabItem Header="Manufacturers" x:Name="tabItemManufacturers">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <ListView x:Name="listviewManufacturers" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
             <TabItem Header="Sales" x:Name="tabItemSales">
@@ -47,6 +62,13 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <ListView x:Name="listviewSales" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
             <TabItem Header="Purchases" x:Name="tabItemPurchases">
@@ -54,6 +76,13 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <ListView x:Name="listviewPurchases" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -67,8 +96,6 @@
             <Button Content="Save" Width="70" Margin="3"/>
             <Button Content="Close" Width="70" Margin="3"/>
         </StackPanel>
-        <StackPanel x:Name="spScrollBar" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18 0 30" Width="20" Height="{Binding ActualHeight, ElementName=TabControl}">
-            <ScrollBar Height="{Binding ActualHeight, ElementName=spScrollBar}" Width="{Binding ActualWidth, ElementName=spScrollBar}"/>
-        </StackPanel>
+        
     </Grid>
 </Window>
