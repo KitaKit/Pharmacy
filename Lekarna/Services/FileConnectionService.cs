@@ -8,5 +8,6 @@ namespace Pharmacy.Services
 {
     internal class FileConnectionService
     {
+
     }
 }

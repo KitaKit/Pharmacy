@@ -26,18 +26,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dgMedications" AutoGenerateColumns="False" Margin="0,0,0,0">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Title" Width="160"></DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Availability" Width="70"></DataGridCheckBoxColumn>
-                            <DataGridTextColumn Header="Count" Width="50"></DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Prescription" Width="75"></DataGridCheckBoxColumn>
-                            <DataGridCheckBoxColumn Header="Form" Width="50"></DataGridCheckBoxColumn>
-                            <DataGridTextColumn Header="Price" Width="50"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Warehouse" Width="80"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Description" Width="*"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
@@ -45,13 +33,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dgWarehouses" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Title" Width="160"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Number" Width="70"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Medications" Width="*"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Manufactures" x:Name="tabItemManufactures">
@@ -59,13 +40,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dgManufactures" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Width="160"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Country" Width="70"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Lisence" Width="50"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Sales" x:Name="tabItemSales">
@@ -73,14 +47,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dgSales" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Number" Width="80"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Prixe" Width="80"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Date" Width="80"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Medications" Width="*"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Purchases" x:Name="tabItemPurchases">
@@ -88,17 +54,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dgPurchases" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Number" Width="80"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Cost" Width="80"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Date" Width="80"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Count" Width="50"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Provider" Width="100"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Manufacturer" Width="100"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Medications" Width="*"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
