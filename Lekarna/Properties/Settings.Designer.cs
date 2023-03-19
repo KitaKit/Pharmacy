@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lekarna.Properties
+namespace Pharmacy.Properties
 {
 
 

@@ -71,9 +71,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\DatabaseLogicModel.cs" />
-    <Compile Include="Models\FileIOModel.cs" />
+    <Compile Include="Logic\DatabaseLogic.cs" />
+    <Compile Include="Logic\FileIOLogic.cs" />
+    <Compile Include="Models\CatigoriesModel.cs" />
+    <Compile Include="Models\ManufacturersModel.cs" />
+    <Compile Include="Models\MedicationFormModel.cs" />
     <Compile Include="Models\MedicationsModel.cs" />
+    <Compile Include="Models\ProvidersModel.cs" />
+    <Compile Include="Models\PurchasesModel.cs" />
+    <Compile Include="Models\SalesModel.cs" />
+    <Compile Include="Models\WarehousesModel.cs" />
     <Compile Include="Services\FileConnectionService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -26,7 +26,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listviewMedications" ScrollViewer.HorizontalScrollBarVisibility="Visible"/>
+                    <ListView x:Name="listviewMedications" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
@@ -34,7 +34,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listviewWarehouses" d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView x:Name="listviewWarehouses" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn/>
@@ -48,7 +48,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listviewManufacturers" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <ListView x:Name="listviewManufacturers" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn/>
@@ -62,7 +62,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listviewSales" d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView x:Name="listviewSales" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn/>
@@ -76,7 +76,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listviewPurchases" d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView x:Name="listviewPurchases" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn/>

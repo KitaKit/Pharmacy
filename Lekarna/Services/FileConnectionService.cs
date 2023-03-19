@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //Здесь будет описано подключение к CSV файлу
 namespace Pharmacy.Services
 {
-    internal class FileConnectionService
+    public class FileConnectionService
     {
 
     }
