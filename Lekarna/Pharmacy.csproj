@@ -123,11 +123,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Pharmacy.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Pharmacy.mdf" />
     <Content Include="Pharmacy_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Pharmacy.mdf</DependentUpon>
     </Content>
   </ItemGroup>

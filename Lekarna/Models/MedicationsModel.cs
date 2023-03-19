@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 //Здесь будет описана объектно таблица Medications из БД
 namespace Pharmacy.Models
 {

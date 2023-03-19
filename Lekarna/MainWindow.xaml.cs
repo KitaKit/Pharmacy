@@ -26,5 +26,10 @@ namespace Pharmacy
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show( DatabaseConnectionService._databasePath);
+        }
     }
 }

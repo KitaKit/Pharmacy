@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pharmacy"
         mc:Ignorable="d"
-        Title="Leky" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200">
+        Title="Leky" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200" Loaded="Window_Loaded">
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Menu Height="18" VerticalAlignment="Top" HorizontalAlignment="Left">
             <MenuItem Header="Menu" Width="50">
+                <MenuItem Header="Load from DataBase"/>
+                <MenuItem Header="Load from CSV-file"/>
+                <MenuItem Header="Save to new CSV-file"/>
             </MenuItem>
         </Menu>
         <Menu Height="18" VerticalAlignment="Top" HorizontalAlignment="Right">

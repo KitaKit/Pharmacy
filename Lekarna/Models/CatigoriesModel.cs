@@ -17,7 +17,7 @@ namespace Pharmacy.Models
             get { return _name; } 
             set 
             {   if (!(string.IsNullOrEmpty(value)) && _name != value)
-                    _name = value;
+                    _name = value; 
             }
         }
     }
