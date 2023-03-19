@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Здесь объектно описана таблица Categories из БД
+
+// Zde je objektivně popsána tabulka Categories z databáze
+
 namespace Pharmacy.Models
 {
-    public class CatigoriesModel
+    public class CategoryModel
     {
         private readonly int _id;
         private string _name;

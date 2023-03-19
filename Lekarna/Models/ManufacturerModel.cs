@@ -5,9 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+//Здесь объектно описана таблица Manufacturers из БД
+
+// Zde je objektivně popsána tabulka Manufacturers z databáze
+
 namespace Pharmacy.Models
 {
-    public class ManufacturersModel
+    public class ManufacturerModel
     {
         private const int MAX_LICENSE_LENGTH = 10;
 

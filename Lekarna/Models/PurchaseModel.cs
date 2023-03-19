@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Здесь объектно описана таблица Purchases из БД
+
+// Zde je objektivně popsána tabulka Purchases z databáze
+
 namespace Pharmacy.Models
 {
-    public class PurchasesModel
+    public class PurchaseModel
     {
         private readonly int _id;
         private DateTime _deliveryDate;

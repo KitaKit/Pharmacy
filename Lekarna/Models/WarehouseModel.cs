@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Здесь объектно описана таблица Warehouses из БД
+
+// Zde je objektivně popsána tabulka Warehouses z databáze
+
 namespace Pharmacy.Models
 {
-    public class WarehousesModel
+    public class WarehouseModel
     {
         private readonly int _id;
         private string _name;

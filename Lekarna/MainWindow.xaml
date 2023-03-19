@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pharmacy"
         mc:Ignorable="d"
-        Title="Leky" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200" Loaded="Window_Loaded">
+        Title="Leky" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200">
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

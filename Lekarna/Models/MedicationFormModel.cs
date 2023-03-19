@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Здесь объектно описана таблица Medication_forms из БД
+
+// Zde je objektivně popsána tabulka Medication_forms z databáze
+
 namespace Pharmacy.Models
 {
     public class MedicationFormModel

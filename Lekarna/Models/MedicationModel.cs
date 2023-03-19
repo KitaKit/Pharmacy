@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
-//Здесь будет описана объектно таблица Medications из БД
+
+//Здесь объектно описана таблица Medications из БД
+
+// Zde je objektivně popsána tabulka Medications z databáze
+
 namespace Pharmacy.Models
 {
-    public class MedicationsModel
+    public class MedicationModel
     {
         private readonly int _id;
         private string _title;

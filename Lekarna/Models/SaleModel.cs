@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Здесь объектно описана таблица Sales из БД
+
+// Zde je objektivně popsána tabulka Sales z databáze
+
 namespace Pharmacy.Models
 {
-    public class SalesModel
+    public class SaleModel
     {
         private readonly int _id;
         private float _price;

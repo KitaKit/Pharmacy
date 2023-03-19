@@ -14,7 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 //Здесь будет описана логика основных взаимодействий с окном программы и его содержимым
+
+//Tady bude popsána logika hlavních interakcí s oknem programu a jeho obsahem.
+
 namespace Pharmacy
 {
     /// <summary>

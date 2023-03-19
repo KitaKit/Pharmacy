@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Здесь объектно описана таблица Providers из БД
+
+// Zde je objektivně popsána tabulka Providers z databáze
+
 namespace Pharmacy.Models
 {
-    public class ProvidersModel
+    public class ProviderModel
     {
         private readonly int _id;
         private string _name;
