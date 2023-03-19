@@ -99,6 +99,6 @@
             <Button Content="Save" Width="70" Margin="3"/>
             <Button Content="Close" Width="70" Margin="3"/>
         </StackPanel>
-        
+
     </Grid>
 </Window>
