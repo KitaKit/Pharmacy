@@ -73,14 +73,14 @@
     </ApplicationDefinition>
     <Compile Include="Logic\DatabaseLogic.cs" />
     <Compile Include="Logic\FileIOLogic.cs" />
-    <Compile Include="Models\CatigoriesModel.cs" />
-    <Compile Include="Models\ManufacturersModel.cs" />
+    <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\ManufacturerModel.cs" />
     <Compile Include="Models\MedicationFormModel.cs" />
-    <Compile Include="Models\MedicationsModel.cs" />
-    <Compile Include="Models\ProvidersModel.cs" />
-    <Compile Include="Models\PurchasesModel.cs" />
-    <Compile Include="Models\SalesModel.cs" />
-    <Compile Include="Models\WarehousesModel.cs" />
+    <Compile Include="Models\MedicationModel.cs" />
+    <Compile Include="Models\ProviderModel.cs" />
+    <Compile Include="Models\PurchaseModel.cs" />
+    <Compile Include="Models\SaleModel.cs" />
+    <Compile Include="Models\WarehouseModel.cs" />
     <Compile Include="Services\FileConnectionService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,9 +123,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Pharmacy.mdf" />
+    <Content Include="Pharmacy.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Pharmacy_log.ldf">
       <DependentUpon>Pharmacy.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
