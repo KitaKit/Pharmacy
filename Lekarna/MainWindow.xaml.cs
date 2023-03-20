@@ -34,7 +34,6 @@ namespace Pharmacy
         {
             DatabaseLogic dataBase = new DatabaseLogic();
             dataBase.LoadData(mainTabControl);
-            
         }
     }
 }

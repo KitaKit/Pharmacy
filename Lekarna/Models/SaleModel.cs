@@ -13,11 +13,11 @@ namespace Pharmacy
     public class SaleModel
     {
         private readonly int _id;
-        private float _price;
+        private decimal _price;
         private DateTime _date;
 
         public int Id { get { return _id; } }
-        public float Price 
+        public decimal Price 
         {
             get { return _price; }
             set 
@@ -36,7 +36,7 @@ namespace Pharmacy
             }
         }
 
-        public SaleModel(int id, float price, DateTime date) 
+        public SaleModel(int id, decimal price, DateTime date) 
         {
             _id = id;
             Price = price;

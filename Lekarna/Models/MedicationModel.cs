@@ -20,7 +20,7 @@ namespace Pharmacy
         private string _description;
         private bool _prescription;
         private DateTime _expirationDate;
-        private float _price;
+        private decimal _price;
 
         public int Id { get { return _id; } }
         public bool Availability { get { return _availability; } set { _availability = value; } }
@@ -61,7 +61,7 @@ namespace Pharmacy
                     _expirationDate = value; 
             }
         }
-        public float Price 
+        public decimal Price 
         { 
             get { return _price; }
             set
@@ -71,7 +71,7 @@ namespace Pharmacy
             }
         }
 
-        public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate,float price)
+        public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate,decimal price)
         {
             _id = id;
             Title = title;

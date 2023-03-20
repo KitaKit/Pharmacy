@@ -17,11 +17,11 @@ namespace Pharmacy
         private List<SaleModel> _salesData = new List<SaleModel>();
         private List<PurchaseModel> _purchasesData = new List<PurchaseModel>();
 
-        public List<MedicationModel> MedicationsData { get; set; }
-        public List<WarehouseModel> WarehousesData { get; set; }
-        public List<ManufacturerModel> ManufacturersData { get; set; }
-        public List<SaleModel> SalesData { get; set; }
-        public List<PurchaseModel> PurchasesData { get; set; }
+        public List<MedicationModel> MedicationsData { get { return _medicationsData; } }
+        public List<WarehouseModel> WarehousesData { get { return _warehousesData; } }
+        public List<ManufacturerModel> ManufacturersData { get { return _manufacturersData; } }
+        public List<SaleModel> SalesData { get { return _salesData; } }
+        public List<PurchaseModel> PurchasesData { get { return _purchasesData; } }
 
         public bool LoadData(TabControl tabControl)
         {
@@ -57,9 +57,9 @@ namespace Pharmacy
                 {
                     medicationRow = new MedicationModel
                         (
-                        dataReader.GetInt32(0), dataReader.GetString(1), dataReader.GetBoolean(3), dataReader.GetInt32(2), dataReader.GetString(4), dataReader.GetBoolean(5), dataReader.GetDateTime(6), dataReader.GetFloat(7)
+                        dataReader.GetInt32(0), dataReader.GetString(1), dataReader.GetBoolean(2), dataReader.GetInt32(3), dataReader.GetString(7), dataReader.GetBoolean(4), dataReader.GetDateTime(5), dataReader.GetDecimal(6)
                         );
-                   MedicationsData.Add(medicationRow);
+                    _medicationsData.Add(medicationRow);
                 }
             }
             catch (Exception ex)

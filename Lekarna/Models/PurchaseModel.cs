@@ -15,7 +15,7 @@ namespace Pharmacy
         private readonly int _id;
         private DateTime _deliveryDate;
         private int _count;
-        private float _cost;
+        private decimal _cost;
 
         public int Id { get { return _id; } }
         public DateTime DeliveryDate
@@ -36,7 +36,7 @@ namespace Pharmacy
                     _count = value;
             }
         }
-        public float Cost 
+        public decimal Cost 
         {
             get { return _cost; }
             set
@@ -46,7 +46,7 @@ namespace Pharmacy
             }
         }
 
-        public PurchaseModel(int id, DateTime deliveryDate, int count, float cost)
+        public PurchaseModel(int id, DateTime deliveryDate, int count, decimal cost)
         {
             _id = id;
             DeliveryDate = deliveryDate;
