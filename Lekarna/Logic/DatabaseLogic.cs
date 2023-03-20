@@ -6,11 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-//Здесь будет описана логика работы с базой данных
+//Здесь описана логика работы с базой данных.
+//Прямо сейчас здесь происходит подключение к базе данных, из которой последовательно из всех таблиц считываются данные и сохраняются в соответствующие списки. После выполнения метода LoadData() из любого места в программе можно получить данные из БД из соответсвующих списков.
+
+//Tady je popsána logika práce s databází.
+//Je zde provedeno připojení k databázi, ze které jsou postupně načtena data ze všech tabulek a uložena do příslušných seznamů. Po provedení metody LoadData() z libovolného místa programu lze data z databáze načíst z příslušných seznamů.
+
 namespace Pharmacy
 {
     public class DatabaseLogic
     {
+        //объявление всех нужных нам списков
+        //deklaruje všechny seznamy, které potřebujeme
+
         private List<MedicationModel> _medicationsData = new List<MedicationModel>();
         private List<WarehouseModel> _warehousesData = new List<WarehouseModel>();
         private List<ManufacturerModel> _manufacturersData = new List<ManufacturerModel>();
@@ -23,7 +31,8 @@ namespace Pharmacy
         public List<SaleModel> SalesData { get { return _salesData; } }
         public List<PurchaseModel> PurchasesData { get { return _purchasesData; } }
 
-        public void LoadData()
+        public void LoadData() //главный метод для считывания данных из базы, который мы вызываем у экземпляра класса DatabaseLogic
+                               // hlavní metoda pro čtení dat z databáze, kterou voláme na instanci DatabaseLogic
         {
             SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection;
 
@@ -34,6 +43,8 @@ namespace Pharmacy
                 Environment.Exit(1);
             }
 
+            //вызов дочерних методов для последовательного считывания и присваивания данных в соответствующие списки
+            //volání podřízených metod pro postupné čtení a přiřazování dat do příslušných seznamů
             ReadMedicationsTableData(pharmacyConnection);
             ReadWarehousesTableData(pharmacyConnection);
             ReadManufacturersTableData(pharmacyConnection);
@@ -43,16 +54,20 @@ namespace Pharmacy
             pharmacyConnection.Close();
         }
 
-        private void ReadMedicationsTableData(SqlConnection databaseConnection)
+        private void ReadMedicationsTableData(SqlConnection databaseConnection) //дочерний метод для считывания данных из определённой таблицы (всего у нас 5 таких методов)
+                                                                                //source metoda pro čtení dat z určité tabulky (máme celkem 5 takových metod)
         {
             SqlDataReader dataReader = null;
             MedicationModel medicationRow = null;
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand("SELECT Id_Medication, Title, Availability, Count, Prescription, Expiration_date, Price, Description FROM Medications", databaseConnection);
-                dataReader = sqlCommand.ExecuteReader();
-                while (dataReader.Read()) 
+                SqlCommand sqlCommand = new SqlCommand("SELECT Id_Medication, Title, Availability, Count, Prescription, Expiration_date, Price, Description FROM Medications", databaseConnection); //передача запроса в базу данных для получения данных
+                                                    // Odeslání dotazu do databáze za účelem získání dat
+                dataReader = sqlCommand.ExecuteReader(); //объявление считывателя
+                                                        //prohlášení čtenáře
+                while (dataReader.Read()) //пока данные в таблице присутствуют, мы считываем их, присваиваем в поля класса и добавляем готовый объект класса в список
+                                          //pokud jsou data v tabulce, načteme je, přiřadíme je do polí třídy a hotový objekt třídy přidáme do seznamu. 
                 {
                     medicationRow = new MedicationModel
                         (

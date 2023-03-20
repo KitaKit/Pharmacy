@@ -29,10 +29,14 @@ namespace Pharmacy
             InitializeComponent();
         }
 
-        private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
+        private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e) //при нажатии на пункт меню "Load from DataBase" (Menu слева сверху) вызывается данный метод и происходит подключение и считывание данных из базы данных с помощью класса DatabaseLogic и метода LoadData()
+                                                                                     // Kliknutím na položku menu "Load from DataBase" (Menu vlevo nahoře) se vyvolá tato metoda a připojí se a načte data z databáze pomocí třídy DatabaseLogic a metody LoadData()
         {
             DatabaseLogic dataBase = new DatabaseLogic();
             dataBase.LoadData();
+            
+            //ниже мы присваиваем для каждого DataGrid источник данных, которым являются наши списки с данными из базы данных, чтобы они выводились на экран в приложении
+            //níže přiřadíme každé DataGrid zdroj dat, což jsou naše databázové seznamy, které se mají v aplikaci zobrazit
             dataGridMedications.ItemsSource = dataBase.MedicationsData;
             dataGridWarehouses.ItemsSource = dataBase.WarehousesData;
             dataGridManufacturers.ItemsSource = dataBase.ManufacturersData;
