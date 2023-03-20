@@ -24,7 +24,6 @@ namespace Pharmacy
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<MedicationModel> MedicationsData = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,7 +32,12 @@ namespace Pharmacy
         private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
         {
             DatabaseLogic dataBase = new DatabaseLogic();
-            dataBase.LoadData(mainTabControl);
+            dataBase.LoadData();
+            dataGridMedications.ItemsSource = dataBase.MedicationsData;
+            dataGridWarehouses.ItemsSource = dataBase.WarehousesData;
+            dataGridManufacturers.ItemsSource = dataBase.ManufacturersData;
+            dataGridSales.ItemsSource = dataBase.SalesData;
+            dataGridPurchases.ItemsSource = dataBase.PurchasesData;
         }
     }
 }

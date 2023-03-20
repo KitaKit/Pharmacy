@@ -23,7 +23,7 @@ namespace Pharmacy
         public List<SaleModel> SalesData { get { return _salesData; } }
         public List<PurchaseModel> PurchasesData { get { return _purchasesData; } }
 
-        public bool LoadData(TabControl tabControl)
+        public void LoadData()
         {
             SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection;
 
@@ -35,13 +35,12 @@ namespace Pharmacy
             }
 
             ReadMedicationsTableData(pharmacyConnection);
-            //ReadWarehousesTableData(pharmacyConnection);
-            //ReadManufacturersTableData(pharmacyConnection);
-            //ReadSalesTableData(pharmacyConnection);
-            //ReadPurchasesTableData(pharmacyConnection);
+            ReadWarehousesTableData(pharmacyConnection);
+            ReadManufacturersTableData(pharmacyConnection);
+            ReadSalesTableData(pharmacyConnection);
+            ReadPurchasesTableData(pharmacyConnection);
 
             pharmacyConnection.Close();
-            return true;
         }
 
         private void ReadMedicationsTableData(SqlConnection databaseConnection)
@@ -76,21 +75,113 @@ namespace Pharmacy
         {
             SqlDataReader dataReader = null;
             WarehouseModel warehouseRow = null;
+
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT Id_Warehouse, Name FROM Warehouses", databaseConnection);
+                dataReader = sqlCommand.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    warehouseRow = new WarehouseModel
+                        (
+                        dataReader.GetInt32(0), dataReader.GetString(1)
+                        );
+                    _warehousesData.Add(warehouseRow);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (dataReader != null && !(dataReader.IsClosed))
+                    dataReader.Close();
+            }
         }
         private void ReadManufacturersTableData(SqlConnection databaseConnection)
         {
             SqlDataReader dataReader = null;
             ManufacturerModel manufacturerRow = null;
+
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT Id_Manufacturer, Name, Country, License FROM Manufacturers", databaseConnection);
+                dataReader = sqlCommand.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    manufacturerRow = new ManufacturerModel
+                        (
+                        dataReader.GetInt32(0), dataReader.GetString(1), dataReader.GetString(2), dataReader.GetString(3)
+                        );
+                    _manufacturersData.Add(manufacturerRow);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (dataReader != null && !(dataReader.IsClosed))
+                    dataReader.Close();
+            }
         }
         private void ReadSalesTableData(SqlConnection databaseConnection)
         {
             SqlDataReader dataReader = null;
             SaleModel saleRow = null;
+
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT Id_Sale, Price, Date FROM Sales", databaseConnection);
+                dataReader = sqlCommand.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    saleRow = new SaleModel
+                        (
+                        dataReader.GetInt32(0), dataReader.GetDecimal(1), dataReader.GetDateTime(2)
+                        );
+                    _salesData.Add(saleRow);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (dataReader != null && !(dataReader.IsClosed))
+                    dataReader.Close();
+            }
         }
         private void ReadPurchasesTableData(SqlConnection databaseConnection)
         {
             SqlDataReader dataReader = null;
             PurchaseModel purchaseRow = null;
+
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT Id_Purchase, Date, Count, Cost FROM Purchases", databaseConnection);
+                dataReader = sqlCommand.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    purchaseRow = new PurchaseModel
+                        (
+                        dataReader.GetInt32(0), dataReader.GetDateTime(1), dataReader.GetInt32(2), dataReader.GetDecimal(3)
+                        );
+                    _purchasesData.Add(purchaseRow);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (dataReader != null && !(dataReader.IsClosed))
+                    dataReader.Close();
+            }
         }
     }
 }

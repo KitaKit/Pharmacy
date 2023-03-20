@@ -27,23 +27,23 @@
         <TabControl TabStripPlacement="Bottom" Margin="0,18,0,30" x:Name="mainTabControl">
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridMedications" ItemsSource="{Binding MedicationsData}" CanUserReorderColumns="False">
+                    <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId"/>
-                            <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle"/>
-                            <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability"/>
-                            <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount"/>
-                            <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription"/>
-                            <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate"/>
-                            <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice"/>
-                            <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription"/>
+                            <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability" Binding="{Binding Availability}"/>
+                            <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount" Binding="{Binding Count}"/>
+                            <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription" Binding="{Binding Prescription}"/>
+                            <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate" Binding="{Binding ExpirationDate}"/>
+                            <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False" ItemsSource="{Binding WarehousesData}">
+                    <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
@@ -54,7 +54,7 @@
             </TabItem>
             <TabItem Header="Manufacturers" x:Name="tabItemManufacturers">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False" ItemsSource="{Binding ManufacturersData}">
+                    <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
@@ -66,7 +66,7 @@
             </TabItem>
             <TabItem Header="Sales" x:Name="tabItemSales">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False" ItemsSource="{Binding SalesData}">
+                    <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
@@ -78,7 +78,7 @@
             </TabItem>
             <TabItem Header="Purchases" x:Name="tabItemPurchases">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False" ItemsSource="{Binding PurchasesData}">
+                    <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
