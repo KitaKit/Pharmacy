@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 // Zde je objektivně popsána tabulka Sales z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class SaleModel
     {
@@ -34,6 +34,13 @@ namespace Pharmacy.Models
                 if (_date != value && value != null)
                     _date = value;
             }
+        }
+
+        public SaleModel(int id, float price, DateTime date) 
+        {
+            _id = id;
+            Price = price;
+            Date = date;
         }
     }
 }

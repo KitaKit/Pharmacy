@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 // Zde je objektivně popsána tabulka Warehouses z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class WarehouseModel
     {
@@ -23,6 +23,12 @@ namespace Pharmacy.Models
                 if (_name != value && !(string.IsNullOrEmpty(value)))
                     _name = value;
             }
+        }
+
+        public WarehouseModel(int id, string name)
+        {
+            _id = id;
+            Name = name;
         }
     }
 }

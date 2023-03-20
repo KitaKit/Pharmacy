@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 // Zde je objektivně popsána tabulka Manufacturers z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class ManufacturerModel
     {
@@ -47,6 +47,14 @@ namespace Pharmacy.Models
                 if (_license != value && !(string.IsNullOrEmpty(value)) && value.Length <= 10)
                     _license = value;
             }
+        }
+
+        public ManufacturerModel(int id, string name, string country, string license)
+        {
+            _id = id;
+            Name = name;
+            Country = country;
+            License = license;
         }
     }
 }

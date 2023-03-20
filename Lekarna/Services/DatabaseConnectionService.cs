@@ -5,12 +5,12 @@ using System.IO;
 
 //Připojení k databázi je zde popsáno s dynamickým nastavením cesty v připojovacím řádku, aby při spuštění projektu na různých počítačích vše fungovalo správně bez nutnosti měnit kód programu, stačí mít soubor "lékárna.mdf" v kořeni složky projektu, tj. v daném případě ve složce "...\Lekarna\bin\Debug". Také vlastnosti databázového souboru jsou nastaveny na "kopírovat vždy", aby byl vždy ve stejné složce jako soubor exe
 
-namespace Pharmacy.Services
+namespace Pharmacy
 {
     static public class DatabaseConnectionService//класс статический, чтобы не было возможности делать одновременно несколько подключений
                                                  // třída je statická, aby nebylo možné navázat více spojení najednou
     {
-        static public readonly string _databasePath = null;//экземпляр класса для присваивания пути к файлу с базой данных
+        static private readonly string _databasePath = null;//экземпляр класса для присваивания пути к файлу с базой данных
                                                            //proměnná třídy pro přiřazení cesty k databázovému souboru
 
         static private readonly SqlConnection _dbConnection = null;//переменная класса для присваивания строки подключения к базе данных

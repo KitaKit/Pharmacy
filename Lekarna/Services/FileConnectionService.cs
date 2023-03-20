@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 //Tady bude popsáno připojení k souboru CSV
 //Cesta k souboru bude převzata z dialogového okna otevření souboru systému Windows.
 
-namespace Pharmacy.Services
+namespace Pharmacy
 {
     public class FileConnectionService
     {

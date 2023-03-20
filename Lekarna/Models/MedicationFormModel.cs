@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 // Zde je objektivně popsána tabulka Medication_forms z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class MedicationFormModel
     {
@@ -24,6 +24,12 @@ namespace Pharmacy.Models
                 if (_form != value && !(string.IsNullOrEmpty(value)))
                     _form = value; 
             }
+        }
+
+        public MedicationFormModel(int id, string form)
+        {
+            _id = id;
+            Form = form;
         }
     }
 }

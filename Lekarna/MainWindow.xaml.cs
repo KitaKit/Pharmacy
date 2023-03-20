@@ -1,6 +1,4 @@
-﻿using Pharmacy.Models;
-using Pharmacy.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,9 +24,17 @@ namespace Pharmacy
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<MedicationModel> MedicationsData = null;
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
+        {
+            DatabaseLogic dataBase = new DatabaseLogic();
+            dataBase.LoadData(mainTabControl);
+            
         }
     }
 }

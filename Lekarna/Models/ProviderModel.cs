@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 // Zde je objektivně popsána tabulka Providers z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class ProviderModel
     {
@@ -26,5 +26,10 @@ namespace Pharmacy.Models
             }
         }
 
+        public ProviderModel(int id, string name)
+        {
+            _id = id;
+            Name = name;
+        }
     }
 }

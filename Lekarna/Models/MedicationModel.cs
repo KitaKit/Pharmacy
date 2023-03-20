@@ -9,7 +9,7 @@ using System.Windows.Navigation;
 
 // Zde je objektivně popsána tabulka Medications z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class MedicationModel
     {
@@ -69,6 +69,18 @@ namespace Pharmacy.Models
                 if (_price != value)
                     _price = value;
             }
+        }
+
+        public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate,float price)
+        {
+            _id = id;
+            Title = title;
+            _availability = availability;
+            Count = count;
+            Description = description;
+            Price = price;
+            ExpirationDate = expirationDate;
+            _prescription = prescription;
         }
     }
 }

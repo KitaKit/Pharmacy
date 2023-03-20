@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 // Zde je objektivně popsána tabulka Categories z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class CategoryModel
     {
@@ -23,6 +23,12 @@ namespace Pharmacy.Models
             {   if (!(string.IsNullOrEmpty(value)) && _name != value)
                     _name = value; 
             }
+        }
+
+        public CategoryModel(int id, string name)
+        {
+            _id = id;
+            Name = name;
         }
     }
 }

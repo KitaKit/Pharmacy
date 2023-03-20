@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 // Zde je objektivně popsána tabulka Purchases z databáze
 
-namespace Pharmacy.Models
+namespace Pharmacy
 {
     public class PurchaseModel
     {
@@ -44,6 +44,14 @@ namespace Pharmacy.Models
                 if (_cost != value)
                     _cost = value;
             }
+        }
+
+        public PurchaseModel(int id, DateTime deliveryDate, int count, float cost)
+        {
+            _id = id;
+            DeliveryDate = deliveryDate;
+            Count = count;
+            Cost = cost;
         }
     }
 }
