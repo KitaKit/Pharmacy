@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,16 @@ namespace Pharmacy
             DeliveryDate = deliveryDate;
             Count = count;
             Cost = cost;
+        }
+    }
+    public class PurchaseClassMap : ClassMap<PurchaseModel>
+    {
+        public PurchaseClassMap()
+        {
+            Map(x => x.Id).Name("Id");
+            Map(x => x.DeliveryDate).Name("DeliveryDate");
+            Map(x => x.Count).Name("Count");
+            Map(x => x.Cost).Name("Cost");
         }
     }
 }

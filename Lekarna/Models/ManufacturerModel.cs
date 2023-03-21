@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -55,6 +56,16 @@ namespace Pharmacy
             Name = name;
             Country = country;
             License = license;
+        }
+    }
+    public class ManufacturerClassMap : ClassMap<ManufacturerModel>
+    {
+        public ManufacturerClassMap()
+        {
+            Map(x => x.Id).Name("Id");
+            Map(x => x.Name).Name("Name");
+            Map(x => x.Country).Name("Country");
+            Map(x => x.License).Name("License");
         }
     }
 }

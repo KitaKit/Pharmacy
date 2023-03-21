@@ -13,7 +13,7 @@
         <Menu Height="18" VerticalAlignment="Top" HorizontalAlignment="Left">
             <MenuItem Header="Menu" Width="50">
                 <MenuItem x:Name="menuItemLoadFromDataBase" Header="Load from DataBase" Click="menuItemLoadFromDataBase_Click"/>
-                <MenuItem Header="Load from CSV-file"/>
+                <MenuItem x:Name="menuItemLoadFromCSVFile" Header="Load from CSV-file" Click="menuItemLoadFromCSVFile_Click"/>
                 <MenuItem Header="Close database connection"/>
                 <MenuItem Header="Save to new CSV-file"/>
             </MenuItem>
@@ -37,11 +37,15 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory"/>
+                            <DataGridTextColumn Header="Form" x:Name="dataGridMedicationsColumnForm"/>
                             <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability" Binding="{Binding Availability}"/>
                             <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount" Binding="{Binding Count}"/>
+                            <DataGridTextColumn Header="Warehouse" x:Name="dataGridMedicationsColumnWarehouse"/>
                             <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription" Binding="{Binding Prescription}"/>
                             <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate" Binding="{Binding ExpirationDate}"/>
                             <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Manufacturer" x:Name="dataGridMedicationsColumnManufacturer"/>
                             <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -80,6 +84,9 @@
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
                                 <DataGridTextColumn Header="License" Binding="{Binding License}"/>
+                                <DataGridTextColumn Header="Providers"/>
+                                <DataGridTextColumn Header="Purchase"/>
+                                <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
@@ -98,6 +105,7 @@
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                                 <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
+                                <DataGridTextColumn Header="Count"/>
                                 <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -116,6 +124,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                                 <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
+                                <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
                                 <DataGridTextColumn Header="Cost" Binding="{Binding Cost}"/>
                                 <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="250"/>
                                 <DataGridTextColumn Header="Provider"/>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,14 @@ namespace Pharmacy
         {
             _id = id;
             Name = name;
+        }
+    }
+    public class WarehouseClassMap : ClassMap<WarehouseModel>
+    {
+        public WarehouseClassMap()
+        {
+            Map(x => x.Id).Name("Id");
+            Map(x => x.Name).Name("Name");
         }
     }
 }

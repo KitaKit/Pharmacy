@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -81,6 +82,20 @@ namespace Pharmacy
             Price = price;
             ExpirationDate = expirationDate;
             _prescription = prescription;
+        }
+    }
+    public class MedicationClassMap : ClassMap<MedicationModel>
+    {
+        public MedicationClassMap() 
+        {
+            Map(x => x.Id).Name("Id");
+            Map(x => x.Title).Name("Title");
+            Map(x => x.Availability).Name("Availability");
+            Map(x => x.Count).Name("Count");
+            Map(x => x.Prescription).Name("Prescription");
+            Map(x => x.ExpirationDate).Name("ExpirationDate");
+            Map(x => x.Price).Name("Price"); 
+            Map(x => x.Description).Name("Description");
         }
     }
 }
