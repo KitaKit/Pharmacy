@@ -33,4 +33,3 @@ C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna.pdb
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna_Content.g.cs
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy.mdf
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy_log.ldf
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\GeneratedInternalTypeHelper.g.cs

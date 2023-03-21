@@ -22,7 +22,7 @@ namespace Pharmacy
         private DateTime _expirationDate;
         private decimal _price;
 
-        public int Id { get { return _id; } }
+        public int Id => _id;
         public bool Availability { get { return _availability; } set { _availability = value; } }
         public bool Prescription { get { return _prescription; } set { _prescription = value; } }
         public string Title 

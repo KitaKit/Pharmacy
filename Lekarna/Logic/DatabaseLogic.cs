@@ -25,33 +25,32 @@ namespace Pharmacy
         private List<SaleModel> _salesData = new List<SaleModel>();
         private List<PurchaseModel> _purchasesData = new List<PurchaseModel>();
 
-        public List<MedicationModel> MedicationsData { get { return _medicationsData; } }
-        public List<WarehouseModel> WarehousesData { get { return _warehousesData; } }
-        public List<ManufacturerModel> ManufacturersData { get { return _manufacturersData; } }
-        public List<SaleModel> SalesData { get { return _salesData; } }
-        public List<PurchaseModel> PurchasesData { get { return _purchasesData; } }
+        public List<MedicationModel> MedicationsData => _medicationsData;
+        public List<WarehouseModel> WarehousesData => _warehousesData;
+        public List<ManufacturerModel> ManufacturersData => _manufacturersData;
+        public List<SaleModel> SalesData => _salesData;
+        public List<PurchaseModel> PurchasesData => _purchasesData;
 
         public void LoadData() //главный метод для считывания данных из базы, который мы вызываем у экземпляра класса DatabaseLogic
                                // hlavní metoda pro čtení dat z databáze, kterou voláme na instanci DatabaseLogic
         {
-            SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection;
-
-            try { pharmacyConnection.Open(); }
-            catch (Exception ex)
+            using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
             {
-                MessageBox.Show(ex.Message);
-                Environment.Exit(1);
+                try { pharmacyConnection.Open(); }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    Environment.Exit(1);
+                }
+
+                //вызов дочерних методов для последовательного считывания и присваивания данных в соответствующие списки
+                //volání podřízených metod pro postupné čtení a přiřazování dat do příslušných seznamů
+                ReadMedicationsTableData(pharmacyConnection);
+                ReadWarehousesTableData(pharmacyConnection);
+                ReadManufacturersTableData(pharmacyConnection);
+                ReadSalesTableData(pharmacyConnection);
+                ReadPurchasesTableData(pharmacyConnection);
             }
-
-            //вызов дочерних методов для последовательного считывания и присваивания данных в соответствующие списки
-            //volání podřízených metod pro postupné čtení a přiřazování dat do příslušných seznamů
-            ReadMedicationsTableData(pharmacyConnection);
-            ReadWarehousesTableData(pharmacyConnection);
-            ReadManufacturersTableData(pharmacyConnection);
-            ReadSalesTableData(pharmacyConnection);
-            ReadPurchasesTableData(pharmacyConnection);
-
-            pharmacyConnection.Close();
         }
 
         private void ReadMedicationsTableData(SqlConnection databaseConnection) //дочерний метод для считывания данных из определённой таблицы (всего у нас 5 таких методов)
@@ -200,3 +199,79 @@ namespace Pharmacy
         }
     }
 }
+
+
+
+/*======================================================THERE ARE JUST TEST OPTIONS HERE======================================================*/
+
+//private List<T> ReadTableData<T>(SqlConnection databaseConnection, string tableName, Func<SqlDataReader, T> createObject)
+//{
+//    var data = new List<T>();
+//    SqlDataReader dataReader = null;
+//    try
+//    {
+//        SqlCommand sqlCommand = new SqlCommand($"SELECT * FROM {tableName}", databaseConnection);
+//        dataReader = sqlCommand.ExecuteReader();
+//        while (dataReader.Read())
+//        {
+//            data.Add(createObject(dataReader));
+//        }
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message);
+//    }
+//    finally
+//    {
+//        if (dataReader != null && !(dataReader.IsClosed))
+//            dataReader.Close();
+//    }
+//    return data;
+//}
+
+
+//_medicationsData = ReadTableData(databaseConnection, "Medications", dataReader =>
+//    new MedicationModel(
+//        dataReader.GetInt32(0),
+//        dataReader.GetString(1),
+//        dataReader.GetBoolean(2),
+//        dataReader.GetInt32(3),
+//        dataReader.GetString(7),
+//        dataReader.GetBoolean(4),
+//        dataReader.GetDateTime(5),
+//        dataReader.GetDecimal(6)
+//    )
+//);
+
+//_warehousesData = ReadTableData(databaseConnection, "Warehouses", dataReader =>
+//    new WarehouseModel(
+//        dataReader.GetInt32(0),
+//        dataReader.GetString(1)
+//    )
+//);
+
+//_manufacturersData = ReadTableData(databaseConnection, "Manufacturers", dataReader =>
+//    new ManufacturerModel(
+//        dataReader.GetInt32(0),
+//        dataReader.GetString(1),
+//        dataReader.GetString(2),
+//        dataReader.GetString(3)
+//    )
+//);
+
+//_salesData = ReadTableData(databaseConnection, "Sales", dataReader =>
+//    new SaleModel(
+//        dataReader.GetInt32(0),
+//        dataReader.GetDecimal(1),
+//        dataReader.GetDateTime(2)
+//    )
+//);
+
+//_purchasesData = ReadTableData(databaseConnection, "Purchases", dataReader =>
+//    new PurchaseModel(
+//        dataReader.GetInt32(0),
+//        dataReader.GetInt32(1),
+//        dataReader.GetDateTime(2),
+//        dataReader.GetDecimal(3)
+//    )
+//);

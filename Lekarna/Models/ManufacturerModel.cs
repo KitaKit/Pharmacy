@@ -20,7 +20,7 @@ namespace Pharmacy
         private string _country;
         private string _license;
 
-        public int Id { get { return _id; } }
+        public int Id => _id;
         public string Name 
         {
             get { return _name; } 

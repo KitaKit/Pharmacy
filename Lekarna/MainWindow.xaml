@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pharmacy"
         mc:Ignorable="d"
-        Title="Leky" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200">
+        Title="Leky" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200" Loaded="PharmacyMainWindow_Loaded">
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -27,7 +27,13 @@
         <TabControl TabStripPlacement="Bottom" Margin="0,18,0,30" x:Name="mainTabControl">
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
+                    <ScrollViewer x:Name="dataGridMedicationsScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
                     <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False">
+                        <DataGrid.Resources>
+                            <Style TargetType="TextBlock" x:Key="WrapText">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                            </Style>
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
@@ -36,58 +42,67 @@
                             <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription" Binding="{Binding Prescription}"/>
                             <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate" Binding="{Binding ExpirationDate}"/>
                             <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Medications"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ScrollViewer x:Name="dataGridWarehousesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
+                        <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Medications"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Manufacturers" x:Name="tabItemManufacturers">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
-                            <DataGridTextColumn Header="License" Binding="{Binding License}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ScrollViewer x:Name="dataGridManufacturersScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
+                        <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
+                                <DataGridTextColumn Header="License" Binding="{Binding License}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Sales" x:Name="tabItemSales">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                            <DataGridTextColumn Header="Medications"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ScrollViewer x:Name="dataGridSalesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
+                        <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
+                                <DataGridTextColumn Header="Medications"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Purchases" x:Name="tabItemPurchases">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
-                            <DataGridTextColumn Header="Cost" Binding="{Binding Cost}"/>
-                            <DataGridTextColumn Header="Medications"/>
-                            <DataGridTextColumn Header="Privider"/>
-                            <DataGridTextColumn Header="Manufacturers"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ScrollViewer x:Name="dataGridPurchasesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
+                        <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
+                                <DataGridTextColumn Header="Cost" Binding="{Binding Cost}"/>
+                                <DataGridTextColumn Header="Medications"/>
+                                <DataGridTextColumn Header="Privider"/>
+                                <DataGridTextColumn Header="Manufacturers"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>

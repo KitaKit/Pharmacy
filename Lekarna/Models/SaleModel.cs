@@ -16,7 +16,7 @@ namespace Pharmacy
         private decimal _price;
         private DateTime _date;
 
-        public int Id { get { return _id; } }
+        public int Id => _id;
         public decimal Price 
         {
             get { return _price; }

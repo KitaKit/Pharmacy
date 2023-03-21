@@ -19,9 +19,6 @@ using System.Windows.Shapes;
 
 namespace Pharmacy
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -42,6 +39,17 @@ namespace Pharmacy
             dataGridManufacturers.ItemsSource = dataBase.ManufacturersData;
             dataGridSales.ItemsSource = dataBase.SalesData;
             dataGridPurchases.ItemsSource = dataBase.PurchasesData;
+        }
+
+        private void PharmacyMainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DataGridScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - (e.Delta/5));
+            e.Handled = true;
         }
     }
 }

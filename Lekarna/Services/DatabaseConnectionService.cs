@@ -10,22 +10,15 @@ namespace Pharmacy
     static public class DatabaseConnectionService//класс статический, чтобы не было возможности делать одновременно несколько подключений
                                                  // třída je statická, aby nebylo možné navázat více spojení najednou
     {
-        static private readonly string _databasePath = null;//экземпляр класса для присваивания пути к файлу с базой данных
-                                                           //proměnná třídy pro přiřazení cesty k databázovému souboru
+        static private readonly string _databasePath = Path.Combine(Environment.CurrentDirectory, "Pharmacy.mdf");
+        //экземпляр класса для присваивания пути к файлу с базой данных
+       //proměnná třídy pro přiřazení cesty k databázovému souboru
 
-        static private readonly SqlConnection _dbConnection = null;//переменная класса для присваивания строки подключения к базе данных
-                                                                  //proměnná třídy pro přiřazení řetězce pro připojení k databázi
-        static public SqlConnection DbConnection
-        {
-            get { return _dbConnection; }
-            private set {}
-        }
-
-        static DatabaseConnectionService()//конструктор класса с инициализацией переменных, после вызова которого можно подключаться к базе данных
-                                          //konstruktor třídy s inicializací proměnných, po jehož zavolání se můžete připojit k databázi
-        {
-            _databasePath = Path.Combine(Environment.CurrentDirectory, "Pharmacy.mdf");
-            _dbConnection = new SqlConnection($"Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename={_databasePath};Integrated Security = True");
-        }
+        static private readonly SqlConnection _dbConnection = new SqlConnection($"Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename={_databasePath};Integrated Security = True"); //переменная класса для присваивания строки подключения к базе данных
+                            //proměnná třídy pro přiřazení řetězce pro připojení k databázi
+        static public SqlConnection DbConnection => _dbConnection; //je to stejné jako:
+        //{
+        //    get { return _dbConnection; }
+        //}
     }
 }

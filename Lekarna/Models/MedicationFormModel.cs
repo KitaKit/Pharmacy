@@ -15,7 +15,7 @@ namespace Pharmacy
         private readonly int _id;
         private string _form;
 
-        public int Id { get { return _id; } }
+        public int Id => _id;
         public string Form 
         {
             get { return _form; }
