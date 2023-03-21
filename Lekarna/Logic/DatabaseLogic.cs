@@ -19,19 +19,7 @@ namespace Pharmacy
         //объявление всех нужных нам списков
         //deklaruje všechny seznamy, které potřebujeme
 
-        private List<MedicationModel> _medicationsData = new List<MedicationModel>();
-        private List<WarehouseModel> _warehousesData = new List<WarehouseModel>();
-        private List<ManufacturerModel> _manufacturersData = new List<ManufacturerModel>();
-        private List<SaleModel> _salesData = new List<SaleModel>();
-        private List<PurchaseModel> _purchasesData = new List<PurchaseModel>();
-
-        public List<MedicationModel> MedicationsData => _medicationsData;
-        public List<WarehouseModel> WarehousesData => _warehousesData;
-        public List<ManufacturerModel> ManufacturersData => _manufacturersData;
-        public List<SaleModel> SalesData => _salesData;
-        public List<PurchaseModel> PurchasesData => _purchasesData;
-
-        public void LoadData() //главный метод для считывания данных из базы, который мы вызываем у экземпляра класса DatabaseLogic
+        public void LoadData(DataLists dataLists) //главный метод для считывания данных из базы, который мы вызываем у экземпляра класса DatabaseLogic
                                // hlavní metoda pro čtení dat z databáze, kterou voláme na instanci DatabaseLogic
         {
             using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
@@ -45,15 +33,15 @@ namespace Pharmacy
 
                 //вызов дочерних методов для последовательного считывания и присваивания данных в соответствующие списки
                 //volání podřízených metod pro postupné čtení a přiřazování dat do příslušných seznamů
-                ReadMedicationsTableData(pharmacyConnection);
-                ReadWarehousesTableData(pharmacyConnection);
-                ReadManufacturersTableData(pharmacyConnection);
-                ReadSalesTableData(pharmacyConnection);
-                ReadPurchasesTableData(pharmacyConnection);
+                ReadMedicationsTableData(pharmacyConnection, dataLists);
+                ReadWarehousesTableData(pharmacyConnection, dataLists);
+                ReadManufacturersTableData(pharmacyConnection, dataLists);
+                ReadSalesTableData(pharmacyConnection, dataLists);
+                ReadPurchasesTableData(pharmacyConnection, dataLists);
             }
         }
 
-        private void ReadMedicationsTableData(SqlConnection databaseConnection) //дочерний метод для считывания данных из определённой таблицы (всего у нас 5 таких методов)
+        private void ReadMedicationsTableData(SqlConnection databaseConnection, DataLists dataLists) //дочерний метод для считывания данных из определённой таблицы (всего у нас 5 таких методов)
                                                                                 //source metoda pro čtení dat z určité tabulky (máme celkem 5 takových metod)
         {
             SqlDataReader dataReader = null;
@@ -72,7 +60,7 @@ namespace Pharmacy
                         (
                         dataReader.GetInt32(0), dataReader.GetString(1), dataReader.GetBoolean(2), dataReader.GetInt32(3), dataReader.GetString(7), dataReader.GetBoolean(4), dataReader.GetDateTime(5), dataReader.GetDecimal(6)
                         );
-                    _medicationsData.Add(medicationRow);
+                    dataLists.AddToDataList(medicationRow, dataLists.MedicationsData);
                 }
             }
             catch (Exception ex)
@@ -85,7 +73,7 @@ namespace Pharmacy
                     dataReader.Close();
             }
         }
-        private void ReadWarehousesTableData(SqlConnection databaseConnection)
+        private void ReadWarehousesTableData(SqlConnection databaseConnection, DataLists dataLists)
         {
             SqlDataReader dataReader = null;
             WarehouseModel warehouseRow = null;
@@ -100,7 +88,7 @@ namespace Pharmacy
                         (
                         dataReader.GetInt32(0), dataReader.GetString(1)
                         );
-                    _warehousesData.Add(warehouseRow);
+                    dataLists.AddToDataList(warehouseRow, dataLists.WarehousesData);
                 }
             }
             catch (Exception ex)
@@ -113,7 +101,7 @@ namespace Pharmacy
                     dataReader.Close();
             }
         }
-        private void ReadManufacturersTableData(SqlConnection databaseConnection)
+        private void ReadManufacturersTableData(SqlConnection databaseConnection, DataLists dataLists)
         {
             SqlDataReader dataReader = null;
             ManufacturerModel manufacturerRow = null;
@@ -128,7 +116,7 @@ namespace Pharmacy
                         (
                         dataReader.GetInt32(0), dataReader.GetString(1), dataReader.GetString(2), dataReader.GetString(3)
                         );
-                    _manufacturersData.Add(manufacturerRow);
+                    dataLists.AddToDataList(manufacturerRow, dataLists.ManufacturersData);
                 }
             }
             catch (Exception ex)
@@ -141,7 +129,7 @@ namespace Pharmacy
                     dataReader.Close();
             }
         }
-        private void ReadSalesTableData(SqlConnection databaseConnection)
+        private void ReadSalesTableData(SqlConnection databaseConnection, DataLists dataLists)
         {
             SqlDataReader dataReader = null;
             SaleModel saleRow = null;
@@ -156,7 +144,7 @@ namespace Pharmacy
                         (
                         dataReader.GetInt32(0), dataReader.GetDecimal(1), dataReader.GetDateTime(2)
                         );
-                    _salesData.Add(saleRow);
+                    dataLists.AddToDataList(saleRow, dataLists.SalesData);
                 }
             }
             catch (Exception ex)
@@ -169,7 +157,7 @@ namespace Pharmacy
                     dataReader.Close();
             }
         }
-        private void ReadPurchasesTableData(SqlConnection databaseConnection)
+        private void ReadPurchasesTableData(SqlConnection databaseConnection, DataLists dataLists)
         {
             SqlDataReader dataReader = null;
             PurchaseModel purchaseRow = null;
@@ -184,7 +172,7 @@ namespace Pharmacy
                         (
                         dataReader.GetInt32(0), dataReader.GetDateTime(1), dataReader.GetInt32(2), dataReader.GetDecimal(3)
                         );
-                    _purchasesData.Add(purchaseRow);
+                    dataLists.AddToDataList(purchaseRow, dataLists.PurchasesData);
                 }
             }
             catch (Exception ex)
@@ -204,74 +192,74 @@ namespace Pharmacy
 
 /*======================================================THERE ARE JUST TEST OPTIONS HERE======================================================*/
 
-//private List<T> ReadTableData<T>(SqlConnection databaseConnection, string tableName, Func<SqlDataReader, T> createObject)
-//{
-//    var data = new List<T>();
-//    SqlDataReader dataReader = null;
-//    try
-//    {
-//        SqlCommand sqlCommand = new SqlCommand($"SELECT * FROM {tableName}", databaseConnection);
-//        dataReader = sqlCommand.ExecuteReader();
-//        while (dataReader.Read())
-//        {
-//            data.Add(createObject(dataReader));
-//        }
-//    }
-//    catch (Exception ex)
-//    {
-//        MessageBox.Show(ex.Message);
-//    }
-//    finally
-//    {
-//        if (dataReader != null && !(dataReader.IsClosed))
-//            dataReader.Close();
-//    }
-//    return data;
-//}
+/*private List<T> ReadTableData<T>(SqlConnection databaseConnection, string tableName, Func<SqlDataReader, T> createObject)
+{
+    var data = new List<T>();
+    SqlDataReader dataReader = null;
+    try
+    {
+        SqlCommand sqlCommand = new SqlCommand($"SELECT * FROM {tableName}", databaseConnection);
+        dataReader = sqlCommand.ExecuteReader();
+        while (dataReader.Read())
+        {
+            data.Add(createObject(dataReader));
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show(ex.Message);
+    }
+    finally
+    {
+        if (dataReader != null && !(dataReader.IsClosed))
+            dataReader.Close();
+    }
+    return data;
+}
 
 
-//_medicationsData = ReadTableData(databaseConnection, "Medications", dataReader =>
-//    new MedicationModel(
-//        dataReader.GetInt32(0),
-//        dataReader.GetString(1),
-//        dataReader.GetBoolean(2),
-//        dataReader.GetInt32(3),
-//        dataReader.GetString(7),
-//        dataReader.GetBoolean(4),
-//        dataReader.GetDateTime(5),
-//        dataReader.GetDecimal(6)
-//    )
-//);
+_medicationsData = ReadTableData(databaseConnection, "Medications", dataReader =>
+    new MedicationModel(
+        dataReader.GetInt32(0),
+        dataReader.GetString(1),
+        dataReader.GetBoolean(2),
+        dataReader.GetInt32(3),
+        dataReader.GetString(7),
+        dataReader.GetBoolean(4),
+        dataReader.GetDateTime(5),
+        dataReader.GetDecimal(6)
+    )
+);
 
-//_warehousesData = ReadTableData(databaseConnection, "Warehouses", dataReader =>
-//    new WarehouseModel(
-//        dataReader.GetInt32(0),
-//        dataReader.GetString(1)
-//    )
-//);
+_warehousesData = ReadTableData(databaseConnection, "Warehouses", dataReader =>
+    new WarehouseModel(
+        dataReader.GetInt32(0),
+        dataReader.GetString(1)
+    )
+);
 
-//_manufacturersData = ReadTableData(databaseConnection, "Manufacturers", dataReader =>
-//    new ManufacturerModel(
-//        dataReader.GetInt32(0),
-//        dataReader.GetString(1),
-//        dataReader.GetString(2),
-//        dataReader.GetString(3)
-//    )
-//);
+_manufacturersData = ReadTableData(databaseConnection, "Manufacturers", dataReader =>
+    new ManufacturerModel(
+        dataReader.GetInt32(0),
+        dataReader.GetString(1),
+        dataReader.GetString(2),
+        dataReader.GetString(3)
+    )
+);
 
-//_salesData = ReadTableData(databaseConnection, "Sales", dataReader =>
-//    new SaleModel(
-//        dataReader.GetInt32(0),
-//        dataReader.GetDecimal(1),
-//        dataReader.GetDateTime(2)
-//    )
-//);
+_salesData = ReadTableData(databaseConnection, "Sales", dataReader =>
+    new SaleModel(
+        dataReader.GetInt32(0),
+        dataReader.GetDecimal(1),
+        dataReader.GetDateTime(2)
+    )
+);
 
-//_purchasesData = ReadTableData(databaseConnection, "Purchases", dataReader =>
-//    new PurchaseModel(
-//        dataReader.GetInt32(0),
-//        dataReader.GetInt32(1),
-//        dataReader.GetDateTime(2),
-//        dataReader.GetDecimal(3)
-//    )
-//);
+_purchasesData = ReadTableData(databaseConnection, "Purchases", dataReader =>
+    new PurchaseModel(
+        dataReader.GetInt32(0),
+        dataReader.GetInt32(1),
+        dataReader.GetDateTime(2),
+        dataReader.GetDecimal(3)
+    )
+);*/

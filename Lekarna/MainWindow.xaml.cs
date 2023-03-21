@@ -21,6 +21,7 @@ namespace Pharmacy
 {
     public partial class MainWindow : Window
     {
+        private DataLists mainDataLists = new DataLists();
         public MainWindow()
         {
             InitializeComponent();
@@ -30,15 +31,15 @@ namespace Pharmacy
                                                                                      // Kliknutím na položku menu "Load from DataBase" (Menu vlevo nahoře) se vyvolá tato metoda a připojí se a načte data z databáze pomocí třídy DatabaseLogic a metody LoadData()
         {
             DatabaseLogic dataBase = new DatabaseLogic();
-            dataBase.LoadData();
-            
-            //ниже мы присваиваем для каждого DataGrid источник данных, которым являются наши списки с данными из базы данных, чтобы они выводились на экран в приложении
-            //níže přiřadíme každé DataGrid zdroj dat, což jsou naše databázové seznamy, které se mají v aplikaci zobrazit
-            dataGridMedications.ItemsSource = dataBase.MedicationsData;
-            dataGridWarehouses.ItemsSource = dataBase.WarehousesData;
-            dataGridManufacturers.ItemsSource = dataBase.ManufacturersData;
-            dataGridSales.ItemsSource = dataBase.SalesData;
-            dataGridPurchases.ItemsSource = dataBase.PurchasesData;
+            dataBase.LoadData(mainDataLists);
+
+            //тут мы вызываем метод для отображения данных на экран приложения
+            //zde voláme metodu pro zobrazení dat na obrazovce aplikace
+            mainDataLists.ShowDataToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
+            mainDataLists.ShowDataToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
+            mainDataLists.ShowDataToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
+            mainDataLists.ShowDataToDataGrid(dataGridSales, mainDataLists.SalesData);
+            mainDataLists.ShowDataToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
         }
 
         private void PharmacyMainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -53,3 +54,15 @@ namespace Pharmacy
         }
     }
 }
+/*Список того, что работает прямо сейчас:
+ - Подключение к базе данных (класс DatabaseConnectionService)
+ - Считывание данных из база данных (класс DatabaseLogic)
+ - Сохранение данных в соответствующие списки (класс DatabaseLogic с помощью метода AddToDataList() из класса DataLists)
+ - Отображение данных в окне приложения (класс DataLists метод ShowDataToDataGrid())
+ 
+ Seznam toho, co právě teď funguje:
+ - Připojení k databázi (třída DatabaseConnectionService)
+ - Načtení dat z databáze (třída DatabaseLogic)
+ - Uložení dat do příslušných seznamů (třída DatabaseLogic pomocí metody AddToDataList() ze třídy DataLists)
+ - Zobrazení dat v okně aplikace (třída DataLists metoda ShowDataToDataGrid())
+ */

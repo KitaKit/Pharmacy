@@ -14,22 +14,22 @@ C:\Users\sosit\Documents\Visual Studio Projects\Lekarna\Lekarna\obj\Debug\Pharma
 C:\Users\sosit\Documents\Visual Studio Projects\Lekarna\Lekarna\obj\Debug\Pharmacy.csproj.CoreCompileInputs.cache
 C:\Users\sosit\Documents\Visual Studio Projects\Lekarna\Lekarna\obj\Debug\Lekarna.exe
 C:\Users\sosit\Documents\Visual Studio Projects\Lekarna\Lekarna\obj\Debug\Lekarna.pdb
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Lekarna.exe.config
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Lekarna.exe
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Lekarna.pdb
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.csproj.AssemblyReference.cache
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.csproj.SuggestedBindingRedirects.cache
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\MainWindow.g.cs
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\App.g.cs
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna_MarkupCompile.cache
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna_MarkupCompile.lref
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\MainWindow.baml
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna.g.resources
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna.Properties.Resources.resources
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.csproj.GenerateResource.cache
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.csproj.CoreCompileInputs.cache
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna.exe
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna.pdb
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Lekarna_Content.g.cs
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy.mdf
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy_log.ldf
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy.exe.config
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy.exe
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Pharmacy.pdb
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy_Content.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy_MarkupCompile.cache
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy_MarkupCompile.lref
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.g.resources
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.Properties.Resources.resources
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.exe
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.pdb
