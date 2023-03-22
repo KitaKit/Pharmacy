@@ -38,38 +38,23 @@ namespace Pharmacy
             switch (_name)
             {
                 case "Medications":
-                    MedicationClassMap medicationMap = new MedicationClassMap();
-                    List<MedicationModel> medicationsData = dataLists.MedicationsData;
-                    ReadData(ref medicationsData, medicationMap);
-                    dataLists.MedicationsData = medicationsData;
+                    dataLists.MedicationsData = GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap());
                     break;
 
                 case "Warehouses":
-                    WarehouseClassMap warehouseMap = new WarehouseClassMap();
-                    List<WarehouseModel> warehousesData = dataLists.WarehousesData;
-                    ReadData(ref warehousesData, warehouseMap);
-                    dataLists.WarehousesData = warehousesData;
+                    dataLists.WarehousesData = GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap());
                     break;
 
                 case "Manufacturers":
-                    ManufacturerClassMap manufacturerMap = new ManufacturerClassMap();
-                    List<ManufacturerModel> manufacturersData = dataLists.ManufacturersData;
-                    ReadData(ref manufacturersData, manufacturerMap);
-                    dataLists.ManufacturersData = manufacturersData;
+                    dataLists.ManufacturersData = GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap());
                     break;
 
                 case "Sales":
-                    SaleClassMap saleMap = new SaleClassMap();
-                    List<SaleModel> salesData = dataLists.SalesData;
-                    ReadData(ref salesData, saleMap);
-                    dataLists.SalesData = salesData;
+                    dataLists.SalesData = GetDataFromFile(new List<SaleModel>(), new SaleClassMap());
                     break;
 
                 case "Purchases":
-                    PurchaseClassMap purchaseMap = new PurchaseClassMap();
-                    List<PurchaseModel> purchasesData = dataLists.PurchasesData;
-                    ReadData(ref purchasesData, purchaseMap);
-                    dataLists.PurchasesData = purchasesData;
+                    dataLists.PurchasesData = GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap());
                     break;
 
                 default:
@@ -84,8 +69,7 @@ namespace Pharmacy
                 case "Medications":
                     if (!dataLists.IsEmpty(dataLists.MedicationsData))
                     {
-                        MedicationClassMap medicationMap = new MedicationClassMap();
-                        WriteData(dataLists.MedicationsData, medicationMap);
+                        WriteDataToNewFile(dataLists.MedicationsData, new MedicationClassMap());
                         break;
                     }
                     break;
@@ -93,8 +77,7 @@ namespace Pharmacy
                 case "Warehouses":
                     if (!dataLists.IsEmpty(dataLists.WarehousesData))
                     {
-                        WarehouseClassMap warehouseMap = new WarehouseClassMap();
-                        WriteData(dataLists.WarehousesData, warehouseMap);
+                        WriteDataToNewFile(dataLists.WarehousesData, new WarehouseClassMap());
                         break;
                     }
                     break;
@@ -102,8 +85,7 @@ namespace Pharmacy
                 case "Manufacturers":
                     if (!dataLists.IsEmpty(dataLists.ManufacturersData))
                     {
-                        ManufacturerClassMap manufacturerMap = new ManufacturerClassMap();
-                        WriteData(dataLists.ManufacturersData, manufacturerMap);
+                        WriteDataToNewFile(dataLists.ManufacturersData, new ManufacturerClassMap());
                         break;
                     }
                     break;
@@ -111,8 +93,7 @@ namespace Pharmacy
                 case "Sales":
                     if (!dataLists.IsEmpty(dataLists.SalesData))
                     {
-                        SaleClassMap saleMap = new SaleClassMap();
-                        WriteData(dataLists.SalesData, saleMap);
+                        WriteDataToNewFile(dataLists.SalesData, new SaleClassMap());
                         break;
                     }
                     break;
@@ -120,8 +101,7 @@ namespace Pharmacy
                 case "Purchases":
                     if (!dataLists.IsEmpty(dataLists.PurchasesData))
                     {
-                        PurchaseClassMap purchaseMap = new PurchaseClassMap();
-                        WriteData(dataLists.PurchasesData, purchaseMap);
+                        WriteDataToNewFile(dataLists.PurchasesData, new PurchaseClassMap());
                         break;
                     }
                     break;
@@ -131,7 +111,7 @@ namespace Pharmacy
                     break;
             }
         }
-        private void WriteData<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
+        private void WriteDataToNewFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
         {
 
             using (StreamWriter writer = new StreamWriter(_path))
@@ -144,16 +124,21 @@ namespace Pharmacy
             }
         }
 
-        private void ReadData<T, TMap>(ref List<T> dataList, TMap classMap) where TMap : ClassMap<T>
+        private List<T> GetDataFromFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
         {
             using (StreamReader reader = new StreamReader(_path))
             {
                 using (CsvReader csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
                     csvReader.Context.RegisterClassMap(classMap);
-                    dataList = csvReader.GetRecords<T>().ToList();
+                    return csvReader.GetRecords<T>().ToList();
                 }
             }
+        }
+
+        private void WriteDataToSameFile()
+        {
+
         }
     }
 }

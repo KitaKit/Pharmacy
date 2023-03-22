@@ -29,15 +29,18 @@ namespace Pharmacy
                         OpenFileDialog openFileDialog = new OpenFileDialog();
                         openFileDialog.InitialDirectory = "C:\\Documents";
                         openFileDialog.Filter = "CSV files(*.csv)|*.csv";
-                        openFileDialog.ShowDialog();
-                        _filePath = openFileDialog.FileName;
+                        if (openFileDialog.ShowDialog() == true)
+                            _filePath = openFileDialog.FileName;
                         break;
                     case "Save to new CSV-file":
+                        SaveToFileWindow saveToFileWindow = new SaveToFileWindow();
+                        saveToFileWindow.Owner = Application.Current.MainWindow;
+                        saveToFileWindow.ShowDialog();
                         SaveFileDialog saveFileDialog = new SaveFileDialog();
                         saveFileDialog.InitialDirectory = "C:\\Documents";
                         saveFileDialog.Filter = "CSV files(*.csv)|*.csv";
-                        saveFileDialog.ShowDialog();
-                        _filePath = saveFileDialog.FileName;
+                        if (saveFileDialog.ShowDialog() == true)
+                            _filePath = saveFileDialog.FileName;
                         break;
                     default:
                         break;

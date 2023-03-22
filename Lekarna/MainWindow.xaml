@@ -14,7 +14,6 @@
             <MenuItem Header="Menu" Width="50">
                 <MenuItem x:Name="menuItemLoadFromDataBase" Header="Load from DataBase" Click="menuItemLoadFromDataBase_Click"/>
                 <MenuItem x:Name="menuItemLoadFromCSVFile" Header="Load from CSV-file" Click="menuItemLoadFromCSVFile_Click"/>
-                <MenuItem Header="Close database connection"/>
                 <MenuItem x:Name="menuItemSaveToNewCSVFile" Header="Save to new CSV-file" Click="menuItemSaveToNewCSVFile_Click"/>
             </MenuItem>
         </Menu>
@@ -28,27 +27,27 @@
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridMedicationsScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                    <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False">
-                        <DataGrid.Resources>
-                            <Style TargetType="TextBlock" x:Key="WrapText">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                            </Style>
-                        </DataGrid.Resources>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
-                            <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory"/>
-                            <DataGridTextColumn Header="Form" x:Name="dataGridMedicationsColumnForm"/>
-                            <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability" Binding="{Binding Availability}"/>
-                            <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount" Binding="{Binding Count}"/>
-                            <DataGridTextColumn Header="Warehouse" x:Name="dataGridMedicationsColumnWarehouse"/>
-                            <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription" Binding="{Binding Prescription}"/>
-                            <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate" Binding="{Binding ExpirationDate}"/>
-                            <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="Manufacturer" x:Name="dataGridMedicationsColumnManufacturer"/>
-                            <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False">
+                            <DataGrid.Resources>
+                                <Style TargetType="TextBlock" x:Key="WrapText">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
+                                <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory"/>
+                                <DataGridTextColumn Header="Form" x:Name="dataGridMedicationsColumnForm"/>
+                                <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability" Binding="{Binding Availability}"/>
+                                <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount" Binding="{Binding Count}"/>
+                                <DataGridTextColumn Header="Warehouse" x:Name="dataGridMedicationsColumnWarehouse"/>
+                                <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription" Binding="{Binding Prescription}"/>
+                                <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate" Binding="{Binding ExpirationDate}"/>
+                                <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice" Binding="{Binding Price}"/>
+                                <DataGridTextColumn Header="Manufacturer" x:Name="dataGridMedicationsColumnManufacturer"/>
+                                <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
