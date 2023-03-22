@@ -15,7 +15,7 @@
                 <MenuItem x:Name="menuItemLoadFromDataBase" Header="Load from DataBase" Click="menuItemLoadFromDataBase_Click"/>
                 <MenuItem x:Name="menuItemLoadFromCSVFile" Header="Load from CSV-file" Click="menuItemLoadFromCSVFile_Click"/>
                 <MenuItem Header="Close database connection"/>
-                <MenuItem Header="Save to new CSV-file"/>
+                <MenuItem x:Name="menuItemSaveToNewCSVFile" Header="Save to new CSV-file" Click="menuItemSaveToNewCSVFile_Click"/>
             </MenuItem>
         </Menu>
         <Menu Height="18" VerticalAlignment="Top" HorizontalAlignment="Right">

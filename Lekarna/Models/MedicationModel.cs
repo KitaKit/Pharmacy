@@ -14,7 +14,7 @@ namespace Pharmacy
 {
     public class MedicationModel
     {
-        private readonly int _id;
+        private int _id;
         private string _title;
         private int _count;
         private bool _availability;
@@ -23,7 +23,18 @@ namespace Pharmacy
         private DateTime _expirationDate;
         private decimal _price;
 
-        public int Id => _id;
+        public MedicationModel() { }
+
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                if (_id != 0)
+                    return;
+                _id = value;
+            }
+        }
         public bool Availability { get { return _availability; } set { _availability = value; } }
         public bool Prescription { get { return _prescription; } set { _prescription = value; } }
         public string Title 
@@ -94,7 +105,7 @@ namespace Pharmacy
             Map(x => x.Count).Name("Count");
             Map(x => x.Prescription).Name("Prescription");
             Map(x => x.ExpirationDate).Name("ExpirationDate");
-            Map(x => x.Price).Name("Price"); 
+            Map(x => x.Price).Name("Price");
             Map(x => x.Description).Name("Description");
         }
     }

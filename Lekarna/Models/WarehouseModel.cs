@@ -13,10 +13,19 @@ namespace Pharmacy
 {
     public class WarehouseModel
     {
-        private readonly int _id;
+        private int _id;
         private string _name;
-
-        public int Id => _id;
+        public WarehouseModel() { }
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                if (_id != 0)
+                    return;
+                _id = value;
+            }
+        }
         public string Name 
         {
             get { return _name; }

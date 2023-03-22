@@ -46,10 +46,22 @@ namespace Pharmacy
 
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
-            FilesIOLogic file = new FilesIOLogic();
-            file.ReadData(mainDataLists);
+            FilesIOLogic file = new FilesIOLogic(sender as MenuItem);
+            if (file.Path != null)
+                file.ReadData(mainDataLists);
+            else
+                return;
 
             ShowData();
+        }
+
+        private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
+        {
+            FilesIOLogic file = new FilesIOLogic(sender as MenuItem);
+            if (file.Path != null)
+                file.WriteData(mainDataLists);
+            else
+                return;
         }
 
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -61,23 +73,50 @@ namespace Pharmacy
 
         private void ShowData()
         {
-            mainDataLists.ShowDataFromDataListsToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
-            mainDataLists.ShowDataFromDataListsToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
-            mainDataLists.ShowDataFromDataListsToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
-            mainDataLists.ShowDataFromDataListsToDataGrid(dataGridSales, mainDataLists.SalesData);
-            mainDataLists.ShowDataFromDataListsToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
+            mainDataLists.ShowDataToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
+            mainDataLists.ShowDataToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
+            mainDataLists.ShowDataToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
+            mainDataLists.ShowDataToDataGrid(dataGridSales, mainDataLists.SalesData);
+            mainDataLists.ShowDataToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
         }
     }
 }
-/*Список того, что работает прямо сейчас:
+/*
+--------------------Список того, что работает прямо сейчас:--------------------
+
+*** Общее
+ - Отображение данных в окне приложения (класс DataLists метод ShowDataToDataGrid())
+ - Метод при нажатии на кнопку Load from DataBase в верхнем левом меню преложения
+ - Метод при нажатии на кнопку Load from CSV-file в верхнем левом меню преложения
+ - Метод при нажатии на кнопку Save to new CSV-file в верхнем левом меню преложения
+ 
+*** Database
  - Подключение к базе данных (класс DatabaseConnectionService)
  - Считывание данных из база данных (класс DatabaseLogic)
  - Сохранение данных в соответствующие списки (класс DatabaseLogic с помощью метода AddToDataList() из класса DataLists)
- - Отображение данных в окне приложения (класс DataLists метод ShowDataToDataGrid())
  
- Seznam toho, co právě teď funguje:
+*** File
+ - Подключение к CSV-файлам (класс FileConnectionService)
+ - Считывание данных из отдельных файлов для каждой отдельной таблицы (класс FileIOLogic)
+ - Сохранение данных в соответствующий список из соответствующего файла (класс FileIOLogic)
+ - Запись данных из соответствующего списка в соответствующий !!!НОВЫЙ!!! файл (класс FileIOLogic)
+
+--------------------Seznam toho, co právě teď funguje:--------------------
+
+*** General
+ - Zobrazení dat v okně aplikace (metoda třídy DataLists ShowDataToDataGrid())
+ - Metoda při stisknutí tlačítka "Load from DataBase" v levém horním menu aplikace
+ - Metoda při stisknutí tlačítka "Load from CSV-file" v levém horním menu aplikace
+ - Metoda při stisknutí tlačítka "Save to new CSV-file" v levém horním menu aplikace
+
+*** Database
  - Připojení k databázi (třída DatabaseConnectionService)
  - Načtení dat z databáze (třída DatabaseLogic)
  - Uložení dat do příslušných seznamů (třída DatabaseLogic pomocí metody AddToDataList() ze třídy DataLists)
- - Zobrazení dat v okně aplikace (třída DataLists metoda ShowDataToDataGrid())
+
+*** File
+ - Připojení k souborům CSV (třída FileConnectionService)
+ - Čtení dat z jednotlivých souborů pro každou jednotlivou tabulku (třída FileIOLogic)
+ - Ukládání dat do příslušného seznamu z příslušného souboru (třída FileIOLogic)
+ - Zápis dat z příslušného seznamu do příslušného !!!NOVÉHO!!! souboru (třída FileIOLogic)
  */

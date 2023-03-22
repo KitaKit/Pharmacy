@@ -13,24 +13,35 @@ namespace Pharmacy
 {
     public class SaleModel
     {
-        private readonly int _id;
+        private int _id;
         private decimal _price;
         private DateTime _date;
 
-        public int Id => _id;
-        public decimal Price 
+        public SaleModel() { }
+
+        public int Id 
         {
-            get { return _price; }
+            get { return _id; }
             set 
             {
-                if( _price != value )
+                if (_id != 0)
+                    return;
+                _id = value;
+            }
+        }
+        public decimal Price
+        {
+            get { return _price; }
+            set
+            {
+                if (_price != value)
                     _price = value;
             }
         }
-        public DateTime Date 
-        { 
+        public DateTime Date
+        {
             get { return _date; }
-            set 
+            set
             {
                 if (_date != value && value != null)
                     _date = value;

@@ -16,12 +16,23 @@ namespace Pharmacy
     {
         private const int MAX_LICENSE_LENGTH = 10;
 
-        private readonly int _id;
+        private int _id;
         private string _name;
         private string _country;
         private string _license;
 
-        public int Id => _id;
+        public ManufacturerModel() { }
+
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                if (_id != 0)
+                    return;
+                _id = value;
+            }
+        }
         public string Name 
         {
             get { return _name; } 

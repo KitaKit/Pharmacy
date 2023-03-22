@@ -21,15 +21,20 @@ namespace Pharmacy
         public List<SaleModel> SalesData { get { return _salesData; } set { _salesData = value; } }
         public List<PurchaseModel> PurchasesData { get { return _purchasesData; } set { _purchasesData = value; } }
 
-        public void AddToDataList <T>(T data, List<T> list)
+        public void AddToDataList <T>(T data, List<T> dataList)
         {
-            list.Add(data);
+            dataList.Add(data);
         }
 
-        public void ShowDataFromDataListsToDataGrid<T>(DataGrid dataGrid, List<T> dataList) //метод для отображения данных в окне приложения, мы присваиваем каждой секции свой источник данных для отображения
+        public void ShowDataToDataGrid<T>(DataGrid dataGrid, List<T> dataList) //метод для отображения данных в окне приложения, мы присваиваем каждой секции свой источник данных для отображения
                                                                                //metoda pro zobrazení dat v okně aplikace, každé sekci přiřadíme jiný zdroj dat, který se má zobrazit.
         {
             dataGrid.ItemsSource = dataList;
+        }
+
+        public bool IsEmpty<T>(List<T> dataList)
+        {
+            return !dataList.Any();
         }
     }
 }

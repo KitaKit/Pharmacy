@@ -13,10 +13,19 @@ namespace Pharmacy
 {
     public class MedicationFormModel
     {
-        private readonly int _id;
+        private int _id;
         private string _form;
-
-        public int Id => _id;
+        public MedicationFormModel() { }
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                if (_id != 0)
+                    return;
+                _id = value;
+            }
+        }
         public string Form 
         {
             get { return _form; }

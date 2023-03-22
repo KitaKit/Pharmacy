@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 //Здесь будет описано подключение к CSV файлу
 //Путь к файлу берётся из диалогового окна открытия файла Windows
 
@@ -18,18 +19,33 @@ namespace Pharmacy
         private readonly string _filePath;
         public string FilePath => _filePath;
 
-       public FilesConnectionService()
+       public FilesConnectionService(MenuItem item)
         {
             try
             {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.InitialDirectory = "C:\\Documents";
-                openFileDialog.Filter = "CSV files(*.csv)|*.csv";
-                _filePath = openFileDialog.FileName;
+                switch (item.Header)
+                {
+                    case "Load from CSV-file":
+                        OpenFileDialog openFileDialog = new OpenFileDialog();
+                        openFileDialog.InitialDirectory = "C:\\Documents";
+                        openFileDialog.Filter = "CSV files(*.csv)|*.csv";
+                        openFileDialog.ShowDialog();
+                        _filePath = openFileDialog.FileName;
+                        break;
+                    case "Save to new CSV-file":
+                        SaveFileDialog saveFileDialog = new SaveFileDialog();
+                        saveFileDialog.InitialDirectory = "C:\\Documents";
+                        saveFileDialog.Filter = "CSV files(*.csv)|*.csv";
+                        saveFileDialog.ShowDialog();
+                        _filePath = saveFileDialog.FileName;
+                        break;
+                    default:
+                        break;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

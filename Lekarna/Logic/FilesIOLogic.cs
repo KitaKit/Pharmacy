@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using CsvHelper;
 using CsvHelper.Configuration;
 
@@ -20,13 +21,14 @@ namespace Pharmacy
 {
     public class FilesIOLogic
     {
-        private FilesConnectionService _fileConnection = new FilesConnectionService();
+        private FilesConnectionService _fileConnection;
         private string _path;
         public string Path { get { return _path; } }
         private string _name;
         public string Name { get { return _name; } }
-        public FilesIOLogic()
+        public FilesIOLogic(MenuItem item)
         {
+            _fileConnection = new FilesConnectionService(item);
             _path = _fileConnection.FilePath;
             _name = System.IO.Path.GetFileNameWithoutExtension(_path);
         }
@@ -37,27 +39,37 @@ namespace Pharmacy
             {
                 case "Medications":
                     MedicationClassMap medicationMap = new MedicationClassMap();
-                    ReadData(dataLists.MedicationsData, medicationMap);
+                    List<MedicationModel> medicationsData = dataLists.MedicationsData;
+                    ReadData(ref medicationsData, medicationMap);
+                    dataLists.MedicationsData = medicationsData;
                     break;
 
                 case "Warehouses":
                     WarehouseClassMap warehouseMap = new WarehouseClassMap();
-                    ReadData(dataLists.WarehousesData, warehouseMap);
+                    List<WarehouseModel> warehousesData = dataLists.WarehousesData;
+                    ReadData(ref warehousesData, warehouseMap);
+                    dataLists.WarehousesData = warehousesData;
                     break;
 
                 case "Manufacturers":
                     ManufacturerClassMap manufacturerMap = new ManufacturerClassMap();
-                    ReadData(dataLists.ManufacturersData, manufacturerMap);
+                    List<ManufacturerModel> manufacturersData = dataLists.ManufacturersData;
+                    ReadData(ref manufacturersData, manufacturerMap);
+                    dataLists.ManufacturersData = manufacturersData;
                     break;
 
                 case "Sales":
                     SaleClassMap saleMap = new SaleClassMap();
-                    ReadData(dataLists.SalesData, saleMap);
+                    List<SaleModel> salesData = dataLists.SalesData;
+                    ReadData(ref salesData, saleMap);
+                    dataLists.SalesData = salesData;
                     break;
 
                 case "Purchases":
                     PurchaseClassMap purchaseMap = new PurchaseClassMap();
-                    ReadData(dataLists.PurchasesData, purchaseMap);
+                    List<PurchaseModel> purchasesData = dataLists.PurchasesData;
+                    ReadData(ref purchasesData, purchaseMap);
+                    dataLists.PurchasesData = purchasesData;
                     break;
 
                 default:
@@ -65,7 +77,74 @@ namespace Pharmacy
                     break;
             }
         }
-        private void ReadData<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
+        public void WriteData(DataLists dataLists)
+        {
+            switch (_name)
+            {
+                case "Medications":
+                    if (!dataLists.IsEmpty(dataLists.MedicationsData))
+                    {
+                        MedicationClassMap medicationMap = new MedicationClassMap();
+                        WriteData(dataLists.MedicationsData, medicationMap);
+                        break;
+                    }
+                    break;
+
+                case "Warehouses":
+                    if (!dataLists.IsEmpty(dataLists.WarehousesData))
+                    {
+                        WarehouseClassMap warehouseMap = new WarehouseClassMap();
+                        WriteData(dataLists.WarehousesData, warehouseMap);
+                        break;
+                    }
+                    break;
+
+                case "Manufacturers":
+                    if (!dataLists.IsEmpty(dataLists.ManufacturersData))
+                    {
+                        ManufacturerClassMap manufacturerMap = new ManufacturerClassMap();
+                        WriteData(dataLists.ManufacturersData, manufacturerMap);
+                        break;
+                    }
+                    break;
+
+                case "Sales":
+                    if (!dataLists.IsEmpty(dataLists.SalesData))
+                    {
+                        SaleClassMap saleMap = new SaleClassMap();
+                        WriteData(dataLists.SalesData, saleMap);
+                        break;
+                    }
+                    break;
+
+                case "Purchases":
+                    if (!dataLists.IsEmpty(dataLists.PurchasesData))
+                    {
+                        PurchaseClassMap purchaseMap = new PurchaseClassMap();
+                        WriteData(dataLists.PurchasesData, purchaseMap);
+                        break;
+                    }
+                    break;
+
+                default:
+                    MessageBox.Show("Wrong name of file!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
+            }
+        }
+        private void WriteData<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
+        {
+
+            using (StreamWriter writer = new StreamWriter(_path))
+            {
+                using (CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csvWriter.Context.RegisterClassMap(classMap);
+                    csvWriter.WriteRecords(dataList);
+                }
+            }
+        }
+
+        private void ReadData<T, TMap>(ref List<T> dataList, TMap classMap) where TMap : ClassMap<T>
         {
             using (StreamReader reader = new StreamReader(_path))
             {
