@@ -19,96 +19,111 @@ using CsvHelper.Configuration;
 
 namespace Pharmacy
 {
+    public enum SelectedTable : int
+    {
+        Medications = 0,
+        Warehouses = 1,
+        Manufacturers = 2,
+        Sales = 3,
+        Purchases = 4, 
+        All = 5
+    }
     public class FilesIOLogic
     {
         private FilesConnectionService _fileConnection;
         private string _path;
+        private SelectedTable _selectedTable;
         public string Path { get { return _path; } }
         private string _name;
         public string Name { get { return _name; } }
-        public FilesIOLogic(MenuItem item)
+        public FilesIOLogic(FileConnectionType connectionType)
         {
-            _fileConnection = new FilesConnectionService(item);
+            _fileConnection = new FilesConnectionService(connectionType);
             _path = _fileConnection.FilePath;
             _name = System.IO.Path.GetFileNameWithoutExtension(_path);
         }
 
+        public FilesIOLogic(FileConnectionType connectionType, SelectedTable selectedTable) : this (connectionType)
+        {
+            _selectedTable = selectedTable;
+        }
+
         public void ReadData(DataLists dataLists)
-        { 
-            switch (_name)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to load data from {_path} to {_selectedTable}", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.Yes)
             {
-                case "Medications":
-                    dataLists.MedicationsData = GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap());
-                    break;
+                switch (_selectedTable)
+                {
+                    case SelectedTable.Medications:
+                        dataLists.MedicationsData = GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap());
+                        break;
 
-                case "Warehouses":
-                    dataLists.WarehousesData = GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap());
-                    break;
+                    case SelectedTable.Warehouses:
+                        dataLists.WarehousesData = GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap());
+                        break;
 
-                case "Manufacturers":
-                    dataLists.ManufacturersData = GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap());
-                    break;
+                    case SelectedTable.Manufacturers:
+                        dataLists.ManufacturersData = GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap());
+                        break;
 
-                case "Sales":
-                    dataLists.SalesData = GetDataFromFile(new List<SaleModel>(), new SaleClassMap());
-                    break;
+                    case SelectedTable.Sales:
+                        dataLists.SalesData = GetDataFromFile(new List<SaleModel>(), new SaleClassMap());
+                        break;
 
-                case "Purchases":
-                    dataLists.PurchasesData = GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap());
-                    break;
-
-                default:
-                    MessageBox.Show("Wrong name of file!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    break;
+                    case SelectedTable.Purchases:
+                        dataLists.PurchasesData = GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap());
+                        break;
+                }
             }
         }
-        public void WriteData(DataLists dataLists)
+        public void WriteDataToNew(DataLists dataLists)
         {
-            switch (_name)
+            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to save data from {_selectedTable} to {_path}", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.Yes)
             {
-                case "Medications":
-                    if (!dataLists.IsEmpty(dataLists.MedicationsData))
-                    {
-                        WriteDataToNewFile(dataLists.MedicationsData, new MedicationClassMap());
+                switch (_selectedTable)
+                {
+                    case SelectedTable.Medications:
+                        if (!dataLists.IsEmpty(dataLists.MedicationsData))
+                        {
+                            WriteDataToNewFile(dataLists.MedicationsData, new MedicationClassMap());
+                            break;
+                        }
                         break;
-                    }
-                    break;
 
-                case "Warehouses":
-                    if (!dataLists.IsEmpty(dataLists.WarehousesData))
-                    {
-                        WriteDataToNewFile(dataLists.WarehousesData, new WarehouseClassMap());
+                    case SelectedTable.Warehouses:
+                        if (!dataLists.IsEmpty(dataLists.WarehousesData))
+                        {
+                            WriteDataToNewFile(dataLists.WarehousesData, new WarehouseClassMap());
+                            break;
+                        }
                         break;
-                    }
-                    break;
 
-                case "Manufacturers":
-                    if (!dataLists.IsEmpty(dataLists.ManufacturersData))
-                    {
-                        WriteDataToNewFile(dataLists.ManufacturersData, new ManufacturerClassMap());
+                    case SelectedTable.Manufacturers:
+                        if (!dataLists.IsEmpty(dataLists.ManufacturersData))
+                        {
+                            WriteDataToNewFile(dataLists.ManufacturersData, new ManufacturerClassMap());
+                            break;
+                        }
                         break;
-                    }
-                    break;
 
-                case "Sales":
-                    if (!dataLists.IsEmpty(dataLists.SalesData))
-                    {
-                        WriteDataToNewFile(dataLists.SalesData, new SaleClassMap());
+                    case SelectedTable.Sales:
+                        if (!dataLists.IsEmpty(dataLists.SalesData))
+                        {
+                            WriteDataToNewFile(dataLists.SalesData, new SaleClassMap());
+                            break;
+                        }
                         break;
-                    }
-                    break;
 
-                case "Purchases":
-                    if (!dataLists.IsEmpty(dataLists.PurchasesData))
-                    {
-                        WriteDataToNewFile(dataLists.PurchasesData, new PurchaseClassMap());
+                    case SelectedTable.Purchases:
+                        if (!dataLists.IsEmpty(dataLists.PurchasesData))
+                        {
+                            WriteDataToNewFile(dataLists.PurchasesData, new PurchaseClassMap());
+                            break;
+                        }
                         break;
-                    }
-                    break;
-
-                default:
-                    MessageBox.Show("Wrong name of file!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    break;
+                }
             }
         }
         private void WriteDataToNewFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
@@ -130,13 +145,21 @@ namespace Pharmacy
             {
                 using (CsvReader csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
-                    csvReader.Context.RegisterClassMap(classMap);
-                    return csvReader.GetRecords<T>().ToList();
+                    try
+                    {
+                        csvReader.Context.RegisterClassMap(classMap);
+                        return csvReader.GetRecords<T>().ToList();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("The wrong file was selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return null;
+                    }
                 }
             }
         }
 
-        private void WriteDataToSameFile()
+        private void AppendToFile()
         {
 
         }

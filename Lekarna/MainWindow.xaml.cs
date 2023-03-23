@@ -81,25 +81,27 @@ namespace Pharmacy
 
             //тут мы вызываем метод для отображения данных на экран приложения
             //zde voláme metodu pro zobrazení dat na obrazovce aplikace
-            ShowData();
+            ShowData(SelectedTable.All);
         }
 
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
-            FilesIOLogic file = new FilesIOLogic(sender as MenuItem);
+            SelectedTable selectedTable = (SelectedTable)(Application.Current.MainWindow.FindName("mainTabControl") as TabControl).SelectedIndex;
+            FilesIOLogic file = new FilesIOLogic(FileConnectionType.Read, selectedTable);
             if (file.Path != null)
                 file.ReadData(mainDataLists);
             else
                 return;
 
-            ShowData();
+            ShowData(selectedTable);
         }
 
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
-            FilesIOLogic file = new FilesIOLogic(sender as MenuItem);
+            SelectedTable selectedTable = (SelectedTable)(Application.Current.MainWindow.FindName("mainTabControl") as TabControl).SelectedIndex;
+            FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
             if (file.Path != null)
-                file.WriteData(mainDataLists);
+                file.WriteDataToNew(mainDataLists);
             else
                 return;
         }
@@ -111,13 +113,33 @@ namespace Pharmacy
             e.Handled = true;
         }
 
-        private void ShowData()
+        private void ShowData(SelectedTable selectedTable)
         {
-            mainDataLists.ShowDataToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
-            mainDataLists.ShowDataToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
-            mainDataLists.ShowDataToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
-            mainDataLists.ShowDataToDataGrid(dataGridSales, mainDataLists.SalesData);
-            mainDataLists.ShowDataToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
+            switch (selectedTable)
+            {
+                case SelectedTable.Medications:
+                    mainDataLists.ShowDataToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
+                    break;
+                case SelectedTable.Warehouses:
+                    mainDataLists.ShowDataToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
+                    break;
+                case SelectedTable.Manufacturers:
+                    mainDataLists.ShowDataToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
+                    break;
+                case SelectedTable.Sales:
+                    mainDataLists.ShowDataToDataGrid(dataGridSales, mainDataLists.SalesData);
+                    break;
+                case SelectedTable.Purchases:
+                        mainDataLists.ShowDataToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
+                    break;
+                case SelectedTable.All:
+                    mainDataLists.ShowDataToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
+                    mainDataLists.ShowDataToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
+                    mainDataLists.ShowDataToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
+                    mainDataLists.ShowDataToDataGrid(dataGridSales, mainDataLists.SalesData);
+                    mainDataLists.ShowDataToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
+                    break;
+            }
         }
     }
 }

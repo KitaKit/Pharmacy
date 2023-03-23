@@ -14,33 +14,41 @@ using System.Windows.Controls;
 
 namespace Pharmacy
 {
+    public enum FileConnectionType
+    {
+        Read, 
+        WriteToNew,
+        Append
+    }
     public class FilesConnectionService
     {
         private readonly string _filePath;
         public string FilePath => _filePath;
 
-       public FilesConnectionService(MenuItem item)
+       public FilesConnectionService(FileConnectionType connectionType)
         {
             try
             {
-                switch (item.Header)
+                switch (connectionType)
                 {
-                    case "Load from CSV-file":
+                    case FileConnectionType.Read:
                         OpenFileDialog openFileDialog = new OpenFileDialog();
                         openFileDialog.InitialDirectory = "C:\\Documents";
                         openFileDialog.Filter = "CSV files(*.csv)|*.csv";
                         if (openFileDialog.ShowDialog() == true)
                             _filePath = openFileDialog.FileName;
                         break;
-                    case "Save to new CSV-file":
-                        SaveToFileWindow saveToFileWindow = new SaveToFileWindow();
-                        saveToFileWindow.Owner = Application.Current.MainWindow;
-                        saveToFileWindow.ShowDialog();
+                    case FileConnectionType.WriteToNew:
                         SaveFileDialog saveFileDialog = new SaveFileDialog();
                         saveFileDialog.InitialDirectory = "C:\\Documents";
                         saveFileDialog.Filter = "CSV files(*.csv)|*.csv";
                         if (saveFileDialog.ShowDialog() == true)
+                        {
                             _filePath = saveFileDialog.FileName;
+                        }
+                        break;
+                    case FileConnectionType.Append:
+
                         break;
                     default:
                         break;
