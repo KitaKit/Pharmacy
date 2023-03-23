@@ -14,45 +14,46 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.CodeDom;
 /*
 --------------------Список того, что работает прямо сейчас:--------------------
 
 *** Общее
- - Отображение данных в окне приложения (класс DataLists метод ShowDataToDataGrid())
- - Метод при нажатии на кнопку Load from DataBase в верхнем левом меню преложения
- - Метод при нажатии на кнопку Load from CSV-file в верхнем левом меню преложения
- - Метод при нажатии на кнопку Save to new CSV-file в верхнем левом меню преложения
- 
+- Отображение данных в окне приложения (класс DataLists метод ShowDataToDataGrid())
+- Метод при нажатии на кнопку Load from DataBase в верхнем левом меню преложения
+- Метод при нажатии на кнопку Load from CSV-file в верхнем левом меню преложения
+- Метод при нажатии на кнопку Save to new CSV-file в верхнем левом меню преложения
+
 *** Database
- - Подключение к базе данных (класс DatabaseConnectionService)
- - Считывание данных из база данных (класс DatabaseLogic)
- - Сохранение данных в соответствующие списки (класс DatabaseLogic с помощью метода AddToDataList() из класса DataLists)
- 
+- Подключение к базе данных (класс DatabaseConnectionService)
+- Считывание данных из база данных (класс DatabaseLogic)
+- Сохранение данных в соответствующие списки (класс DatabaseLogic с помощью метода AddToDataList() из класса DataLists)
+
 *** File
- - Подключение к CSV-файлам (класс FileConnectionService)
- - Считывание данных из отдельных файлов для каждой отдельной таблицы (класс FileIOLogic)
- - Сохранение данных в соответствующий список из соответствующего файла (класс FileIOLogic)
- - Запись данных из соответствующего списка в соответствующий !!!НОВЫЙ!!! файл (класс FileIOLogic)
+- Подключение к CSV-файлам (класс FileConnectionService)
+- Считывание данных из отдельных файлов для каждой отдельной таблицы (класс FileIOLogic)
+- Сохранение данных в соответствующий список из соответствующего файла (класс FileIOLogic)
+- Запись данных из соответствующего списка в соответствующий !!!НОВЫЙ!!! файл (класс FileIOLogic)
 
 --------------------Seznam toho, co právě teď funguje:--------------------
 
 *** General
- - Zobrazení dat v okně aplikace (metoda třídy DataLists ShowDataToDataGrid())
- - Metoda při stisknutí tlačítka "Load from DataBase" v levém horním menu aplikace
- - Metoda při stisknutí tlačítka "Load from CSV-file" v levém horním menu aplikace
- - Metoda při stisknutí tlačítka "Save to new CSV-file" v levém horním menu aplikace
+- Zobrazení dat v okně aplikace (metoda třídy DataLists ShowDataToDataGrid())
+- Metoda při stisknutí tlačítka "Load from DataBase" v levém horním menu aplikace
+- Metoda při stisknutí tlačítka "Load from CSV-file" v levém horním menu aplikace
+- Metoda při stisknutí tlačítka "Save to new CSV-file" v levém horním menu aplikace
 
 *** Database
- - Připojení k databázi (třída DatabaseConnectionService)
- - Načtení dat z databáze (třída DatabaseLogic)
- - Uložení dat do příslušných seznamů (třída DatabaseLogic pomocí metody AddToDataList() ze třídy DataLists)
+- Připojení k databázi (třída DatabaseConnectionService)
+- Načtení dat z databáze (třída DatabaseLogic)
+- Uložení dat do příslušných seznamů (třída DatabaseLogic pomocí metody AddToDataList() ze třídy DataLists)
 
 *** File
- - Připojení k souborům CSV (třída FileConnectionService)
- - Čtení dat z jednotlivých souborů pro každou jednotlivou tabulku (třída FileIOLogic)
- - Ukládání dat do příslušného seznamu z příslušného souboru (třída FileIOLogic)
- - Zápis dat z příslušného seznamu do příslušného !!!NOVÉHO!!! souboru (třída FileIOLogic)
- */
+- Připojení k souborům CSV (třída FileConnectionService)
+- Čtení dat z jednotlivých souborů pro každou jednotlivou tabulku (třída FileIOLogic)
+- Ukládání dat do příslušného seznamu z příslušného souboru (třída FileIOLogic)
+- Zápis dat z příslušného seznamu do příslušného !!!NOVÉHO!!! souboru (třída FileIOLogic)
+*/
 
 
 //Здесь будет описана логика основных взаимодействий с окном программы и его содержимым
@@ -63,7 +64,9 @@ namespace Pharmacy
 {
     public partial class MainWindow : Window
     {
-        private DataLists mainDataLists = new DataLists();
+        private DataLists _mainDataLists = new DataLists();
+        private DataLists _changedDataLists = new DataLists();
+        private FileConnectionsList _fileConnections = new FileConnectionsList();
         public MainWindow()
         {
             InitializeComponent();
@@ -77,33 +80,55 @@ namespace Pharmacy
                                                                                       // Kliknutím na položku menu "Load from DataBase" (Menu vlevo nahoře) se vyvolá tato metoda a připojí se a načte data z databáze pomocí třídy DatabaseLogic a metody LoadData()
         {
             DatabaseIOLogic dataBase = new DatabaseIOLogic();
-            dataBase.ReadData(mainDataLists);
+            dataBase.ReadData(_mainDataLists);
 
             //тут мы вызываем метод для отображения данных на экран приложения
             //zde voláme metodu pro zobrazení dat na obrazovce aplikace
             ShowData(SelectedTable.All);
         }
-
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
-            SelectedTable selectedTable = (SelectedTable)(Application.Current.MainWindow.FindName("mainTabControl") as TabControl).SelectedIndex;
+            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
             FilesIOLogic file = new FilesIOLogic(FileConnectionType.Read, selectedTable);
             if (file.Path != null)
-                file.ReadData(mainDataLists);
+            {
+                file.ReadData(_mainDataLists);
+                _fileConnections.Add(file);
+            }
             else
                 return;
 
             ShowData(selectedTable);
         }
-
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
-            SelectedTable selectedTable = (SelectedTable)(Application.Current.MainWindow.FindName("mainTabControl") as TabControl).SelectedIndex;
-            FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
-            if (file.Path != null)
-                file.WriteDataToNew(mainDataLists);
-            else
-                return;
+            //try
+            //{
+                SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+                //var selectedDataList = ((((((((mainTabControl.SelectedItem) as TabItem).Content) as Grid).Children)[0] as ScrollViewer).Content) as DataGrid).ItemsSource;
+                FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
+                if (file.Path != null)
+                {
+                    file.WriteDataToNew(_mainDataLists);
+                    _fileConnections.Add(file);
+                }
+                else
+                    return;
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("No data was load to selected table!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return;
+            //}
+        }
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var checkerDataLists in typeof(DataLists).GetProperties())
+            {
+                //_changedDataLists.IsEmpty(checkerDataLists.GetValue(_changedDataLists));
+                var  a = checkerDataLists.GetValue(_mainDataLists) as List;
+                MessageBox.Show("");
+            }
         }
 
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -118,26 +143,26 @@ namespace Pharmacy
             switch (selectedTable)
             {
                 case SelectedTable.Medications:
-                    mainDataLists.ShowDataToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridMedications, _mainDataLists.MedicationsData);
                     break;
                 case SelectedTable.Warehouses:
-                    mainDataLists.ShowDataToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridWarehouses, _mainDataLists.WarehousesData);
                     break;
                 case SelectedTable.Manufacturers:
-                    mainDataLists.ShowDataToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridManufacturers, _mainDataLists.ManufacturersData);
                     break;
                 case SelectedTable.Sales:
-                    mainDataLists.ShowDataToDataGrid(dataGridSales, mainDataLists.SalesData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridSales, _mainDataLists.SalesData);
                     break;
                 case SelectedTable.Purchases:
-                        mainDataLists.ShowDataToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
+                        _mainDataLists.ShowDataToDataGrid(dataGridPurchases, _mainDataLists.PurchasesData);
                     break;
                 case SelectedTable.All:
-                    mainDataLists.ShowDataToDataGrid(dataGridMedications, mainDataLists.MedicationsData);
-                    mainDataLists.ShowDataToDataGrid(dataGridWarehouses, mainDataLists.WarehousesData);
-                    mainDataLists.ShowDataToDataGrid(dataGridManufacturers, mainDataLists.ManufacturersData);
-                    mainDataLists.ShowDataToDataGrid(dataGridSales, mainDataLists.SalesData);
-                    mainDataLists.ShowDataToDataGrid(dataGridPurchases, mainDataLists.PurchasesData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridMedications, _mainDataLists.MedicationsData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridWarehouses, _mainDataLists.WarehousesData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridManufacturers, _mainDataLists.ManufacturersData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridSales, _mainDataLists.SalesData);
+                    _mainDataLists.ShowDataToDataGrid(dataGridPurchases, _mainDataLists.PurchasesData);
                     break;
             }
         }

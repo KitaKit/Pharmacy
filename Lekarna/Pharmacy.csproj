@@ -97,6 +97,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataProcessing\DataLists.cs" />
+    <Compile Include="DataProcessing\FileConnectionsList.cs" />
     <Compile Include="Logic\DatabaseIOLogic.cs" />
     <Compile Include="Logic\FilesIOLogic.cs" />
     <Compile Include="Models\CategoryModel.cs" />
