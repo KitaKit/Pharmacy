@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.CodeDom;
+using System.Collections;
 /*
 --------------------Список того, что работает прямо сейчас:--------------------
 
@@ -66,7 +67,7 @@ namespace Pharmacy
     {
         private DataLists _mainDataLists = new DataLists();
         private DataLists _changedDataLists = new DataLists();
-        private FileConnectionsList _fileConnections = new FileConnectionsList();
+        private bool _databaseConnectionSuccess = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -79,8 +80,9 @@ namespace Pharmacy
         private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e) //при нажатии на пункт меню "Load from DataBase" (Menu слева сверху) вызывается данный метод и происходит подключение и считывание данных из базы данных с помощью класса DatabaseLogic и метода LoadData()
                                                                                       // Kliknutím na položku menu "Load from DataBase" (Menu vlevo nahoře) se vyvolá tato metoda a připojí se a načte data z databáze pomocí třídy DatabaseLogic a metody LoadData()
         {
-            DatabaseIOLogic dataBase = new DatabaseIOLogic();
-            dataBase.ReadData(_mainDataLists);
+            DatabaseIOLogic database = new DatabaseIOLogic();
+            database.ReadData(_mainDataLists);
+            _databaseConnectionSuccess = true;
 
             //тут мы вызываем метод для отображения данных на экран приложения
             //zde voláme metodu pro zobrazení dat na obrazovce aplikace
@@ -93,7 +95,7 @@ namespace Pharmacy
             if (file.Path != null)
             {
                 file.ReadData(_mainDataLists);
-                _fileConnections.Add(file);
+                FileConnectionsList.Add(file);
             }
             else
                 return;
@@ -110,7 +112,7 @@ namespace Pharmacy
                 if (file.Path != null)
                 {
                     file.WriteDataToNew(_mainDataLists);
-                    _fileConnections.Add(file);
+                    FileConnectionsList.Add(file);
                 }
                 else
                     return;
@@ -125,9 +127,40 @@ namespace Pharmacy
         {
             foreach (var checkerDataLists in typeof(DataLists).GetProperties())
             {
-                //_changedDataLists.IsEmpty(checkerDataLists.GetValue(_changedDataLists));
-                var  a = checkerDataLists.GetValue(_mainDataLists) as List;
-                MessageBox.Show("");
+                var changedDataList = checkerDataLists.GetValue(_changedDataLists) as IList;
+
+                if (changedDataList != null && changedDataList.Count != 0)
+                {
+                    if (!FileConnectionsList.IsEmpty())
+                    {
+                        SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+                        var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
+                        if (requiredFileConnection != null)
+                        {
+                            (requiredFileConnection as FilesIOLogic).AppendData(_changedDataLists, selectedTable);
+
+                            if (_databaseConnectionSuccess)
+                            {
+                                DatabaseIOLogic database = new DatabaseIOLogic();
+                                database.WriteData();
+                            }
+                        }
+                        else if (_databaseConnectionSuccess)
+                        {
+                            DatabaseIOLogic database = new DatabaseIOLogic();
+                            database.WriteData();
+                        }
+                        else
+                            MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else if (_databaseConnectionSuccess)
+                    {
+                        DatabaseIOLogic database = new DatabaseIOLogic();
+                        database.WriteData();
+                    }
+                    else 
+                        MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -165,6 +198,11 @@ namespace Pharmacy
                     _mainDataLists.ShowDataToDataGrid(dataGridPurchases, _mainDataLists.PurchasesData);
                     break;
             }
+        }
+
+        private void menuItemConnectToDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            _databaseConnectionSuccess = true;
         }
     }
 }

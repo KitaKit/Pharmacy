@@ -28,7 +28,6 @@ namespace Pharmacy
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    Environment.Exit(1);
                 }
 
                 //вызов дочерних методов для последовательного считывания и присваивания данных в соответствующие списки

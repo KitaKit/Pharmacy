@@ -33,6 +33,7 @@ namespace Pharmacy
         private FilesConnectionService _fileConnection;
         private string _path;
         private SelectedTable _selectedTable;
+        public SelectedTable SelectedTable { get {return _selectedTable;} }
         public string Path { get { return _path; } }
         private string _name;
         public string Name { get { return _name; } }
@@ -126,6 +127,10 @@ namespace Pharmacy
                 }
             }
         }
+        public void AppendData(DataLists dataLists, SelectedTable selectedTable)
+        {
+
+        }
         private void WriteDataToNewFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
         {
 
@@ -159,7 +164,7 @@ namespace Pharmacy
             }
         }
 
-        private void AppendToFile()
+        private void AppendDataToFile()
         {
 
         }
