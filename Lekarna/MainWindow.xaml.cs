@@ -66,7 +66,7 @@ namespace Pharmacy
     public partial class MainWindow : Window
     {
         private DataLists _mainDataLists = new DataLists();
-        private DataLists _changedDataLists = new DataLists();
+        private DataLists _addedDataLists = new DataLists();
         private bool _databaseConnectionSuccess = false;
         public MainWindow()
         {
@@ -125,45 +125,16 @@ namespace Pharmacy
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var checkerDataLists in typeof(DataLists).GetProperties())
-            {
-                var changedDataList = checkerDataLists.GetValue(_changedDataLists) as IList;
-
-                if (changedDataList != null && changedDataList.Count != 0)
-                {
-                    if (!FileConnectionsList.IsEmpty())
-                    {
-                        SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
-                        var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
-                        if (requiredFileConnection != null)
-                        {
-                            (requiredFileConnection as FilesIOLogic).AppendData(_changedDataLists, selectedTable);
-
-                            if (_databaseConnectionSuccess)
-                            {
-                                DatabaseIOLogic database = new DatabaseIOLogic();
-                                database.WriteData();
-                            }
-                        }
-                        else if (_databaseConnectionSuccess)
-                        {
-                            DatabaseIOLogic database = new DatabaseIOLogic();
-                            database.WriteData();
-                        }
-                        else
-                            MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else if (_databaseConnectionSuccess)
-                    {
-                        DatabaseIOLogic database = new DatabaseIOLogic();
-                        database.WriteData();
-                    }
-                    else 
-                        MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
+            SaveAllChangedData();
         }
+        private void menuItemConnectToDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            _databaseConnectionSuccess = true;
+        }
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
@@ -199,10 +170,52 @@ namespace Pharmacy
                     break;
             }
         }
-
-        private void menuItemConnectToDatabase_Click(object sender, RoutedEventArgs e)
+        private void SaveAllChangedData() //доделать сохранение при изменении тоже, по сути сейчас это код для сохранения в окне с добавлением
         {
-            _databaseConnectionSuccess = true;
+            _addedDataLists.AddToDataList(_mainDataLists.MedicationsData[0], _addedDataLists.MedicationsData);
+            foreach (var checkerDataLists in typeof(DataLists).GetProperties())
+            {
+                var changedDataList = checkerDataLists.GetValue(_addedDataLists) as IList;
+
+                if (changedDataList != null && changedDataList.Count != 0)
+                {
+                    if (!FileConnectionsList.IsEmpty())
+                    {
+                        
+                        SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+                        var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
+                        if (requiredFileConnection != null)
+                        {
+                            (requiredFileConnection as FilesIOLogic).AppendData(_addedDataLists, selectedTable);
+
+                            if (_databaseConnectionSuccess)
+                            {
+                                DatabaseIOLogic database = new DatabaseIOLogic();
+                                database.WriteData();
+                            }
+                        }
+                        else if (_databaseConnectionSuccess)
+                        {
+                            DatabaseIOLogic database = new DatabaseIOLogic();
+                            database.WriteData();
+                        }
+                        else
+                            MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else if (_databaseConnectionSuccess)
+                    {
+                        DatabaseIOLogic database = new DatabaseIOLogic();
+                        database.WriteData();
+                    }
+                    else
+                        MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
+//добавление в окне добавлений будет работать так, что при нажатии на кнопку сохранения, новый экземпляр будет добавляться в список, потом обновление отображения списка на экране, потом попытка сохранения в бд и файл по коду который написан выше с пометкой. нужно добавить свойство IsChecked для всех моделей данных, чтобы можно было привязать их к чекбоксам в юзерконтролах и реализовать для всех юзерконтролов интерфейс INotifyPropertyChanged, чтобы свойство изменялось при нажатии на чекбокс, после чего брать все выбранные и добавлять их id в бд, а имя в файл 
+//при нажатиии на кнопку сохранения при этом будет браться вся изменённая инфа и сохраняться так же в бд и файл
+//при нажатии на кнопку удаления будет удаляться выбранная строка и будет попытка удаления из бд и файла
+//прописать и обдумать сортировку и поиск
+//?что будет если попробовать добавить уже существующие данные?

@@ -96,6 +96,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Additional windows\AddManufacturerWindow.xaml.cs">
+      <DependentUpon>AddManufacturerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Additional windows\AddMedicationWindow.xaml.cs">
+      <DependentUpon>AddMedicationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Additional windows\AddPurchaseWindow.xaml.cs">
+      <DependentUpon>AddPurchaseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Additional windows\AddSaleWindow.xaml.cs">
+      <DependentUpon>AddSaleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Additional windows\AddWarehouseWindow.xaml.cs">
+      <DependentUpon>AddWarehouseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataProcessing\DataLists.cs" />
     <Compile Include="DataProcessing\FileConnectionsList.cs" />
     <Compile Include="Logic\DatabaseIOLogic.cs" />
@@ -109,6 +124,26 @@
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\WarehouseModel.cs" />
     <Compile Include="Services\FilesConnectionService.cs" />
+    <Page Include="Additional windows\AddManufacturerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Additional windows\AddMedicationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Additional windows\AddPurchaseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Additional windows\AddSaleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Additional windows\AddWarehouseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -151,10 +186,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Pharmacy.mdf">
+    <Content Include="Database\Pharmacy.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Pharmacy_log.ldf">
+    <Content Include="Database\Pharmacy_log.ldf">
       <DependentUpon>Pharmacy.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -170,6 +205,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Additional windows\User controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

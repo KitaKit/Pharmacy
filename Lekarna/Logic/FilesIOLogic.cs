@@ -129,6 +129,30 @@ namespace Pharmacy
         }
         public void AppendData(DataLists dataLists, SelectedTable selectedTable)
         {
+            switch (_selectedTable)
+            {
+                case SelectedTable.Medications:
+                    AppendDataToFile(dataLists.MedicationsData, new MedicationClassMap());
+                    break;
+                case SelectedTable.Warehouses:
+                    AppendDataToFile(dataLists.WarehousesData, new WarehouseClassMap());
+                    break;
+
+                case SelectedTable.Manufacturers:
+                    AppendDataToFile(dataLists.ManufacturersData, new ManufacturerClassMap());
+                    break;
+
+                case SelectedTable.Sales:
+                    AppendDataToFile(dataLists.SalesData, new SaleClassMap());
+                    break;
+
+                case SelectedTable.Purchases:
+                    AppendDataToFile(dataLists.PurchasesData, new PurchaseClassMap());
+                    break;
+            }
+        }
+        public void RewriteEditedData()
+        {
 
         }
         private void WriteDataToNewFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
@@ -138,6 +162,7 @@ namespace Pharmacy
             {
                 using (CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
+                    var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false, Delimiter = ";" };
                     csvWriter.Context.RegisterClassMap(classMap);
                     csvWriter.WriteRecords(dataList);
                 }
@@ -152,6 +177,7 @@ namespace Pharmacy
                 {
                     try
                     {
+                        var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false, Delimiter = ";" };
                         csvReader.Context.RegisterClassMap(classMap);
                         return csvReader.GetRecords<T>().ToList();
                     }
@@ -164,7 +190,19 @@ namespace Pharmacy
             }
         }
 
-        private void AppendDataToFile()
+        private void AppendDataToFile<T, TMap>(List<T> dataList, TMap classMap) where TMap: ClassMap<T>
+        {
+            using (StreamWriter writer = new StreamWriter(_path, true))
+            {
+                using (CsvWriter csvWriter = new CsvWriter(writer,CultureInfo.InvariantCulture))
+                {
+                    var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false, Delimiter = ";" };
+                    csvWriter.Context.RegisterClassMap(classMap);
+                    csvWriter.WriteRecords(dataList);
+                }
+            }
+        }
+        private void RewriteEditedDataTiFile()
         {
 
         }

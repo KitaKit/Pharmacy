@@ -28,14 +28,14 @@
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridMedicationsScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False">
+                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding MedicationsData}">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
                                 <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory"/>
                                 <DataGridTextColumn Header="Form" x:Name="dataGridMedicationsColumnForm"/>
@@ -62,7 +62,7 @@
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="*" />
                             </DataGrid.Columns>
@@ -80,12 +80,12 @@
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
                                 <DataGridTextColumn Header="License" Binding="{Binding License}"/>
                                 <DataGridTextColumn Header="Providers"/>
-                                <DataGridTextColumn Header="Purchase"/>
+                                <DataGridTextColumn Header="Last purchase date"/>
                                 <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -102,7 +102,7 @@
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
                                 <DataGridTextColumn Header="Count"/>
@@ -122,7 +122,7 @@
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
                                 <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
                                 <DataGridTextColumn Header="Cost" Binding="{Binding Cost}"/>
@@ -136,8 +136,7 @@
             </TabItem>
         </TabControl>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30">
-            <Button Content="Add" Width="70" Margin="3"/>
-            <Button Content="Edit" Width="70" Margin="3"/>
+            <Button x:Name="addButton" Content="Add" Width="70" Margin="3" Click="addButton_Click"/>
             <Button Content="Delete" Width="70" Margin="3"/>
         </StackPanel>
 

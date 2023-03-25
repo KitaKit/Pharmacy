@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pharmacy.mdf")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pharmacy_log.ldf")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/pharmacy.mdf")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/pharmacy_log.ldf")]
 
 
