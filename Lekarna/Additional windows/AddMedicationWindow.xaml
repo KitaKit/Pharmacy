@@ -1,11 +1,11 @@
-﻿<Window x:Name="addMedicationWindow" x:Class="Pharmacy.AddWindow"
+﻿<Window x:Name="addMedicationWindow" x:Class="Pharmacy.AddMedicationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pharmacy"
         mc:Ignorable="d"
-        Title="Add medication" Height="450" Width="800" ResizeMode="NoResize">
+        Title="Add medication" Height="490" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="85"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -57,5 +58,7 @@
 
         <Label Grid.Row="10" Grid.Column="0" Content="Description:"/>
         <TextBox Grid.Row="10" Grid.Column="1" Margin="5" TextWrapping="Wrap" AcceptsReturn="True"/>
+        
+        <Button x:Name="saveButton" Content="Save" Width="70" Height="25" Margin="3" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

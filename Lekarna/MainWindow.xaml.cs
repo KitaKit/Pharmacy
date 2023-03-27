@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.CodeDom;
 using System.Collections;
+using Pharmacy.Additional_windows;
 /*
 --------------------Список того, что работает прямо сейчас:--------------------
 
@@ -133,7 +134,30 @@ namespace Pharmacy
         }
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-
+            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+            switch (selectedTable)
+            {
+                case SelectedTable.Medications:
+                    AddMedicationWindow addMedicationWindow = new AddMedicationWindow();
+                    addMedicationWindow.ShowDialog();
+                    break;
+                case SelectedTable.Warehouses:
+                    AddWarehouseWindow addWarehouseWindow = new AddWarehouseWindow();
+                    addWarehouseWindow.ShowDialog();
+                    break;
+                case SelectedTable.Manufacturers:
+                    AddManufacturerWindow addManufacturerWindow = new AddManufacturerWindow();
+                    addManufacturerWindow.ShowDialog();
+                    break;
+                case SelectedTable.Sales:
+                    AddSaleWindow addSaleWindow = new AddSaleWindow();
+                    addSaleWindow.ShowDialog();
+                    break;
+                case SelectedTable.Purchases:
+                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow();
+                    addPurchaseWindow.ShowDialog();
+                    break;
+            }
         }
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
@@ -172,7 +196,7 @@ namespace Pharmacy
         }
         private void SaveAllChangedData() //доделать сохранение при изменении тоже, по сути сейчас это код для сохранения в окне с добавлением
         {
-            _addedDataLists.AddToDataList(_mainDataLists.MedicationsData[0], _addedDataLists.MedicationsData);
+            //_addedDataLists.AddToDataList(_mainDataLists.MedicationsData[0], _addedDataLists.MedicationsData);
             foreach (var checkerDataLists in typeof(DataLists).GetProperties())
             {
                 var changedDataList = checkerDataLists.GetValue(_addedDataLists) as IList;
@@ -215,7 +239,7 @@ namespace Pharmacy
     }
 }
 //добавление в окне добавлений будет работать так, что при нажатии на кнопку сохранения, новый экземпляр будет добавляться в список, потом обновление отображения списка на экране, потом попытка сохранения в бд и файл по коду который написан выше с пометкой. нужно добавить свойство IsChecked для всех моделей данных, чтобы можно было привязать их к чекбоксам в юзерконтролах и реализовать для всех юзерконтролов интерфейс INotifyPropertyChanged, чтобы свойство изменялось при нажатии на чекбокс, после чего брать все выбранные и добавлять их id в бд, а имя в файл 
-//при нажатиии на кнопку сохранения при этом будет браться вся изменённая инфа и сохраняться так же в бд и файл
+//при нажатиии на кнопку сохранения при этом будет браться вся изменённая (в основном окне) инфа и сохраняться так же в бд и файл (надо понять как проверять на то, что было изменение или нет, сейчас я знаю, что когда мы меняем инфу в DataGrid в строках, то оно сразу изменяется в списке, который привязан к этому DataGrid'у)
 //при нажатии на кнопку удаления будет удаляться выбранная строка и будет попытка удаления из бд и файла
 //прописать и обдумать сортировку и поиск
 //?что будет если попробовать добавить уже существующие данные?

@@ -5,15 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pharmacy.Additional_windows"
         mc:Ignorable="d"
-        Title="Add sale" Height="450" Width="800">
-    <Grid>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="54,37,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="113,41,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <DatePicker HorizontalAlignment="Left" Margin="113,79,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="54,79,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="54,116,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="113,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="54,158,0,0" VerticalAlignment="Top"/>
+        Title="Add sale" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <Label Grid.Row="0" Grid.Column="0" Content="Price:"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="5"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Date:"/>
+        <DatePicker Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Count:"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="5"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Medications:"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="5"/>
+
+        <Button x:Name="saveButton" Content="Save" Width="70" Height="25" Margin="3" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

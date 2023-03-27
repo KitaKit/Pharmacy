@@ -17,9 +17,9 @@ namespace Pharmacy
     /// <summary>
     /// Interaction logic for AddWindow.xaml
     /// </summary>
-    public partial class AddWindow : Window
+    public partial class AddMedicationWindow : Window
     {
-        public AddWindow()
+        public AddMedicationWindow()
         {
             InitializeComponent();
         }
