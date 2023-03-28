@@ -58,6 +58,13 @@ using Pharmacy.Additional_windows;
 */
 
 
+//------Сейчас в работе------//
+//*окна добавления новых данных (готовы не все поля, потому что нужно продумать логику выборки данных для отображения из других таблиц (моделей)) (написать добавление в бд)
+//*отображение данных из других таблиц (моделей) в связанных таблицах в окне
+//*редактирование данных прямо в DataGrid с последующим сохранением при нажатии на кнопку
+//*поиск и сортировка
+//*удаление данных
+
 //Здесь будет описана логика основных взаимодействий с окном программы и его содержимым
 
 //Tady bude popsána logika hlavních interakcí s oknem programu a jeho obsahem.
@@ -67,8 +74,7 @@ namespace Pharmacy
     public partial class MainWindow : Window
     {
         private DataLists _mainDataLists = new DataLists();
-        private DataLists _addedDataLists = new DataLists();
-        private bool _databaseConnectionSuccess = false;
+        //private DataLists _addedDataLists = new DataLists();
         public MainWindow()
         {
             InitializeComponent();
@@ -83,7 +89,7 @@ namespace Pharmacy
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
             database.ReadData(_mainDataLists);
-            _databaseConnectionSuccess = true;
+            DatabaseConnectionService.Connect();
 
             //тут мы вызываем метод для отображения данных на экран приложения
             //zde voláme metodu pro zobrazení dat na obrazovce aplikace
@@ -130,7 +136,7 @@ namespace Pharmacy
         }
         private void menuItemConnectToDatabase_Click(object sender, RoutedEventArgs e)
         {
-            _databaseConnectionSuccess = true;
+            DatabaseConnectionService.Connect();
         }
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
@@ -194,47 +200,47 @@ namespace Pharmacy
                     break;
             }
         }
-        private void SaveAllChangedData() //доделать сохранение при изменении тоже, по сути сейчас это код для сохранения в окне с добавлением
+        private void SaveAllChangedData()
         {
             //_addedDataLists.AddToDataList(_mainDataLists.MedicationsData[0], _addedDataLists.MedicationsData);
-            foreach (var checkerDataLists in typeof(DataLists).GetProperties())
-            {
-                var changedDataList = checkerDataLists.GetValue(_addedDataLists) as IList;
+            //foreach (var checkerDataLists in typeof(DataLists).GetProperties())
+            //{
+            //    var changedDataList = checkerDataLists.GetValue(_addedDataLists) as IList;
 
-                if (changedDataList != null && changedDataList.Count != 0)
-                {
-                    if (!FileConnectionsList.IsEmpty())
-                    {
+            //    if (changedDataList != null && changedDataList.Count != 0)
+            //    {
+            //        if (!FileConnectionsList.IsEmpty())
+            //        {
                         
-                        SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
-                        var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
-                        if (requiredFileConnection != null)
-                        {
-                            (requiredFileConnection as FilesIOLogic).AppendData(_addedDataLists, selectedTable);
+            //            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+            //            var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
+            //            if (requiredFileConnection != null)
+            //            {
+            //                (requiredFileConnection as FilesIOLogic).AppendData(_addedDataLists, selectedTable);
 
-                            if (_databaseConnectionSuccess)
-                            {
-                                DatabaseIOLogic database = new DatabaseIOLogic();
-                                database.WriteData();
-                            }
-                        }
-                        else if (_databaseConnectionSuccess)
-                        {
-                            DatabaseIOLogic database = new DatabaseIOLogic();
-                            database.WriteData();
-                        }
-                        else
-                            MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else if (_databaseConnectionSuccess)
-                    {
-                        DatabaseIOLogic database = new DatabaseIOLogic();
-                        database.WriteData();
-                    }
-                    else
-                        MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
+            //                if (_databaseConnectionSuccess)
+            //                {
+            //                    DatabaseIOLogic database = new DatabaseIOLogic();
+            //                    database.WriteData();
+            //                }
+            //            }
+            //            else if (_databaseConnectionSuccess)
+            //            {
+            //                DatabaseIOLogic database = new DatabaseIOLogic();
+            //                database.WriteData();
+            //            }
+            //            else
+            //                MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //        }
+            //        else if (_databaseConnectionSuccess)
+            //        {
+            //            DatabaseIOLogic database = new DatabaseIOLogic();
+            //            database.WriteData();
+            //        }
+            //        else
+            //            MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    }
+            //}
         }
     }
 }

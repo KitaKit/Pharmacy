@@ -23,5 +23,17 @@ namespace Pharmacy.Additional_windows
         {
             InitializeComponent();
         }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            // в начале будет проверка на валидность данных(в чате с ботом есть как примерно)
+
+            ManufacturerModel newManufacturer = new ManufacturerModel
+                (
+                 nameTextBox.Text, countryTextBox.Text,licenseTextBox.Text
+                );
+
+            DataSaveService.SaveNewData(newManufacturer, SelectedTable.Manufacturers);
+        }
     }
 }

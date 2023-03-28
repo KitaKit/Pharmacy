@@ -48,18 +48,20 @@ namespace Pharmacy
             }
         }
 
-        public SaleModel(int id, decimal price, DateTime date) 
+        public SaleModel(decimal price, DateTime date) 
         {
-            _id = id;
             Price = price;
             Date = date;
+        }
+        public SaleModel(int id, decimal price, DateTime date):this(price, date)
+        {
+            _id = id;
         }
     }
     public class SaleClassMap : ClassMap<SaleModel>
     {
         public SaleClassMap()
         {
-            Map(x => x.Id).Name("Id");
             Map(x => x.Price).Name("Price");
             Map(x => x.Date).Name("Date");
         }

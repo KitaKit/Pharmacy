@@ -10,15 +10,26 @@ namespace Pharmacy
     static public class DatabaseConnectionService//класс статический, чтобы не было возможности делать одновременно несколько подключений
                                                  // třída je statická, aby nebylo možné navázat více spojení najednou
     {
+        static private bool _isConnected = false;
+        static public bool IsConnected => _isConnected;
         static private readonly string _databasePath = Path.Combine(Environment.CurrentDirectory, "Pharmacy.mdf");
         //экземпляр класса для присваивания пути к файлу с базой данных
-       //proměnná třídy pro přiřazení cesty k databázovému souboru
+        //proměnná třídy pro přiřazení cesty k databázovému souboru
 
-        static private readonly SqlConnection _dbConnection = new SqlConnection($"Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename={_databasePath};Integrated Security = True"); //переменная класса для присваивания строки подключения к базе данных
+        static private SqlConnection _dbConnection = null; //переменная класса для присваивания строки подключения к базе данных
                             //proměnná třídy pro přiřazení řetězce pro připojení k databázi
         static public SqlConnection DbConnection => _dbConnection; //je to stejné jako:
         //{
         //    get { return _dbConnection; }
         //}
+        static public void Connect()
+        {
+            if (_dbConnection == null)
+            {
+               _dbConnection = new SqlConnection($"Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename={_databasePath};Integrated Security = True");
+               _isConnected = true;
+            }
+        }
+
     }
 }

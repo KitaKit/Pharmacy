@@ -123,6 +123,7 @@
     <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\WarehouseModel.cs" />
+    <Compile Include="Services\DataSaveService.cs" />
     <Compile Include="Services\FilesConnectionService.cs" />
     <Page Include="Additional windows\AddManufacturerWindow.xaml">
       <SubType>Designer</SubType>

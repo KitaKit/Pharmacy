@@ -83,9 +83,12 @@ namespace Pharmacy
             }
         }
 
-        public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate,decimal price)
+        public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate,decimal price) : this(title,availability,count,description,prescription,expirationDate,price)
         {
             _id = id;
+        }
+        public MedicationModel(string title, bool availability, int count, string description, bool prescription, DateTime expirationDate, decimal price)
+        {
             Title = title;
             _availability = availability;
             Count = count;
@@ -99,7 +102,6 @@ namespace Pharmacy
     {
         public MedicationClassMap() 
         {
-            Map(x => x.Id).Name("Id");
             Map(x => x.Title).Name("Title");
             Map(x => x.Availability).Name("Availability");
             Map(x => x.Count).Name("Count");

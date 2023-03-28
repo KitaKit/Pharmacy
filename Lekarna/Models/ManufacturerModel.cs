@@ -61,19 +61,21 @@ namespace Pharmacy
             }
         }
 
-        public ManufacturerModel(int id, string name, string country, string license)
+        public ManufacturerModel(string name, string country, string license)
         {
-            _id = id;
             Name = name;
             Country = country;
             License = license;
+        }
+        public ManufacturerModel(int id, string name, string country, string license):this(name,country,license)
+        {
+            _id = id;
         }
     }
     public class ManufacturerClassMap : ClassMap<ManufacturerModel>
     {
         public ManufacturerClassMap()
         {
-            Map(x => x.Id).Name("Id");
             Map(x => x.Name).Name("Name");
             Map(x => x.Country).Name("Country");
             Map(x => x.License).Name("License");

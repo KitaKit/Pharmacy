@@ -127,27 +127,27 @@ namespace Pharmacy
                 }
             }
         }
-        public void AppendData(DataLists dataLists, SelectedTable selectedTable)
+        public void AppendData<T>(T model, SelectedTable selectedTable)
         {
-            switch (_selectedTable)
+            switch (selectedTable)
             {
                 case SelectedTable.Medications:
-                    AppendDataToFile(dataLists.MedicationsData, new MedicationClassMap());
+                    AppendDataToFile(model as MedicationModel, new MedicationClassMap());
                     break;
                 case SelectedTable.Warehouses:
-                    AppendDataToFile(dataLists.WarehousesData, new WarehouseClassMap());
+                    AppendDataToFile(model as WarehouseModel, new WarehouseClassMap());
                     break;
 
                 case SelectedTable.Manufacturers:
-                    AppendDataToFile(dataLists.ManufacturersData, new ManufacturerClassMap());
+                    AppendDataToFile(model as ManufacturerModel, new ManufacturerClassMap());
                     break;
 
                 case SelectedTable.Sales:
-                    AppendDataToFile(dataLists.SalesData, new SaleClassMap());
+                    AppendDataToFile(model as SaleModel, new SaleClassMap());
                     break;
 
                 case SelectedTable.Purchases:
-                    AppendDataToFile(dataLists.PurchasesData, new PurchaseClassMap());
+                    AppendDataToFile(model as PurchaseModel, new PurchaseClassMap());
                     break;
             }
         }
@@ -190,7 +190,7 @@ namespace Pharmacy
             }
         }
 
-        private void AppendDataToFile<T, TMap>(List<T> dataList, TMap classMap) where TMap: ClassMap<T>
+        private void AppendDataToFile<T>(T model, ClassMap<T> classMap)
         {
             using (StreamWriter writer = new StreamWriter(_path, true))
             {
@@ -198,7 +198,7 @@ namespace Pharmacy
                 {
                     var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false, Delimiter = ";" };
                     csvWriter.Context.RegisterClassMap(classMap);
-                    csvWriter.WriteRecords(dataList);
+                    csvWriter.WriteRecord(model);
                 }
             }
         }

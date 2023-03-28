@@ -23,5 +23,14 @@ namespace Pharmacy.Additional_windows
         {
             InitializeComponent();
         }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            PurchaseModel newPurchase = new PurchaseModel
+                (
+                deliveryDateDatePicker.SelectedDate.Value, int.Parse(countTextBox.Text), decimal.Parse(costTextBox.Text)
+                );
+            DataSaveService.SaveNewData(newPurchase, SelectedTable.Purchases);
+        }
     }
 }

@@ -36,17 +36,21 @@ namespace Pharmacy
             }
         }
 
-        public WarehouseModel(int id, string name)
+        public WarehouseModel(string name)
         {
-            _id = id;
             Name = name;
         }
+        public WarehouseModel(int id, string name):this(name)
+        {
+            _id = id;
+        }
+
+
     }
     public class WarehouseClassMap : ClassMap<WarehouseModel>
     {
         public WarehouseClassMap()
         {
-            Map(x => x.Id).Name("Id");
             Map(x => x.Name).Name("Name");
         }
     }

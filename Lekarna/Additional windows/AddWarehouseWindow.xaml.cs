@@ -23,5 +23,12 @@ namespace Pharmacy.Additional_windows
         {
             InitializeComponent();
         }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            WarehouseModel newWarehouse = new WarehouseModel(nameTextBox.Text);
+
+            DataSaveService.SaveNewData(newWarehouse, SelectedTable.Warehouses);
+        }
     }
 }

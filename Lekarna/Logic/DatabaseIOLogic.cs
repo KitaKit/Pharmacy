@@ -22,6 +22,7 @@ namespace Pharmacy
         public void ReadData(DataLists dataLists) //главный метод для считывания данных из базы, который мы вызываем у экземпляра класса DatabaseLogic
                                // hlavní metoda pro čtení dat z databáze, kterou voláme na instanci DatabaseLogic
         {
+            DatabaseConnectionService.Connect();
             using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
             {
                 try { pharmacyConnection.Open(); }
