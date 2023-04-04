@@ -26,11 +26,12 @@ namespace Pharmacy.Additional_windows
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            PurchaseModel newPurchase = new PurchaseModel
-                (
-                deliveryDateDatePicker.SelectedDate.Value, int.Parse(countTextBox.Text), decimal.Parse(costTextBox.Text)
-                );
-            DataSaveService.SaveNewData(newPurchase, SelectedTable.Purchases);
+            //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
+            //PurchaseModel newPurchase = new PurchaseModel
+            //    (
+            //    deliveryDateDatePicker.SelectedDate.Value, int.Parse(countTextBox.Text), decimal.Parse(costTextBox.Text)
+            //    );
+            //DataSaveService.SaveNewData(newPurchase, SelectedTable.Purchases);
         }
     }
 }

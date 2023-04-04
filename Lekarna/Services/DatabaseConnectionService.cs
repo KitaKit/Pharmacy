@@ -12,7 +12,7 @@ namespace Pharmacy
     {
         static private bool _isConnected = false;
         static public bool IsConnected => _isConnected;
-        static private readonly string _databasePath = Path.Combine(Environment.CurrentDirectory, "Pharmacy.mdf");
+        static private readonly string _databasePath = Path.Combine(Environment.CurrentDirectory, "Database\\Pharmacy.mdf");
         //экземпляр класса для присваивания пути к файлу с базой данных
         //proměnná třídy pro přiřazení cesty k databázovému souboru
 

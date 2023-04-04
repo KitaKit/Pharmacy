@@ -1,10 +1,5 @@
 ﻿using CsvHelper.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 //Здесь объектно описана таблица Medications из БД
 
@@ -22,6 +17,10 @@ namespace Pharmacy
         private bool _prescription;
         private DateTime _expirationDate;
         private decimal _price;
+        private string _warehouse;
+        private string _medicationForm;
+        private string _category;
+        private string _manufacturer;
 
         public MedicationModel() { }
 
@@ -82,12 +81,16 @@ namespace Pharmacy
                     _price = value;
             }
         }
+        public string Warehouse { get { return _warehouse; } set { _warehouse = value; } }
+        public string MedicationForm { get { return _medicationForm; } set { _medicationForm = value; } }
+        public string Category { get { return _category; } set { _category = value; } }
+        public string Manufacturer { get { return _manufacturer; } set { _manufacturer = value; } }
 
-        public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate,decimal price) : this(title,availability,count,description,prescription,expirationDate,price)
+        public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate, decimal price,  string warehouse, string medicationForm, string manufacturer, string category) : this(title,availability,count,description,prescription,expirationDate,price, warehouse, medicationForm, manufacturer, category)
         {
             _id = id;
         }
-        public MedicationModel(string title, bool availability, int count, string description, bool prescription, DateTime expirationDate, decimal price)
+        public MedicationModel(string title, bool availability, int count, string description, bool prescription, DateTime expirationDate, decimal price, string warehouse, string medicationForm, string manufacturer, string category)
         {
             Title = title;
             _availability = availability;
@@ -96,12 +99,17 @@ namespace Pharmacy
             Price = price;
             ExpirationDate = expirationDate;
             _prescription = prescription;
+            _warehouse = warehouse;
+            _manufacturer = manufacturer;
+            _category = category;
+            _medicationForm = medicationForm;
         }
     }
     public class MedicationClassMap : ClassMap<MedicationModel>
     {
         public MedicationClassMap() 
         {
+            Map(x => x.Id).Name("Id");
             Map(x => x.Title).Name("Title");
             Map(x => x.Availability).Name("Availability");
             Map(x => x.Count).Name("Count");
@@ -109,6 +117,10 @@ namespace Pharmacy
             Map(x => x.ExpirationDate).Name("ExpirationDate");
             Map(x => x.Price).Name("Price");
             Map(x => x.Description).Name("Description");
+            Map(x => x.Category).Name("Category");
+            Map(x => x.MedicationForm).Name("Form");
+            Map(x => x.Warehouse).Name("Warehouse");
+            Map(x => x.Manufacturer).Name("Manufacturer");
         }
     }
 }

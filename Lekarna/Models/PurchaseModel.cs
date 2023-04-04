@@ -1,9 +1,5 @@
 ﻿using CsvHelper.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Здесь объектно описана таблица Purchases из БД
 
@@ -17,6 +13,9 @@ namespace Pharmacy
         private DateTime _deliveryDate;
         private int _count;
         private decimal _cost;
+        private string _medication;
+        private string _manufacturer;
+        private string _provider;
         public PurchaseModel() { }
         public int Id
         {
@@ -55,14 +54,19 @@ namespace Pharmacy
                     _cost = value;
             }
         }
-
-        public PurchaseModel(DateTime deliveryDate, int count, decimal cost)
+        public string Medication { get { return _medication; } set { _medication = value; } }
+        public string Manufacturer { get { return _manufacturer; } set { _manufacturer = value; } }
+        public string Provider { get { return _provider; } set { _provider = value; } }
+        public PurchaseModel(DateTime deliveryDate, int count, decimal cost, string medication, string manufacturer, string provider)
         {
             DeliveryDate = deliveryDate;
             Count = count;
             Cost = cost;
+            Medication = medication;
+            Manufacturer = manufacturer;
+            Provider = provider;
         }
-        public PurchaseModel(int id, DateTime deliveryDate, int count, decimal cost) :this(deliveryDate, count, cost)
+        public PurchaseModel(int id, DateTime deliveryDate, int count, decimal cost, string medication, string manufacturer, string provider) :this(deliveryDate, count, cost, medication, manufacturer, provider)
         {
             _id = id;
         }
@@ -71,9 +75,13 @@ namespace Pharmacy
     {
         public PurchaseClassMap()
         {
+            Map(x => x.Id).Name("Id");
             Map(x => x.DeliveryDate).Name("DeliveryDate");
             Map(x => x.Count).Name("Count");
             Map(x => x.Cost).Name("Cost");
+            Map(x => x.Medication).Name("Medications");
+            Map(x => x.Provider).Name("Provider");
+            Map(x => x.Manufacturer).Name("Manufacturer");
         }
     }
 }

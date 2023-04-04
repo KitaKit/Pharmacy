@@ -26,11 +26,12 @@ namespace Pharmacy.Additional_windows
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            SaleModel newSale = new SaleModel
-                (
-                decimal.Parse(priceTextBox.Text), dateDatePicker.SelectedDate.Value
-                );
-            DataSaveService.SaveNewData(newSale, SelectedTable.Sales);
+            //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
+            //SaleModel newSale = new SaleModel
+            //    (
+            //    decimal.Parse(priceTextBox.Text), dateDatePicker.SelectedDate.Value
+            //    );
+            //DataSaveService.SaveNewData(newSale, SelectedTable.Sales);
         }
     }
 }

@@ -29,12 +29,12 @@ namespace Pharmacy
         {
             //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
 
-            MedicationModel newMedication = new MedicationModel
-                (
-                titleTextBox.Text, availabilityCheckBox.IsChecked.GetValueOrDefault(), int.Parse(countTextBox.Text), descriptionTextBox.Text, prescriptionCheckBox.IsChecked.GetValueOrDefault(), expirationDateDatePicker.SelectedDate.Value, decimal.Parse(priceTextBox.Text)
-                ) ;
+            //MedicationModel newMedication = new MedicationModel
+            //    (
+            //    titleTextBox.Text, availabilityCheckBox.IsChecked.GetValueOrDefault(), int.Parse(countTextBox.Text), descriptionTextBox.Text, prescriptionCheckBox.IsChecked.GetValueOrDefault(), expirationDateDatePicker.SelectedDate.Value, decimal.Parse(priceTextBox.Text)
+            //    ) ;
 
-            DataSaveService.SaveNewData(newMedication, SelectedTable.Medications);
+            //DataSaveService.SaveNewData(newMedication, SelectedTable.Medications);
         }
     }
 }

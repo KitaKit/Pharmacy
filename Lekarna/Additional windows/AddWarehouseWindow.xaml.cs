@@ -26,9 +26,10 @@ namespace Pharmacy.Additional_windows
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            WarehouseModel newWarehouse = new WarehouseModel(nameTextBox.Text);
+            //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
+            //WarehouseModel newWarehouse = new WarehouseModel(nameTextBox.Text);
 
-            DataSaveService.SaveNewData(newWarehouse, SelectedTable.Warehouses);
+            //DataSaveService.SaveNewData(newWarehouse, SelectedTable.Warehouses);
         }
     }
 }

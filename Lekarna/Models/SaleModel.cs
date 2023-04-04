@@ -16,6 +16,8 @@ namespace Pharmacy
         private int _id;
         private decimal _price;
         private DateTime _date;
+        private int _count;
+        private string _medications;
 
         public SaleModel() { }
 
@@ -47,13 +49,17 @@ namespace Pharmacy
                     _date = value;
             }
         }
+        public int Count { get { return _count; } set { _count = value; } }
+        public string Medications { get { return _medications; } set { _medications = value; } }
 
-        public SaleModel(decimal price, DateTime date) 
+        public SaleModel(decimal price, DateTime date, int count, string medications)
         {
             Price = price;
             Date = date;
+            Count = count;
+            Medications = medications;
         }
-        public SaleModel(int id, decimal price, DateTime date):this(price, date)
+        public SaleModel(int id, decimal price, DateTime date, int count, string medications):this(price, date, count, medications)
         {
             _id = id;
         }
@@ -62,8 +68,10 @@ namespace Pharmacy
     {
         public SaleClassMap()
         {
+            Map(x => x.Id).Name("Id");
             Map(x => x.Price).Name("Price");
             Map(x => x.Date).Name("Date");
+            Map(x => x.Medications).Name("Medications");
         }
     }
 }

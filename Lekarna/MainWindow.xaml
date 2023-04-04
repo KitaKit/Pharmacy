@@ -37,15 +37,15 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
-                                <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory"/>
-                                <DataGridTextColumn Header="Form" x:Name="dataGridMedicationsColumnForm"/>
+                                <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory" Binding="{Binding Category}"/>
+                                <DataGridTextColumn Header="Form" x:Name="dataGridMedicationsColumnForm" Binding="{Binding MedicationForm}"/>
                                 <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability" Binding="{Binding Availability}"/>
                                 <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount" Binding="{Binding Count}"/>
-                                <DataGridTextColumn Header="Warehouse" x:Name="dataGridMedicationsColumnWarehouse"/>
+                                <DataGridTextColumn Header="Warehouse" x:Name="dataGridMedicationsColumnWarehouse" Binding="{Binding Warehouse}"/>
                                 <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription" Binding="{Binding Prescription}"/>
                                 <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate" Binding="{Binding ExpirationDate}"/>
                                 <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice" Binding="{Binding Price}"/>
-                                <DataGridTextColumn Header="Manufacturer" x:Name="dataGridMedicationsColumnManufacturer"/>
+                                <DataGridTextColumn Header="Manufacturer" x:Name="dataGridMedicationsColumnManufacturer" Binding="{Binding Manufacturer}"/>
                                 <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -64,7 +64,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                                <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="*" />
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
@@ -84,9 +84,9 @@
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
                                 <DataGridTextColumn Header="License" Binding="{Binding License}"/>
-                                <DataGridTextColumn Header="Providers"/>
-                                <DataGridTextColumn Header="Last purchase date"/>
-                                <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="*"/>
+                                <DataGridTextColumn Header="Providers" Binding="{Binding Providers}"/>
+                                <DataGridTextColumn Header="Last purchase date" Binding="{Binding LastPurchaseDate}"/>
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
@@ -105,8 +105,8 @@
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                                <DataGridTextColumn Header="Count"/>
-                                <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="*"/>
+                                <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
@@ -126,9 +126,9 @@
                                 <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
                                 <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
                                 <DataGridTextColumn Header="Cost" Binding="{Binding Cost}"/>
-                                <DataGridTextColumn Header="Medications" ElementStyle="{StaticResource WrapText}" Width="250"/>
-                                <DataGridTextColumn Header="Provider"/>
-                                <DataGridTextColumn Header="Manufacturers" ElementStyle="{StaticResource WrapText}" Width="*" />
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medication}" ElementStyle="{StaticResource WrapText}" Width="250"/>
+                                <DataGridTextColumn Header="Provider" Binding="{Binding Provider}"/>
+                                <DataGridTextColumn Header="Manufacturers" Binding="{Binding Manufacturer}" ElementStyle="{StaticResource WrapText}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
