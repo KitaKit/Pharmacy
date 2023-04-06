@@ -20,7 +20,6 @@ namespace Pharmacy
         private string _name;
         private string _country;
         private string _license;
-        private string _medications;
 
         public ManufacturerModel() { }
 
@@ -61,16 +60,13 @@ namespace Pharmacy
                     _license = value;
             }
         }
-        public string Medications { get { return _medications; } set { _medications = value; } }
-
-        public ManufacturerModel(string name, string country, string license, string medications)
+        public ManufacturerModel(string name, string country, string license)
         {
             Name = name;
             Country = country;
             License = license;
-            Medications = medications;
         }
-        public ManufacturerModel(int id, string name, string country, string license, string medications):this(name,country,license, medications)
+        public ManufacturerModel(int id, string name, string country, string license):this(name,country,license)
         {
             _id = id;
         }
@@ -83,7 +79,6 @@ namespace Pharmacy
             Map(x => x.Name).Name("Name");
             Map(x => x.Country).Name("Country");
             Map(x => x.License).Name("License");
-            Map(x => x.Medications).Name("Medications");
         }
     }
 }

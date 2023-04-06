@@ -28,10 +28,10 @@ namespace Pharmacy.Additional_windows
         {
             // в начале будет проверка на валидность данных(в чате с ботом есть как примерно)
 
-            ManufacturerModel newManufacturer = new ManufacturerModel();
-            newManufacturer.Name = nameTextBox.Text;
-            newManufacturer.Country = countryTextBox.Text;
-            newManufacturer.License = licenseTextBox.Text;
+            ManufacturerModel newManufacturer = new ManufacturerModel
+                (
+                DataLists.ManufacturersData.Max(x => x.Id) + 1, nameTextBox.Text, countryTextBox.Text, licenseTextBox.Text
+                );
 
             DataSave.SaveNewData(newManufacturer, SelectedTable.Manufacturers);
         }

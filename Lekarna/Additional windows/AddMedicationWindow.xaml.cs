@@ -28,24 +28,12 @@ namespace Pharmacy
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
-
-            //MedicationModel newMedication = new MedicationModel
-            //    (
-            //    titleTextBox.Text, availabilityCheckBox.IsChecked.GetValueOrDefault(), int.Parse(countTextBox.Text), descriptionTextBox.Text, prescriptionCheckBox.IsChecked.GetValueOrDefault(), expirationDateDatePicker.SelectedDate.Value, decimal.Parse(priceTextBox.Text)
-            //    ) ;
             
-            MedicationModel newMedication = new MedicationModel();
-            newMedication.Title = titleTextBox.Text;
-            newMedication.Category = categoryComboBox.SelectedValue.ToString();
-            newMedication.Form = formComboBox.SelectedValue.ToString();
-            newMedication.Availability = (bool)availabilityCheckBox.IsChecked;
-            newMedication.Count = int.Parse(countTextBox.Text);
-            newMedication.Warehouse = warehouseComboBox.SelectedValue.ToString();
-            newMedication.Prescription = (bool)prescriptionCheckBox.IsChecked;
-            newMedication.ExpirationDate = (DateTime)expirationDateDatePicker.SelectedDate;
-            newMedication.Price = decimal.Parse(priceTextBox.Text);
-            newMedication.Manufacturer = manufacturerComboBox.SelectedValue.ToString();
-            newMedication.Description = descriptionTextBox.Text;
+            MedicationModel newMedication = new MedicationModel
+                (
+                DataLists.MedicationsData.Max(x => x.Id) + 1, titleTextBox.Text, (bool)availabilityCheckBox.IsChecked, int.Parse(countTextBox.Text), descriptionTextBox.Text, (bool)prescriptionCheckBox.IsChecked, (DateTime)expirationDateDatePicker.SelectedDate, decimal.Parse(priceTextBox.Text), warehouseComboBox.SelectedValue.ToString(), formComboBox.SelectedValue.ToString(), manufacturerComboBox.SelectedValue.ToString(), categoryComboBox.SelectedValue.ToString()
+                );
+
             DataSave.SaveNewData(newMedication, SelectedTable.Medications);
         }
 

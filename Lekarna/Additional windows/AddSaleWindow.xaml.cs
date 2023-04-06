@@ -28,15 +28,18 @@ namespace Pharmacy.Additional_windows
         {
             //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
 
-            SaleModel newSale = new SaleModel();
-            newSale.Price = decimal.Parse(priceTextBox.Text);
-            newSale.Date = (DateTime)dateDatePicker.SelectedDate;
-            foreach(var item in medicationsWrapPanel.Children)
+            string checkedMedications = string.Empty;
+            foreach (var item in medicationsWrapPanel.Children)
             {
                 if (item is CheckBox && (item as CheckBox).IsChecked == true)
-                    newSale.Medications = string.Concat((item as CheckBox).Content.ToString(), ", ");
+                    checkedMedications = string.Concat((item as CheckBox).Content.ToString(), ", ");
             }
-            newSale.Id = DataLists.SalesData.Max(x=>x.Id) + 1;
+
+            SaleModel newSale = new SaleModel
+                (
+                DataLists.SalesData.Max(x => x.Id) + 1, decimal.Parse(priceTextBox.Text), (DateTime)dateDatePicker.SelectedDate, checkedMedications
+                );
+
             DataSave.SaveNewData(newSale, SelectedTable.Sales);
         }
 
@@ -48,6 +51,7 @@ namespace Pharmacy.Additional_windows
                 checkBox.Content = row.Title;
                 checkBox.Margin = new Thickness(1, 1, 1, 1);
                 medicationsWrapPanel.Children.Add(checkBox);
+
                 TextBox textBox = new TextBox();
                 textBox.Width = 30;
                 textBox.Margin = new Thickness(1, 1, 5, 1);

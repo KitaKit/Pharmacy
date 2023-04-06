@@ -59,7 +59,6 @@ using Pharmacy.Additional_windows;
 
 
 //------Сейчас в работе------//
-//*окна добавления новых данных (готовы не все поля, потому что нужно продумать логику выборки данных для отображения из других таблиц (моделей)) (написать добавление в бд)
 //*редактирование данных прямо в DataGrid с последующим сохранением при нажатии на кнопку
 //*поиск и сортировка
 //*удаление данных
@@ -82,14 +81,10 @@ namespace Pharmacy
 
         }
 
-        private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e) //при нажатии на пункт меню "Load from DataBase" (Menu слева сверху) вызывается данный метод и происходит подключение и считывание данных из базы данных с помощью класса DatabaseLogic и метода LoadData()
-                                                                                      // Kliknutím na položku menu "Load from DataBase" (Menu vlevo nahoře) se vyvolá tato metoda a připojí se a načte data z databáze pomocí třídy DatabaseLogic a metody LoadData()
+        private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
             database.ReadData();
-
-            //тут мы вызываем метод для отображения данных на экран приложения
-            //zde voláme metodu pro zobrazení dat na obrazovce aplikace
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
@@ -108,24 +103,15 @@ namespace Pharmacy
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-                SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
-                //var selectedDataList = ((((((((mainTabControl.SelectedItem) as TabItem).Content) as Grid).Children)[0] as ScrollViewer).Content) as DataGrid).ItemsSource;
-                FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
-                if (file.Path != null)
-                {
-                    file.WriteDataToNew();
-                    FileConnectionsList.Add(file);
-                }
-                else
-                    return;
-            //}
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("No data was load to selected table!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    return;
-            //}
+            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+            FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
+            if (file.Path != null)
+            {
+                file.WriteDataToNew();
+                FileConnectionsList.Add(file);
+            }
+            else
+                return;
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -210,7 +196,7 @@ namespace Pharmacy
         }
     }
 }
-//добавление в окне добавлений будет работать так, что при нажатии на кнопку сохранения, новый экземпляр будет добавляться в список, потом обновление отображения списка на экране, потом попытка сохранения в бд и файл по коду который написан выше с пометкой. нужно добавить свойство IsChecked для всех моделей данных, чтобы можно было привязать их к чекбоксам в юзерконтролах и реализовать для всех юзерконтролов интерфейс INotifyPropertyChanged, чтобы свойство изменялось при нажатии на чекбокс, после чего брать все выбранные и добавлять их id в бд, а имя в файл 
+//добавление в окне добавлений будет работать так, что при нажатии на кнопку сохранения, новый экземпляр будет добавляться в список, потом обновление отображения списка на экране, потом попытка сохранения в бд и файл по коду который написан выше с пометкой. 
 //при нажатиии на кнопку сохранения при этом будет браться вся изменённая (в основном окне) инфа и сохраняться так же в бд и файл (надо понять как проверять на то, что было изменение или нет, сейчас я знаю, что когда мы меняем инфу в DataGrid в строках, то оно сразу изменяется в списке, который привязан к этому DataGrid'у)
 //при нажатии на кнопку удаления будет удаляться выбранная строка и будет попытка удаления из бд и файла
 //прописать и обдумать сортировку и поиск

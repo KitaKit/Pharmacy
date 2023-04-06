@@ -16,6 +16,7 @@ namespace Pharmacy
         private static List<PurchaseModel> _purchasesData = new List<PurchaseModel>();
         private static List<CategoryModel> _categoriesData = new List<CategoryModel>();
         private static List<MedicationFormModel> _medicationFormsData = new List<MedicationFormModel>();
+        private static List<ProviderModel> _providersData = new List<ProviderModel>();
 
         public static List<MedicationModel> MedicationsData { get { return _medicationsData; } set { _medicationsData = value; } }
         public static List<WarehouseModel> WarehousesData { get { return _warehousesData; } set { _warehousesData = value; } }
@@ -24,6 +25,7 @@ namespace Pharmacy
         public static List<PurchaseModel> PurchasesData { get { return _purchasesData; } set { _purchasesData = value; } }
         public static List<CategoryModel> CategoriesData { get { return _categoriesData; } set { _categoriesData = value; } }
         public static List<MedicationFormModel>MedicationFormsData { get { return _medicationFormsData; } set { _medicationFormsData = value; } }
+        public static List<ProviderModel> ProvidersData { get { return _providersData; } set { _providersData = value; } }
 
         static public void AddToDataList <T>(T data, List<T> dataList)
         {

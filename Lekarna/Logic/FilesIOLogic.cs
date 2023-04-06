@@ -19,7 +19,7 @@ using CsvHelper.Configuration;
 
 namespace Pharmacy
 {
-    public enum SelectedTable : int
+    public enum SelectedTable
     {
         Medications,
         Warehouses,

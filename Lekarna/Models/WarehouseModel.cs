@@ -15,7 +15,6 @@ namespace Pharmacy
     {
         private int _id;
         private string _name;
-        private string _medications;
         public WarehouseModel() { }
         public int Id
         {
@@ -27,28 +26,24 @@ namespace Pharmacy
                 _id = value;
             }
         }
-        public string Name 
+        public string Name
         {
             get { return _name; }
-            set 
+            set
             {
                 if (_name != value && !(string.IsNullOrEmpty(value)))
                     _name = value;
             }
         }
-        public string Medications { get { return _medications;} set { _medications = value; } }
 
-        public WarehouseModel(string name, string medications)
+        public WarehouseModel(string name)
         {
             Name = name;
-            _medications = medications;
         }
-        public WarehouseModel(int id, string name, string medications):this(name, medications)
+        public WarehouseModel(int id, string name):this(name)
         {
             _id = id;
         }
-
-
     }
     public class WarehouseClassMap : ClassMap<WarehouseModel>
     {
@@ -56,7 +51,6 @@ namespace Pharmacy
         {
             Map(x => x.Id).Name("Id");
             Map(x => x.Name).Name("Name");
-            Map(x => x.Medications).Name("Medications");
         }
     }
 }

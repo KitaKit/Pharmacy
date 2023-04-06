@@ -126,6 +126,9 @@
     <Compile Include="Models\WarehouseModel.cs" />
     <Compile Include="DataProcessing\DataSave.cs" />
     <Compile Include="Services\FilesConnectionService.cs" />
+    <Compile Include="Validation rules\CheckedBoxesValidation.cs" />
+    <Compile Include="Validation rules\LicenseValidation.cs" />
+    <Compile Include="Validation rules\NumbersValidation.cs" />
     <Page Include="Additional windows\AddManufacturerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

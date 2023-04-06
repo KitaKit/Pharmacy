@@ -6,11 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-//Здесь будет описано подключение к CSV файлу
-//Путь к файлу берётся из диалогового окна открытия файла Windows
-
-//Tady bude popsáno připojení k souboru CSV
-//Cesta k souboru bude převzata z dialogového okna otevření souboru systému Windows.
 
 namespace Pharmacy
 {

@@ -27,20 +27,19 @@ namespace Pharmacy.Additional_windows
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
-            //PurchaseModel newPurchase = new PurchaseModel
-            //    (
-            //    deliveryDateDatePicker.SelectedDate.Value, int.Parse(countTextBox.Text), decimal.Parse(costTextBox.Text)
-            //    );
-            PurchaseModel newPurchase = new PurchaseModel();
-            newPurchase.DeliveryDate = (DateTime)deliveryDateDatePicker.SelectedDate;
-            newPurchase.Cost = decimal.Parse (costTextBox.Text);
-            foreach(var item in medicationsWrapPanel.Children)
+
+            string checkedMedications = string.Empty;
+            foreach (var item in medicationsWrapPanel.Children)
             {
                 if (item is CheckBox && (item as CheckBox).IsChecked == true)
-                    newPurchase.Medications = string.Concat((item as CheckBox).Content.ToString(), ", ");
+                    checkedMedications = string.Concat((item as CheckBox).Content.ToString(), ", ");
             }
-            newPurchase.Provider = providerComboBox.SelectedValue.ToString();
-            newPurchase.Id = DataLists.PurchasesData.Max(x => x.Id) + 1;
+
+            PurchaseModel newPurchase = new PurchaseModel
+                (
+                DataLists.PurchasesData.Max(x => x.Id) + 1, (DateTime)deliveryDateDatePicker.SelectedDate, decimal.Parse(costTextBox.Text), providerComboBox.SelectedValue.ToString(), checkedMedications
+                );
+
             DataSave.SaveNewData(newPurchase, SelectedTable.Purchases);
         }
 
@@ -52,6 +51,7 @@ namespace Pharmacy.Additional_windows
                 checkBox.Content = row.Title;
                 checkBox.Margin = new Thickness(1, 1, 1, 1);
                 medicationsWrapPanel.Children.Add(checkBox);
+
                 TextBox textBox = new TextBox();
                 textBox.Width = 30;
                 textBox.Margin = new Thickness(1, 1, 5, 1);
