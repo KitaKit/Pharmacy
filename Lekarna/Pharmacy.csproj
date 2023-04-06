@@ -112,6 +112,7 @@
       <DependentUpon>AddWarehouseWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataProcessing\DataLists.cs" />
+    <Compile Include="DataProcessing\DataShow.cs" />
     <Compile Include="DataProcessing\FileConnectionsList.cs" />
     <Compile Include="Logic\DatabaseIOLogic.cs" />
     <Compile Include="Logic\FilesIOLogic.cs" />
@@ -123,7 +124,7 @@
     <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\WarehouseModel.cs" />
-    <Compile Include="Services\DataSaveService.cs" />
+    <Compile Include="DataProcessing\DataSave.cs" />
     <Compile Include="Services\FilesConnectionService.cs" />
     <Page Include="Additional windows\AddManufacturerWindow.xaml">
       <SubType>Designer</SubType>
@@ -187,12 +188,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\Pharmacy.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Database\Pharmacy.mdf" />
     <Content Include="Database\Pharmacy_log.ldf">
       <DependentUpon>Pharmacy.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -207,8 +205,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Additional windows\User controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

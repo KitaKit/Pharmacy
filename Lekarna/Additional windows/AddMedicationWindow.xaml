@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pharmacy"
         mc:Ignorable="d"
-        Title="Add medication" Height="490" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Add medication" Height="490" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Loaded="addMedicationWindow_Loaded">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,6 +19,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="85"/>
+            <RowDefinition Height="Auto"/>
+            
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>

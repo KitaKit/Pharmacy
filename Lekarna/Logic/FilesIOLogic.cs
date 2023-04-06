@@ -21,12 +21,12 @@ namespace Pharmacy
 {
     public enum SelectedTable : int
     {
-        Medications = 0,
-        Warehouses = 1,
-        Manufacturers = 2,
-        Sales = 3,
-        Purchases = 4, 
-        All = 5
+        Medications,
+        Warehouses,
+        Manufacturers,
+        Sales,
+        Purchases, 
+        All
     }
     public class FilesIOLogic
     {
@@ -49,7 +49,7 @@ namespace Pharmacy
             _selectedTable = selectedTable;
         }
 
-        public void ReadData(DataLists dataLists)
+        public void ReadData()
         {
             MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to load data from {_path} to {_selectedTable}", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -57,28 +57,28 @@ namespace Pharmacy
                 switch (_selectedTable)
                 {
                     case SelectedTable.Medications:
-                        dataLists.MedicationsData = GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap());
+                        DataLists.MedicationsData = GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap());
                         break;
 
                     case SelectedTable.Warehouses:
-                        dataLists.WarehousesData = GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap());
+                        DataLists.WarehousesData = GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap());
                         break;
 
                     case SelectedTable.Manufacturers:
-                        dataLists.ManufacturersData = GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap());
+                        DataLists.ManufacturersData = GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap());
                         break;
 
                     case SelectedTable.Sales:
-                        dataLists.SalesData = GetDataFromFile(new List<SaleModel>(), new SaleClassMap());
+                        DataLists.SalesData = GetDataFromFile(new List<SaleModel>(), new SaleClassMap());
                         break;
 
                     case SelectedTable.Purchases:
-                        dataLists.PurchasesData = GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap());
+                        DataLists.PurchasesData = GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap());
                         break;
                 }
             }
         }
-        public void WriteDataToNew(DataLists dataLists)
+        public void WriteDataToNew()
         {
             MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to save data from {_selectedTable} to {_path}", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -86,41 +86,41 @@ namespace Pharmacy
                 switch (_selectedTable)
                 {
                     case SelectedTable.Medications:
-                        if (!dataLists.IsEmpty(dataLists.MedicationsData))
+                        if (!DataLists.IsEmpty(DataLists.MedicationsData))
                         {
-                            WriteDataToNewFile(dataLists.MedicationsData, new MedicationClassMap());
+                            WriteDataToNewFile(DataLists.MedicationsData, new MedicationClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Warehouses:
-                        if (!dataLists.IsEmpty(dataLists.WarehousesData))
+                        if (!DataLists.IsEmpty(DataLists.WarehousesData))
                         {
-                            WriteDataToNewFile(dataLists.WarehousesData, new WarehouseClassMap());
+                            WriteDataToNewFile(DataLists.WarehousesData, new WarehouseClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Manufacturers:
-                        if (!dataLists.IsEmpty(dataLists.ManufacturersData))
+                        if (!DataLists.IsEmpty(DataLists.ManufacturersData))
                         {
-                            WriteDataToNewFile(dataLists.ManufacturersData, new ManufacturerClassMap());
+                            WriteDataToNewFile(DataLists.ManufacturersData, new ManufacturerClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Sales:
-                        if (!dataLists.IsEmpty(dataLists.SalesData))
+                        if (!DataLists.IsEmpty(DataLists.SalesData))
                         {
-                            WriteDataToNewFile(dataLists.SalesData, new SaleClassMap());
+                            WriteDataToNewFile(DataLists.SalesData, new SaleClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Purchases:
-                        if (!dataLists.IsEmpty(dataLists.PurchasesData))
+                        if (DataLists.IsEmpty(DataLists.PurchasesData))
                         {
-                            WriteDataToNewFile(dataLists.PurchasesData, new PurchaseClassMap());
+                            WriteDataToNewFile(DataLists.PurchasesData, new PurchaseClassMap());
                             break;
                         }
                         break;

@@ -31,7 +31,32 @@ namespace Pharmacy.Additional_windows
             //    (
             //    deliveryDateDatePicker.SelectedDate.Value, int.Parse(countTextBox.Text), decimal.Parse(costTextBox.Text)
             //    );
-            //DataSaveService.SaveNewData(newPurchase, SelectedTable.Purchases);
+            PurchaseModel newPurchase = new PurchaseModel();
+            newPurchase.DeliveryDate = (DateTime)deliveryDateDatePicker.SelectedDate;
+            newPurchase.Cost = decimal.Parse (costTextBox.Text);
+            foreach(var item in medicationsWrapPanel.Children)
+            {
+                if (item is CheckBox && (item as CheckBox).IsChecked == true)
+                    newPurchase.Medications = string.Concat((item as CheckBox).Content.ToString(), ", ");
+            }
+            newPurchase.Provider = providerComboBox.SelectedValue.ToString();
+            newPurchase.Id = DataLists.PurchasesData.Max(x => x.Id) + 1;
+            DataSave.SaveNewData(newPurchase, SelectedTable.Purchases);
+        }
+
+        private void addPurchaseWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var row in DataLists.MedicationsData)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Content = row.Title;
+                checkBox.Margin = new Thickness(1, 1, 1, 1);
+                medicationsWrapPanel.Children.Add(checkBox);
+                TextBox textBox = new TextBox();
+                textBox.Width = 30;
+                textBox.Margin = new Thickness(1, 1, 5, 1);
+                medicationsWrapPanel.Children.Add(textBox);
+            }
         }
     }
 }

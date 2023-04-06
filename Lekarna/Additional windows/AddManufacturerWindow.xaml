@@ -11,8 +11,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="200"/>
+
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -29,12 +28,6 @@
         <Label Grid.Row="2" Grid.Column="0" Content="License:"/>
         <TextBox x:Name="licenseTextBox" Grid.Row="2" Grid.Column="1" Margin="5"/>
 
-        <Label Grid.Row="3" Grid.Column="0" Content="Providers:"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Margin="5"/>
-
-        <Label Grid.Row="4" Grid.Column="0" Content="Medications:"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Margin="5"/>
-        
         <Button x:Name="saveButton" Content="Save" Width="70" Height="25" Margin="3" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="saveButton_Click"/>
     </Grid>
 </Window>

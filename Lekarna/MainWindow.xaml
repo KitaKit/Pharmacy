@@ -15,7 +15,6 @@
                 <MenuItem x:Name="menuItemLoadFromDataBase" Header="Load from DataBase" Click="menuItemLoadFromDataBase_Click"/>
                 <MenuItem x:Name="menuItemLoadFromCSVFile" Header="Load from CSV-file" Click="menuItemLoadFromCSVFile_Click"/>
                 <MenuItem x:Name="menuItemSaveToNewCSVFile" Header="Save current table to new CSV-file" Click="menuItemSaveToNewCSVFile_Click"/>
-                <MenuItem x:Name="menuItemConnectToDatabase" Header="Connect to database" Click="menuItemConnectToDatabase_Click"/>
             </MenuItem>
         </Menu>
         <Menu Height="18" VerticalAlignment="Top" HorizontalAlignment="Right">
@@ -84,8 +83,6 @@
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
                                 <DataGridTextColumn Header="License" Binding="{Binding License}"/>
-                                <DataGridTextColumn Header="Providers" Binding="{Binding Providers}"/>
-                                <DataGridTextColumn Header="Last purchase date" Binding="{Binding LastPurchaseDate}"/>
                                 <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -105,7 +102,6 @@
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                                <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
                                 <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -124,11 +120,9 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
-                                <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
                                 <DataGridTextColumn Header="Cost" Binding="{Binding Cost}"/>
                                 <DataGridTextColumn Header="Medications" Binding="{Binding Medication}" ElementStyle="{StaticResource WrapText}" Width="250"/>
                                 <DataGridTextColumn Header="Provider" Binding="{Binding Provider}"/>
-                                <DataGridTextColumn Header="Manufacturers" Binding="{Binding Manufacturer}" ElementStyle="{StaticResource WrapText}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>

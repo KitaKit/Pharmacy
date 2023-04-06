@@ -28,12 +28,12 @@ namespace Pharmacy.Additional_windows
         {
             // в начале будет проверка на валидность данных(в чате с ботом есть как примерно)
 
-            //ManufacturerModel newManufacturer = new ManufacturerModel
-            //    (
-            //     nameTextBox.Text, countryTextBox.Text,licenseTextBox.Text
-            //    );
+            ManufacturerModel newManufacturer = new ManufacturerModel();
+            newManufacturer.Name = nameTextBox.Text;
+            newManufacturer.Country = countryTextBox.Text;
+            newManufacturer.License = licenseTextBox.Text;
 
-            //DataSaveService.SaveNewData(newManufacturer, SelectedTable.Manufacturers);
+            DataSave.SaveNewData(newManufacturer, SelectedTable.Manufacturers);
         }
     }
 }

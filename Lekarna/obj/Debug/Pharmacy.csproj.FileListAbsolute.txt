@@ -48,8 +48,6 @@ C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\System.Numerics.Vecto
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Pharmacy.csproj.CopyComplete
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Database\Pharmacy.mdf
-C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Database\Pharmacy_log.ldf
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Additional windows\AddManufacturerWindow.g.cs
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Additional windows\AddMedicationWindow.g.cs
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Additional windows\AddPurchaseWindow.g.cs

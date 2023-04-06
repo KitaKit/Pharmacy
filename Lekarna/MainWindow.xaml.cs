@@ -72,7 +72,6 @@ namespace Pharmacy
 {
     public partial class MainWindow : Window
     {
-        private DataLists _mainDataLists = new DataLists();
         //private DataLists _addedDataLists = new DataLists();
         public MainWindow()
         {
@@ -87,12 +86,11 @@ namespace Pharmacy
                                                                                       // Kliknutím na položku menu "Load from DataBase" (Menu vlevo nahoře) se vyvolá tato metoda a připojí se a načte data z databáze pomocí třídy DatabaseLogic a metody LoadData()
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
-            database.ReadData(_mainDataLists);
-            DatabaseConnectionService.Connect();
+            database.ReadData();
 
             //тут мы вызываем метод для отображения данных на экран приложения
             //zde voláme metodu pro zobrazení dat na obrazovce aplikace
-            ShowData(SelectedTable.All);
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -100,13 +98,13 @@ namespace Pharmacy
             FilesIOLogic file = new FilesIOLogic(FileConnectionType.Read, selectedTable);
             if (file.Path != null)
             {
-                file.ReadData(_mainDataLists);
+                file.ReadData();
                 FileConnectionsList.Add(file);
             }
             else
                 return;
 
-            ShowData(selectedTable);
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl);
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -117,7 +115,7 @@ namespace Pharmacy
                 FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
                 if (file.Path != null)
                 {
-                    file.WriteDataToNew(_mainDataLists);
+                    file.WriteDataToNew();
                     FileConnectionsList.Add(file);
                 }
                 else
@@ -133,10 +131,7 @@ namespace Pharmacy
         {
             SaveAllChangedData();
         }
-        private void menuItemConnectToDatabase_Click(object sender, RoutedEventArgs e)
-        {
-            DatabaseConnectionService.Connect();
-        }
+
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
@@ -164,41 +159,13 @@ namespace Pharmacy
                     break;
             }
         }
-        private void DataGridScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        private void DataGridScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - (e.Delta / 5));
             e.Handled = true;
         }
 
-        private void ShowData(SelectedTable selectedTable)
-        {
-            switch (selectedTable)
-            {
-                case SelectedTable.Medications:
-                    _mainDataLists.ShowDataToDataGrid(dataGridMedications, _mainDataLists.MedicationsData);
-                    break;
-                case SelectedTable.Warehouses:
-                    _mainDataLists.ShowDataToDataGrid(dataGridWarehouses, _mainDataLists.WarehousesData);
-                    break;
-                case SelectedTable.Manufacturers:
-                    _mainDataLists.ShowDataToDataGrid(dataGridManufacturers, _mainDataLists.ManufacturersData);
-                    break;
-                case SelectedTable.Sales:
-                    _mainDataLists.ShowDataToDataGrid(dataGridSales, _mainDataLists.SalesData);
-                    break;
-                case SelectedTable.Purchases:
-                        _mainDataLists.ShowDataToDataGrid(dataGridPurchases, _mainDataLists.PurchasesData);
-                    break;
-                case SelectedTable.All:
-                    _mainDataLists.ShowDataToDataGrid(dataGridMedications, _mainDataLists.MedicationsData);
-                    _mainDataLists.ShowDataToDataGrid(dataGridWarehouses, _mainDataLists.WarehousesData);
-                    _mainDataLists.ShowDataToDataGrid(dataGridManufacturers, _mainDataLists.ManufacturersData);
-                    _mainDataLists.ShowDataToDataGrid(dataGridSales, _mainDataLists.SalesData);
-                    _mainDataLists.ShowDataToDataGrid(dataGridPurchases, _mainDataLists.PurchasesData);
-                    break;
-            }
-        }
         private void SaveAllChangedData()
         {
             //_addedDataLists.AddToDataList(_mainDataLists.MedicationsData[0], _addedDataLists.MedicationsData);

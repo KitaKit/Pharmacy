@@ -11,10 +11,8 @@ namespace Pharmacy
     {
         private int _id;
         private DateTime _deliveryDate;
-        private int _count;
         private decimal _cost;
         private string _medication;
-        private string _manufacturer;
         private string _provider;
         public PurchaseModel() { }
         public int Id
@@ -36,15 +34,6 @@ namespace Pharmacy
                     _deliveryDate = value;
             }
         }
-        public int Count 
-        {
-            get { return _count; }
-            set 
-            {
-                if (value != _count)
-                    _count = value;
-            }
-        }
         public decimal Cost 
         {
             get { return _cost; }
@@ -54,19 +43,16 @@ namespace Pharmacy
                     _cost = value;
             }
         }
-        public string Medication { get { return _medication; } set { _medication = value; } }
-        public string Manufacturer { get { return _manufacturer; } set { _manufacturer = value; } }
+        public string Medications { get { return _medication; } set { _medication = value; } }
         public string Provider { get { return _provider; } set { _provider = value; } }
-        public PurchaseModel(DateTime deliveryDate, int count, decimal cost, string medication, string manufacturer, string provider)
+        public PurchaseModel(DateTime deliveryDate, decimal cost, string provider, string medication)
         {
             DeliveryDate = deliveryDate;
-            Count = count;
             Cost = cost;
-            Medication = medication;
-            Manufacturer = manufacturer;
+            Medications = medication;
             Provider = provider;
         }
-        public PurchaseModel(int id, DateTime deliveryDate, int count, decimal cost, string medication, string manufacturer, string provider) :this(deliveryDate, count, cost, medication, manufacturer, provider)
+        public PurchaseModel(int id, DateTime deliveryDate, decimal cost, string provider, string medication) : this(deliveryDate, cost, provider, medication)
         {
             _id = id;
         }
@@ -77,11 +63,9 @@ namespace Pharmacy
         {
             Map(x => x.Id).Name("Id");
             Map(x => x.DeliveryDate).Name("DeliveryDate");
-            Map(x => x.Count).Name("Count");
             Map(x => x.Cost).Name("Cost");
-            Map(x => x.Medication).Name("Medications");
+            Map(x => x.Medications).Name("Medications");
             Map(x => x.Provider).Name("Provider");
-            Map(x => x.Manufacturer).Name("Manufacturer");
         }
     }
 }

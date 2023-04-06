@@ -82,7 +82,7 @@ namespace Pharmacy
             }
         }
         public string Warehouse { get { return _warehouse; } set { _warehouse = value; } }
-        public string MedicationForm { get { return _medicationForm; } set { _medicationForm = value; } }
+        public string Form { get { return _medicationForm; } set { _medicationForm = value; } }
         public string Category { get { return _category; } set { _category = value; } }
         public string Manufacturer { get { return _manufacturer; } set { _manufacturer = value; } }
 
@@ -118,7 +118,7 @@ namespace Pharmacy
             Map(x => x.Price).Name("Price");
             Map(x => x.Description).Name("Description");
             Map(x => x.Category).Name("Category");
-            Map(x => x.MedicationForm).Name("Form");
+            Map(x => x.Form).Name("Form");
             Map(x => x.Warehouse).Name("Warehouse");
             Map(x => x.Manufacturer).Name("Manufacturer");
         }

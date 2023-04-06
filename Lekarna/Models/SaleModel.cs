@@ -16,7 +16,6 @@ namespace Pharmacy
         private int _id;
         private decimal _price;
         private DateTime _date;
-        private int _count;
         private string _medications;
 
         public SaleModel() { }
@@ -49,17 +48,16 @@ namespace Pharmacy
                     _date = value;
             }
         }
-        public int Count { get { return _count; } set { _count = value; } }
         public string Medications { get { return _medications; } set { _medications = value; } }
 
-        public SaleModel(decimal price, DateTime date, int count, string medications)
+        public SaleModel(decimal price, DateTime date, string medications)
         {
             Price = price;
             Date = date;
-            Count = count;
+
             Medications = medications;
         }
-        public SaleModel(int id, decimal price, DateTime date, int count, string medications):this(price, date, count, medications)
+        public SaleModel(int id, decimal price, DateTime date, string medications):this(price, date, medications)
         {
             _id = id;
         }

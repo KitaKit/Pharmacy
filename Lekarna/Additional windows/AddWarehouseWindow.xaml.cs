@@ -23,13 +23,23 @@ namespace Pharmacy.Additional_windows
         {
             InitializeComponent();
         }
+        //private void addWarehouseWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    foreach (var row in DataLists.MedicationsData)
+        //    {
+        //        CheckBox checkBox = new CheckBox();
+        //        checkBox.Content = row.Title;
+        //        checkBox.Margin = new Thickness(1, 1, 1, 1);
+        //        //medicationsWrapPanel.Children.Add(checkBox);
+        //    }
+        //}
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
-            //WarehouseModel newWarehouse = new WarehouseModel(nameTextBox.Text);
-
-            //DataSaveService.SaveNewData(newWarehouse, SelectedTable.Warehouses);
+            WarehouseModel newWarehouse = new WarehouseModel();
+            newWarehouse.Name = nameTextBox.Text;
+            DataSave.SaveNewData(newWarehouse, SelectedTable.Warehouses);
         }
     }
 }

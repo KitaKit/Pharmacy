@@ -27,11 +27,32 @@ namespace Pharmacy.Additional_windows
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
-            //SaleModel newSale = new SaleModel
-            //    (
-            //    decimal.Parse(priceTextBox.Text), dateDatePicker.SelectedDate.Value
-            //    );
-            //DataSaveService.SaveNewData(newSale, SelectedTable.Sales);
+
+            SaleModel newSale = new SaleModel();
+            newSale.Price = decimal.Parse(priceTextBox.Text);
+            newSale.Date = (DateTime)dateDatePicker.SelectedDate;
+            foreach(var item in medicationsWrapPanel.Children)
+            {
+                if (item is CheckBox && (item as CheckBox).IsChecked == true)
+                    newSale.Medications = string.Concat((item as CheckBox).Content.ToString(), ", ");
+            }
+            newSale.Id = DataLists.SalesData.Max(x=>x.Id) + 1;
+            DataSave.SaveNewData(newSale, SelectedTable.Sales);
+        }
+
+        private void addSaleWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var row in DataLists.MedicationsData)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Content = row.Title;
+                checkBox.Margin = new Thickness(1, 1, 1, 1);
+                medicationsWrapPanel.Children.Add(checkBox);
+                TextBox textBox = new TextBox();
+                textBox.Width = 30;
+                textBox.Margin = new Thickness(1, 1, 5, 1);
+                medicationsWrapPanel.Children.Add(textBox);
+            }
         }
     }
 }

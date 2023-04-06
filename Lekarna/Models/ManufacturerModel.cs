@@ -20,8 +20,6 @@ namespace Pharmacy
         private string _name;
         private string _country;
         private string _license;
-        private DateTime _lastPurchaseDate;
-        private string _providers;
         private string _medications;
 
         public ManufacturerModel() { }
@@ -63,20 +61,16 @@ namespace Pharmacy
                     _license = value;
             }
         }
-        public DateTime LastPurchaseDate { get { return _lastPurchaseDate; } set { _lastPurchaseDate = value; } }
-        public string Providers { get { return _providers; } set { _providers = value; } }
         public string Medications { get { return _medications; } set { _medications = value; } }
 
-        public ManufacturerModel(string name, string country, string license, DateTime lastPurchaseDate, string providers, string medications)
+        public ManufacturerModel(string name, string country, string license, string medications)
         {
             Name = name;
             Country = country;
             License = license;
-            LastPurchaseDate = lastPurchaseDate;
-            Providers = providers;
             Medications = medications;
         }
-        public ManufacturerModel(int id, string name, string country, string license, DateTime lastPurchaseDate, string providers, string medications):this(name,country,license, lastPurchaseDate, providers, medications)
+        public ManufacturerModel(int id, string name, string country, string license, string medications):this(name,country,license, medications)
         {
             _id = id;
         }
@@ -89,8 +83,6 @@ namespace Pharmacy
             Map(x => x.Name).Name("Name");
             Map(x => x.Country).Name("Country");
             Map(x => x.License).Name("License");
-            Map(x => x.LastPurchaseDate).Name("Last purchase date");
-            Map(x => x.Providers).Name("Providers");
             Map(x => x.Medications).Name("Medications");
         }
     }
