@@ -56,7 +56,7 @@ namespace Pharmacy
             get { return _license; }
             set
             {
-                if (_license != value && !(string.IsNullOrEmpty(value)) && value.Length <= 10)
+                if (_license != value && !(string.IsNullOrEmpty(value)) && value.Length == 10)
                     _license = value;
             }
         }

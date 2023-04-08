@@ -19,15 +19,6 @@ using CsvHelper.Configuration;
 
 namespace Pharmacy
 {
-    public enum SelectedTable
-    {
-        Medications,
-        Warehouses,
-        Manufacturers,
-        Sales,
-        Purchases, 
-        All
-    }
     public class FilesIOLogic
     {
         private FilesConnectionService _fileConnection;
@@ -49,87 +40,87 @@ namespace Pharmacy
             _selectedTable = selectedTable;
         }
 
-        public void ReadData()
+        public void ReadData(DataLists dataLists)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to load data from {_path} to {_selectedTable}", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to load data from {_path} to {_selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
                 switch (_selectedTable)
                 {
                     case SelectedTable.Medications:
-                        DataLists.MedicationsData = GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap());
+                        dataLists.MedicationsData.AddRange(GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap()));
                         break;
 
                     case SelectedTable.Warehouses:
-                        DataLists.WarehousesData = GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap());
+                        dataLists.WarehousesData.AddRange(GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap()));
                         break;
 
                     case SelectedTable.Manufacturers:
-                        DataLists.ManufacturersData = GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap());
+                        dataLists.ManufacturersData.AddRange(GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap()));
                         break;
 
                     case SelectedTable.Sales:
-                        DataLists.SalesData = GetDataFromFile(new List<SaleModel>(), new SaleClassMap());
+                        dataLists.SalesData.AddRange(GetDataFromFile(new List<SaleModel>(), new SaleClassMap()));
                         break;
 
                     case SelectedTable.Purchases:
-                        DataLists.PurchasesData = GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap());
+                        dataLists.PurchasesData.AddRange(GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap()));
                         break;
                 }
             }
         }
-        public void WriteDataToNew()
+        public void WriteDataToNew(DataLists dataLists)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to save data from {_selectedTable} to {_path}", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to save data from {_selectedTable} to {_path}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
                 switch (_selectedTable)
                 {
                     case SelectedTable.Medications:
-                        if (!DataLists.IsEmpty(DataLists.MedicationsData))
+                        if (dataLists.MedicationsData.Any())
                         {
-                            WriteDataToNewFile(DataLists.MedicationsData, new MedicationClassMap());
+                            WriteDataToFile(dataLists.MedicationsData, new MedicationClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Warehouses:
-                        if (!DataLists.IsEmpty(DataLists.WarehousesData))
+                        if (dataLists.WarehousesData.Any())
                         {
-                            WriteDataToNewFile(DataLists.WarehousesData, new WarehouseClassMap());
+                            WriteDataToFile(dataLists.WarehousesData, new WarehouseClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Manufacturers:
-                        if (!DataLists.IsEmpty(DataLists.ManufacturersData))
+                        if (dataLists.ManufacturersData.Any())
                         {
-                            WriteDataToNewFile(DataLists.ManufacturersData, new ManufacturerClassMap());
+                            WriteDataToFile(dataLists.ManufacturersData, new ManufacturerClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Sales:
-                        if (!DataLists.IsEmpty(DataLists.SalesData))
+                        if (dataLists.SalesData.Any())
                         {
-                            WriteDataToNewFile(DataLists.SalesData, new SaleClassMap());
+                            WriteDataToFile(dataLists.SalesData, new SaleClassMap());
                             break;
                         }
                         break;
 
                     case SelectedTable.Purchases:
-                        if (DataLists.IsEmpty(DataLists.PurchasesData))
+                        if (dataLists.PurchasesData.Any())
                         {
-                            WriteDataToNewFile(DataLists.PurchasesData, new PurchaseClassMap());
+                            WriteDataToFile(dataLists.PurchasesData, new PurchaseClassMap());
                             break;
                         }
                         break;
                 }
             }
         }
-        public void AppendData<T>(T model, SelectedTable selectedTable)
+        public void AppendData<T>(T model)
         {
-            switch (selectedTable)
+            switch (_selectedTable)
             {
                 case SelectedTable.Medications:
                     AppendDataToFile(model as MedicationModel, new MedicationClassMap());
@@ -153,9 +144,9 @@ namespace Pharmacy
         }
         public void RewriteEditedData()
         {
-
+           
         }
-        private void WriteDataToNewFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
+        private void WriteDataToFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
         {
 
             using (StreamWriter writer = new StreamWriter(_path))
@@ -201,10 +192,6 @@ namespace Pharmacy
                     csvWriter.WriteRecord(model);
                 }
             }
-        }
-        private void RewriteEditedDataTiFile()
-        {
-
         }
     }
 }

@@ -1,22 +1,8 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Pharmacy.Additional_windows;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.CodeDom;
-using System.Collections;
-using Pharmacy.Additional_windows;
 /*
 --------------------Список того, что работает прямо сейчас:--------------------
 
@@ -63,14 +49,23 @@ using Pharmacy.Additional_windows;
 //*поиск и сортировка
 //*удаление данных
 
-//Здесь будет описана логика основных взаимодействий с окном программы и его содержимым
-
-//Tady bude popsána logika hlavních interakcí s oknem programu a jeho obsahem.
 
 namespace Pharmacy
 {
+    public enum SelectedTable
+    {
+        Medications,
+        Warehouses,
+        Manufacturers,
+        Sales,
+        Purchases,
+        All
+    }
     public partial class MainWindow : Window
     {
+        public DataLists dataLists = new DataLists();
+        public DataLists changedDataLists = null;
+        public DataLists deletedDataLists = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -83,11 +78,8 @@ namespace Pharmacy
         private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
-            database.ReadData();
-            if (DataShow.HasData(mainTabControl))
-                DataShow.Refresh(SelectedTable.All, mainTabControl);
-            else
-                DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl);
+            database.ReadData(dataLists);
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, dataLists);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -95,16 +87,13 @@ namespace Pharmacy
             FilesIOLogic file = new FilesIOLogic(FileConnectionType.Read, selectedTable);
             if (file.Path != null)
             {
-                file.ReadData();
+                file.ReadData(dataLists);
                 FileConnectionsList.Add(file);
             }
             else
                 return;
 
-            if (DataShow.HasData(mainTabControl))
-                DataShow.Refresh(selectedTable, mainTabControl);
-            else
-                DataShow.ToSelectedDataGrid(selectedTable, mainTabControl);
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, dataLists);
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -112,7 +101,7 @@ namespace Pharmacy
             FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
             if (file.Path != null)
             {
-                file.WriteDataToNew();
+                file.WriteDataToNew(dataLists);
                 FileConnectionsList.Add(file);
             }
             else
@@ -120,7 +109,7 @@ namespace Pharmacy
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            SaveAllChangedData();
+            ChangeData.SaveAll(deletedDataLists, changedDataLists);
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -129,76 +118,72 @@ namespace Pharmacy
             switch (selectedTable)
             {
                 case SelectedTable.Medications:
-                    AddMedicationWindow addMedicationWindow = new AddMedicationWindow();
+                    AddMedicationWindow addMedicationWindow = new AddMedicationWindow(dataLists);
+                    addMedicationWindow.Owner = this;
                     addMedicationWindow.ShowDialog();
                     break;
                 case SelectedTable.Warehouses:
-                    AddWarehouseWindow addWarehouseWindow = new AddWarehouseWindow();
+                    AddWarehouseWindow addWarehouseWindow = new AddWarehouseWindow(dataLists);
+                    addWarehouseWindow.Owner = this;
                     addWarehouseWindow.ShowDialog();
                     break;
                 case SelectedTable.Manufacturers:
-                    AddManufacturerWindow addManufacturerWindow = new AddManufacturerWindow();
+                    AddManufacturerWindow addManufacturerWindow = new AddManufacturerWindow(dataLists);
+                    addManufacturerWindow.Owner = this;
                     addManufacturerWindow.ShowDialog();
                     break;
                 case SelectedTable.Sales:
-                    AddSaleWindow addSaleWindow = new AddSaleWindow();
+                    AddSaleWindow addSaleWindow = new AddSaleWindow(dataLists);
+                    addSaleWindow.Owner = this;
                     addSaleWindow.ShowDialog();
                     break;
                 case SelectedTable.Purchases:
-                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow();
+                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow(dataLists);
+                    addPurchaseWindow.Owner = this;
                     addPurchaseWindow.ShowDialog();
                     break;
             }
-            DataShow.Refresh(selectedTable, mainTabControl);
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, dataLists);
+        }
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+            var selectedRow = ((((mainTabControl.SelectedItem as TabItem).Content as Grid).Children[0] as ScrollViewer).Content as DataGrid).SelectedItem;
+            MessageBoxResult messageBoxResult = MessageBoxResult.None;
+            deletedDataLists = new DataLists();
+
+            switch (selectedTable)
+            {
+                case SelectedTable.Medications:
+                    messageBoxResult = MessageBox.Show($"Do you want to delete information about {(selectedRow as MedicationModel).Title} from {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    selectedRow = selectedRow as MedicationModel;
+                    break;
+                case SelectedTable.Warehouses:
+                    messageBoxResult = MessageBox.Show($"Do you want to delete information about {(selectedRow as WarehouseModel).Name} from {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    selectedRow = selectedRow as WarehouseModel;
+                    break;
+                case SelectedTable.Manufacturers:
+                    messageBoxResult = MessageBox.Show($"Do you want to delete information about {(selectedRow as ManufacturerModel).Name} from {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    selectedRow = selectedRow as ManufacturerModel;
+                    break;
+                case SelectedTable.Sales:
+                    messageBoxResult = MessageBox.Show($"Do you want to delete information about {(selectedRow as SaleModel).Date} from {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    selectedRow = selectedRow as SaleModel;
+                    break;
+                case SelectedTable.Purchases:
+                    messageBoxResult = MessageBox.Show($"Do you want to delete information about {(selectedRow as PurchaseModel).DeliveryDate} from {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    selectedRow = selectedRow as PurchaseModel;
+                    break;
+            }
+            deletedDataLists.Add(selectedRow);
+            dataLists.Delete(selectedRow);
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, dataLists);
         }
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - (e.Delta / 5));
             e.Handled = true;
-        }
-
-        private void SaveAllChangedData()
-        {
-            //_addedDataLists.AddToDataList(_mainDataLists.MedicationsData[0], _addedDataLists.MedicationsData);
-            //foreach (var checkerDataLists in typeof(DataLists).GetProperties())
-            //{
-            //    var changedDataList = checkerDataLists.GetValue(_addedDataLists) as IList;
-
-            //    if (changedDataList != null && changedDataList.Count != 0)
-            //    {
-            //        if (!FileConnectionsList.IsEmpty())
-            //        {
-                        
-            //            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
-            //            var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
-            //            if (requiredFileConnection != null)
-            //            {
-            //                (requiredFileConnection as FilesIOLogic).AppendData(_addedDataLists, selectedTable);
-
-            //                if (_databaseConnectionSuccess)
-            //                {
-            //                    DatabaseIOLogic database = new DatabaseIOLogic();
-            //                    database.WriteData();
-            //                }
-            //            }
-            //            else if (_databaseConnectionSuccess)
-            //            {
-            //                DatabaseIOLogic database = new DatabaseIOLogic();
-            //                database.WriteData();
-            //            }
-            //            else
-            //                MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //        }
-            //        else if (_databaseConnectionSuccess)
-            //        {
-            //            DatabaseIOLogic database = new DatabaseIOLogic();
-            //            database.WriteData();
-            //        }
-            //        else
-            //            MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    }
-            //}
         }
     }
 }

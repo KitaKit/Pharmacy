@@ -19,21 +19,25 @@ namespace Pharmacy.Additional_windows
     /// </summary>
     public partial class AddManufacturerWindow : Window
     {
-        public AddManufacturerWindow()
+        private DataLists _dataLists= null;
+        public AddManufacturerWindow(DataLists dataLists)
         {
             InitializeComponent();
+            _dataLists = dataLists;
+            DataContext = new ManufacturerModel();
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            // в начале будет проверка на валидность данных(в чате с ботом есть как примерно)
+            if (Validation.GetHasError(licenseTextBox) || Validation.GetHasError(countryTextBox) || Validation.GetHasError(nameTextBox) || string.IsNullOrEmpty(licenseTextBox.Text) || string.IsNullOrEmpty(countryTextBox.Text) || string.IsNullOrEmpty(nameTextBox.Text))
+                return;
 
             ManufacturerModel newManufacturer = new ManufacturerModel
                 (
-                DataLists.ManufacturersData.Max(x => x.Id) + 1, nameTextBox.Text, countryTextBox.Text, licenseTextBox.Text
+                _dataLists.ManufacturersData.Max(x => x.Id) + 1, nameTextBox.Text, countryTextBox.Text, licenseTextBox.Text
                 );
 
-            DataSave.SaveNewData(newManufacturer, SelectedTable.Manufacturers);
+            ChangeData.SaveNew(newManufacturer, SelectedTable.Manufacturers, _dataLists);
             Close();
         }
     }

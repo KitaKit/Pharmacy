@@ -20,8 +20,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="85"/>
             <RowDefinition Height="Auto"/>
-            
-            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -29,7 +27,15 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Title:"/>
-        <TextBox x:Name="titleTextBox" Grid.Row="0" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="titleTextBox" Grid.Row="0" Grid.Column="1" Margin="5">
+            <TextBox.Text>
+                <Binding Path="Title" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local:NameValidation />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Category:"/>
         <ComboBox x:Name="categoryComboBox" Grid.Row="1" Grid.Column="1" Margin="5"/>
@@ -41,7 +47,15 @@
         <CheckBox x:Name="availabilityCheckBox" Grid.Row="3" Grid.Column="1" Margin="5"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Count:"/>
-        <TextBox x:Name="countTextBox" Grid.Row="4" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="countTextBox" Grid.Row="4" Grid.Column="1" Margin="5">
+            <TextBox.Text>
+                <Binding Path="Count" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Warehouse:"/>
         <ComboBox x:Name="warehouseComboBox" Grid.Row="5" Grid.Column="1" Margin="5"/>
@@ -50,10 +64,26 @@
         <CheckBox x:Name="prescriptionCheckBox" Grid.Row="6" Grid.Column="1" Margin="5"/>
 
         <Label Grid.Row="7" Grid.Column="0" Content="Expiration Date:"/>
-        <DatePicker x:Name="expirationDateDatePicker" Grid.Row="7" Grid.Column="1" Margin="5"/>
+        <DatePicker x:Name="expirationDateDatePicker" Grid.Row="7" Grid.Column="1" Margin="5">
+            <DatePicker.SelectedDate>
+                <Binding Path="ExpirationDate" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
 
         <Label Grid.Row="8" Grid.Column="0" Content="Price:"/>
-        <TextBox x:Name="priceTextBox" Grid.Row="8" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="priceTextBox" Grid.Row="8" Grid.Column="1" Margin="5">
+            <TextBox.Text>
+                <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Grid.Row="9" Grid.Column="0" Content="Manufacturer:"/>
         <ComboBox x:Name="manufacturerComboBox" Grid.Row="9" Grid.Column="1" Margin="5"/>

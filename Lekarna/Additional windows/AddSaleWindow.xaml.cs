@@ -20,42 +20,53 @@ namespace Pharmacy.Additional_windows
     /// </summary>
     public partial class AddSaleWindow : Window
     {
-        public AddSaleWindow()
+        private DataLists _dataLists = null;
+        public AddSaleWindow(DataLists dataLists)
         {
             InitializeComponent();
+            _dataLists = dataLists;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
+            if (!WrapPanelCustomValidation.IsValid(medicationsWrapPanel) || dateDatePicker.SelectedDate == null || Validation.GetHasError(dateDatePicker))
+                return;
 
-            int nextId = DataLists.SalesData.Max(x => x.Id) + 1;
+            DatabaseIOLogic db = new DatabaseIOLogic();
+            int nextId = db.GetLastId(SelectedTable.Sales) + 1;
             string medication = null;
             List<string> checkedMedications = new List<string>();
-            foreach (var item in medicationsWrapPanel.Children)
+            decimal cost = 0;
+
+            var checkBoxes = medicationsWrapPanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+            foreach (var item in checkBoxes)
             {
-                if (item is CheckBox && (item as CheckBox).IsChecked == true)
+                if (item is CheckBox && item.IsChecked == true)
                 {
-                    medication = (item as CheckBox).Content.ToString();
+                    medication = item.Content.ToString();
                     checkedMedications.Add(medication);
-                    DataLists.Add(new SoldMedicationModel(nextId, DataLists.MedicationsData.Find(x=>x.Title == medication).Id, int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item as CheckBox) + 1] as TextBox).Text)));
+                    var medicationModel = _dataLists.MedicationsData.Find(x => x.Title == medication);
+                    _dataLists.Add(new SoldMedicationModel(nextId,medicationModel.Id, int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item) + 1] as TextBox).Text)));
+                    cost += medicationModel.Price;
                 }
             }
             string medications = string.Join(", ", checkedMedications);
 
             SaleModel newSale = new SaleModel
                 (
-                nextId, decimal.Parse(priceTextBox.Text), (DateTime)dateDatePicker.SelectedDate, medications
+                nextId, cost, (DateTime)dateDatePicker.SelectedDate, medications
                 );
 
-            DataSave.SaveNewData(newSale, SelectedTable.Sales);
+            ChangeData.SaveNew(newSale, SelectedTable.Sales, _dataLists);
             Close();
         }
 
         private void addSaleWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var row in DataLists.MedicationsData)
+            foreach (var row in _dataLists.MedicationsData)
             {
+                DataContext = new SaleModel(0, DateTime.Now, null);
+
                 CheckBox checkBox = new CheckBox();
                 checkBox.Content = row.Title;
                 checkBox.Margin = new Thickness(1, 1, 1, 1);

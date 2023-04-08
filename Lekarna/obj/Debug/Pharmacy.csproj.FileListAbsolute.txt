@@ -60,3 +60,4 @@ C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Additional windows\Ad
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\Additional windows\AddWarehouseWindow.baml
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Database\Pharmacy_log.ldf
 C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Debug\Database\Pharmacy.mdf
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Debug\GeneratedInternalTypeHelper.g.cs

@@ -126,11 +126,13 @@
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\SoldMedicationModel.cs" />
     <Compile Include="Models\WarehouseModel.cs" />
-    <Compile Include="DataProcessing\DataSave.cs" />
+    <Compile Include="DataProcessing\ChangeData.cs" />
     <Compile Include="Services\FilesConnectionService.cs" />
     <Compile Include="Validation rules\CheckedBoxesValidation.cs" />
+    <Compile Include="Validation rules\CountryValidation.cs" />
     <Compile Include="Validation rules\LicenseValidation.cs" />
-    <Compile Include="Validation rules\NumbersValidation.cs" />
+    <Compile Include="Validation rules\NameValidation.cs" />
+    <Compile Include="Validation rules\WrapPanelCustomValidation.cs" />
     <Page Include="Additional windows\AddManufacturerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

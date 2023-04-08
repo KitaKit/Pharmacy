@@ -9,31 +9,31 @@ using System.Windows.Controls;
 
 namespace Pharmacy
 {
-    public static class DataLists
+    public class DataLists
     {
-        private static List<MedicationModel> _medicationsData = new List<MedicationModel>();
-        private static List<WarehouseModel> _warehousesData = new List<WarehouseModel>();
-        private static List<ManufacturerModel> _manufacturersData = new List<ManufacturerModel>();
-        private static List<SaleModel> _salesData = new List<SaleModel>();
-        private static List<PurchaseModel> _purchasesData = new List<PurchaseModel>();
-        private static List<CategoryModel> _categoriesData = new List<CategoryModel>();
-        private static List<MedicationFormModel> _medicationFormsData = new List<MedicationFormModel>();
-        private static List<ProviderModel> _providersData = new List<ProviderModel>();
-        private static List<SoldMedicationModel> _soldMedicationsData = new List<SoldMedicationModel>();
-        private static List<PurchasedMedicationModel> _purchasedMedicationsData = new List<PurchasedMedicationModel>();
+        private List<MedicationModel> _medicationsData = new List<MedicationModel>();
+        private List<WarehouseModel> _warehousesData = new List<WarehouseModel>();
+        private List<ManufacturerModel> _manufacturersData = new List<ManufacturerModel>();
+        private List<SaleModel> _salesData = new List<SaleModel>();
+        private List<PurchaseModel> _purchasesData = new List<PurchaseModel>();
+        private List<CategoryModel> _categoriesData = new List<CategoryModel>();
+        private List<MedicationFormModel> _medicationFormsData = new List<MedicationFormModel>();
+        private List<ProviderModel> _providersData = new List<ProviderModel>();
+        private List<SoldMedicationModel> _soldMedicationsData = new List<SoldMedicationModel>();
+        private List<PurchasedMedicationModel> _purchasedMedicationsData = new List<PurchasedMedicationModel>();
 
-        public static List<MedicationModel> MedicationsData { get { return _medicationsData; } set { _medicationsData = value; } }
-        public static List<WarehouseModel> WarehousesData { get { return _warehousesData; } set { _warehousesData = value; } }
-        public static List<ManufacturerModel> ManufacturersData { get { return _manufacturersData; } set { _manufacturersData = value; } }
-        public static List<SaleModel> SalesData { get { return _salesData; } set { _salesData = value; } }
-        public static List<PurchaseModel> PurchasesData { get { return _purchasesData; } set { _purchasesData = value; } }
-        public static List<CategoryModel> CategoriesData { get { return _categoriesData; } set { _categoriesData = value; } }
-        public static List<MedicationFormModel>MedicationFormsData { get { return _medicationFormsData; } set { _medicationFormsData = value; } }
-        public static List<ProviderModel> ProvidersData { get { return _providersData; } set { _providersData = value; } }
-        public static List<SoldMedicationModel> SoldMedicationsData { get { return _soldMedicationsData; } set { _soldMedicationsData = value; } }
-        public static List<PurchasedMedicationModel> PurchasedMedicationsData { get { return _purchasedMedicationsData; } set { _purchasedMedicationsData = value; } }
+        public List<MedicationModel> MedicationsData { get { return _medicationsData; } set { _medicationsData = value; } }
+        public List<WarehouseModel> WarehousesData { get { return _warehousesData; } set { _warehousesData = value; } }
+        public List<ManufacturerModel> ManufacturersData { get { return _manufacturersData; } set { _manufacturersData = value; } }
+        public List<SaleModel> SalesData { get { return _salesData; } set { _salesData = value; } }
+        public List<PurchaseModel> PurchasesData { get { return _purchasesData; } set { _purchasesData = value; } }
+        public List<CategoryModel> CategoriesData { get { return _categoriesData; } set { _categoriesData = value; } }
+        public List<MedicationFormModel>MedicationFormsData { get { return _medicationFormsData; } set { _medicationFormsData = value; } }
+        public List<ProviderModel> ProvidersData { get { return _providersData; } set { _providersData = value; } }
+        public List<SoldMedicationModel> SoldMedicationsData { get { return _soldMedicationsData; } set { _soldMedicationsData = value; } }
+        public List<PurchasedMedicationModel> PurchasedMedicationsData { get { return _purchasedMedicationsData; } set { _purchasedMedicationsData = value; } }
 
-        static public void Add <T>(T data)
+        public void Add<T>(T data)
         {
             if (data is MedicationModel)
                 MedicationsData.Add(data as MedicationModel);
@@ -56,10 +56,28 @@ namespace Pharmacy
             else if (data is PurchasedMedicationModel)
                 PurchasedMedicationsData.Add(data as PurchasedMedicationModel);
         }
-
-        static public bool IsEmpty<T>(List<T> dataList)
+        public void Delete<T>(T data)
         {
-            return !dataList.Any();
+            if (data is MedicationModel)
+                MedicationsData.Remove(data as MedicationModel);
+            else if (data is WarehouseModel)
+                WarehousesData.Remove(data as WarehouseModel);
+            else if (data is ManufacturerModel)
+                ManufacturersData.Remove(data as ManufacturerModel);
+            else if (data is SaleModel)
+                SalesData.Remove(data as SaleModel);
+            else if (data is PurchaseModel)
+                PurchasesData.Remove(data as PurchaseModel);
+            else if (data is CategoryModel)
+                CategoriesData.Remove(data as CategoryModel);
+            else if (data is MedicationFormModel)
+                MedicationFormsData.Remove(data as MedicationFormModel);
+            else if (data is ProviderModel)
+                ProvidersData.Remove(data as ProviderModel);
+            else if (data is SoldMedicationModel)
+                SoldMedicationsData.Remove(data as SoldMedicationModel);
+            else if (data is PurchasedMedicationModel)
+                PurchasedMedicationsData.Remove(data as PurchasedMedicationModel);
         }
     }
 }

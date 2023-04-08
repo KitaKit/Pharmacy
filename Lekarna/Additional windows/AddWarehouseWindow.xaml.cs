@@ -19,18 +19,22 @@ namespace Pharmacy.Additional_windows
     /// </summary>
     public partial class AddWarehouseWindow : Window
     {
-        public AddWarehouseWindow()
+        private DataLists _dataLists = null;
+        public AddWarehouseWindow(DataLists dataLists)
         {
             InitializeComponent();
+            _dataLists = dataLists;
+            DataContext = new WarehouseModel();
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
+            if(Validation.GetHasError(nameTextBox) || string.IsNullOrEmpty(nameTextBox.Text))
+                return;
 
-            WarehouseModel newWarehouse = new WarehouseModel(DataLists.WarehousesData.Max(x => x.Id) + 1, nameTextBox.Text);
+            WarehouseModel newWarehouse = new WarehouseModel(_dataLists.WarehousesData.Max(x => x.Id) + 1, nameTextBox.Text);
            
-            DataSave.SaveNewData(newWarehouse, SelectedTable.Warehouses);
+            ChangeData.SaveNew(newWarehouse, SelectedTable.Warehouses, _dataLists);
             Close();
         }
     }

@@ -20,30 +20,35 @@ namespace Pharmacy
     /// </summary>
     public partial class AddMedicationWindow : Window
     {
-        public AddMedicationWindow()
+        private DataLists _dataLists = null;
+        public AddMedicationWindow(DataLists dataLists)
         {
             InitializeComponent();
+            _dataLists = dataLists;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
-            
+            if (Validation.GetHasError(titleTextBox) || string.IsNullOrEmpty(titleTextBox.Text) || categoryComboBox.SelectedItem == null || formComboBox.SelectedItem == null || Validation.GetHasError(countTextBox) || string.IsNullOrEmpty(countTextBox.Text) || warehouseComboBox.SelectedItem == null || Validation.GetHasError(expirationDateDatePicker) || expirationDateDatePicker.SelectedDate == null || Validation.GetHasError(priceTextBox) || string.IsNullOrEmpty(priceTextBox.Text) || manufacturerComboBox.SelectedItem == null || string.IsNullOrEmpty(descriptionTextBox.Text))
+                return;
+
             MedicationModel newMedication = new MedicationModel
                 (
-                DataLists.MedicationsData.Max(x => x.Id) + 1, titleTextBox.Text, (bool)availabilityCheckBox.IsChecked, int.Parse(countTextBox.Text), descriptionTextBox.Text, (bool)prescriptionCheckBox.IsChecked, (DateTime)expirationDateDatePicker.SelectedDate, decimal.Parse(priceTextBox.Text), warehouseComboBox.SelectedValue.ToString(), formComboBox.SelectedValue.ToString(), manufacturerComboBox.SelectedValue.ToString(), categoryComboBox.SelectedValue.ToString()
+                _dataLists.MedicationsData.Max(x => x.Id) + 1, titleTextBox.Text, (bool)availabilityCheckBox.IsChecked, int.Parse(countTextBox.Text), descriptionTextBox.Text, (bool)prescriptionCheckBox.IsChecked, (DateTime)expirationDateDatePicker.SelectedDate, decimal.Parse(priceTextBox.Text), warehouseComboBox.SelectedValue.ToString(), formComboBox.SelectedValue.ToString(), manufacturerComboBox.SelectedValue.ToString(), categoryComboBox.SelectedValue.ToString()
                 );
 
-            DataSave.SaveNewData(newMedication, SelectedTable.Medications);
+            ChangeData.SaveNew(newMedication, SelectedTable.Medications, _dataLists);
             Close();
         }
 
         private void addMedicationWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            categoryComboBox.ItemsSource = DataLists.CategoriesData.Select(x => x.Name);
-            formComboBox.ItemsSource = DataLists.MedicationFormsData.Select(x=>x.Form);
-            warehouseComboBox.ItemsSource = DataLists.WarehousesData.Select(x=>x.Name);
-            manufacturerComboBox.ItemsSource = DataLists.ManufacturersData.Select(x => x.Name);
+            DataContext = new MedicationModel(null, false, 0, null, false, DateTime.Now, 0, null, null, null, null);
+
+            categoryComboBox.ItemsSource = _dataLists.CategoriesData.Select(x => x.Name);
+            formComboBox.ItemsSource = _dataLists.MedicationFormsData.Select(x=>x.Form);
+            warehouseComboBox.ItemsSource = _dataLists.WarehousesData.Select(x=>x.Name);
+            manufacturerComboBox.ItemsSource = _dataLists.ManufacturersData.Select(x => x.Name);
         }
     }
 }

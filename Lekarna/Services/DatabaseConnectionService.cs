@@ -17,10 +17,5 @@ namespace Pharmacy
                _dbConnection = new SqlConnection($"Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename={_databasePath};Integrated Security = True");
                _isConnected = true;
         }
-
-        static public void Disconnect() 
-        {
-            _dbConnection.Close();
-        }
     }
 }

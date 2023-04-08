@@ -27,7 +27,7 @@
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridMedicationsScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False">
+                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -54,7 +54,7 @@
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridWarehousesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False">
+                        <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -72,7 +72,7 @@
             <TabItem Header="Manufacturers" x:Name="tabItemManufacturers">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridManufacturersScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False">
+                        <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -92,7 +92,7 @@
             <TabItem Header="Sales" x:Name="tabItemSales">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridSalesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False">
+                        <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -111,7 +111,7 @@
             <TabItem Header="Purchases" x:Name="tabItemPurchases">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridPurchasesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False">
+                        <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -131,7 +131,7 @@
         </TabControl>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30">
             <Button x:Name="addButton" Content="Add" Width="70" Margin="3" Click="addButton_Click"/>
-            <Button Content="Delete" Width="70" Margin="3"/>
+            <Button x:Name="deleteButton" Content="Delete" Width="70" Margin="3" Click="deleteButton_Click"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30">
