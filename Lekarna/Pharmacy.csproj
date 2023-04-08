@@ -121,8 +121,10 @@
     <Compile Include="Models\MedicationFormModel.cs" />
     <Compile Include="Models\MedicationModel.cs" />
     <Compile Include="Models\ProviderModel.cs" />
+    <Compile Include="Models\PurchasedMedicationModel.cs" />
     <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
+    <Compile Include="Models\SoldMedicationModel.cs" />
     <Compile Include="Models\WarehouseModel.cs" />
     <Compile Include="DataProcessing\DataSave.cs" />
     <Compile Include="Services\FilesConnectionService.cs" />
@@ -191,8 +193,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\Pharmacy.mdf" />
+    <Content Include="Database\Pharmacy.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Database\Pharmacy_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Pharmacy.mdf</DependentUpon>
     </Content>
   </ItemGroup>

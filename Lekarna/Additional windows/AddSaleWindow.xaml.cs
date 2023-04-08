@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pharmacy.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,19 +29,27 @@ namespace Pharmacy.Additional_windows
         {
             //в начале будет проверка на валидность данных (в чате с ботом есть как примерно)
 
-            string checkedMedications = string.Empty;
+            int nextId = DataLists.SalesData.Max(x => x.Id) + 1;
+            string medication = null;
+            List<string> checkedMedications = new List<string>();
             foreach (var item in medicationsWrapPanel.Children)
             {
                 if (item is CheckBox && (item as CheckBox).IsChecked == true)
-                    checkedMedications = string.Concat((item as CheckBox).Content.ToString(), ", ");
+                {
+                    medication = (item as CheckBox).Content.ToString();
+                    checkedMedications.Add(medication);
+                    DataLists.Add(new SoldMedicationModel(nextId, DataLists.MedicationsData.Find(x=>x.Title == medication).Id, int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item as CheckBox) + 1] as TextBox).Text)));
+                }
             }
+            string medications = string.Join(", ", checkedMedications);
 
             SaleModel newSale = new SaleModel
                 (
-                DataLists.SalesData.Max(x => x.Id) + 1, decimal.Parse(priceTextBox.Text), (DateTime)dateDatePicker.SelectedDate, checkedMedications
+                nextId, decimal.Parse(priceTextBox.Text), (DateTime)dateDatePicker.SelectedDate, medications
                 );
 
             DataSave.SaveNewData(newSale, SelectedTable.Sales);
+            Close();
         }
 
         private void addSaleWindow_Loaded(object sender, RoutedEventArgs e)

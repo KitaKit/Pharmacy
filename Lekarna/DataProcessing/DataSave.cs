@@ -11,6 +11,8 @@ namespace Pharmacy
     {
         static public void SaveNewData<T>(T newModel, SelectedTable selectedTable)
         {
+            DataLists.Add(newModel);
+
             if (!FileConnectionsList.IsEmpty())
             {
                 var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);

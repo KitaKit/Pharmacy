@@ -35,6 +35,7 @@ namespace Pharmacy
                 );
 
             DataSave.SaveNewData(newMedication, SelectedTable.Medications);
+            Close();
         }
 
         private void addMedicationWindow_Loaded(object sender, RoutedEventArgs e)

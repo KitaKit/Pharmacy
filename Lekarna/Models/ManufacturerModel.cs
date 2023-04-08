@@ -20,7 +20,7 @@ namespace Pharmacy
         private string _name;
         private string _country;
         private string _license;
-
+        private string _medication;
         public ManufacturerModel() { }
 
         public int Id
@@ -60,6 +60,7 @@ namespace Pharmacy
                     _license = value;
             }
         }
+        public string Medications { get { return _medication; } set { _medication = value; } }
         public ManufacturerModel(string name, string country, string license)
         {
             Name = name;
@@ -68,7 +69,7 @@ namespace Pharmacy
         }
         public ManufacturerModel(int id, string name, string country, string license):this(name,country,license)
         {
-            _id = id;
+            Id = id;
         }
     }
     public class ManufacturerClassMap : ClassMap<ManufacturerModel>
@@ -79,6 +80,7 @@ namespace Pharmacy
             Map(x => x.Name).Name("Name");
             Map(x => x.Country).Name("Country");
             Map(x => x.License).Name("License");
+            Map(x => x.Medications).Name("Medications");
         }
     }
 }

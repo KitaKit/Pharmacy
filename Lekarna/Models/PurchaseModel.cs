@@ -54,7 +54,7 @@ namespace Pharmacy
         }
         public PurchaseModel(int id, DateTime deliveryDate, decimal cost, string provider, string medication) : this(deliveryDate, cost, provider, medication)
         {
-            _id = id;
+            Id = id;
         }
     }
     public class PurchaseClassMap : ClassMap<PurchaseModel>

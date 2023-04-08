@@ -80,24 +80,23 @@ namespace Pharmacy
 
         private void WriteDataToMedications(MedicationModel model, SqlConnection databaseConnection)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Medications(Title, Count, Availability, Description, Prescription,\r\nExpiration_date, Price, Warehouse_Id, MedicationForm_Id, Manufacturer_Id, Category_Id) VALUES (@title, @count, @availability, @description, @prescription, @expiration_date, @price, @warehouse_Id, @medicationForm_Id, @manufacturer_Id, @category_Id)", databaseConnection))
+            using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Medications(Title, Count, Availability, Description, Prescription, Expiration_date, Price, Warehouse_Id, MedicationForm_Id, Manufacturer_Id, Category_Id) VALUES (@title, @count, @availability, @description, @prescription, @expiration_date, @price, @warehouse_Id, @medicationForm_Id, @manufacturer_Id, @category_Id)", databaseConnection))
             {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@title", model.Title);
+                sqlCommand.Parameters.AddWithValue("@count", model.Count);
+                sqlCommand.Parameters.AddWithValue("@price", model.Price);
+                sqlCommand.Parameters.AddWithValue("@availability", model.Availability);
+                sqlCommand.Parameters.AddWithValue("@description", model.Description);
+                sqlCommand.Parameters.AddWithValue("@prescription", model.Prescription);
+                sqlCommand.Parameters.AddWithValue("@expiration_date", $"{model.ExpirationDate.Month}/{model.ExpirationDate.Day}/{model.ExpirationDate.Year}");
+                sqlCommand.Parameters.AddWithValue("@warehouse_Id", DataLists.WarehousesData.Find(x => x.Name == model.Warehouse).Id);
+                sqlCommand.Parameters.AddWithValue("@medicationForm_Id", DataLists.MedicationFormsData.Find(x => x.Form == model.Form).Id);
+                sqlCommand.Parameters.AddWithValue("@manufacturer_Id", DataLists.ManufacturersData.Find(x => x.Name == model.Manufacturer).Id);
+                sqlCommand.Parameters.AddWithValue("@category_Id", DataLists.CategoriesData.Find(x => x.Name == model.Category).Id);
                 try
                 {
-                    sqlCommand.Parameters.Clear();
-                    sqlCommand.Parameters.AddWithValue("@title", model.Title);
-                    sqlCommand.Parameters.AddWithValue("@count", model.Count);
-                    sqlCommand.Parameters.AddWithValue("@price", model.Price);
-                    sqlCommand.Parameters.AddWithValue("@availability", model.Availability);
-                    sqlCommand.Parameters.AddWithValue("@description", model.Description);
-                    sqlCommand.Parameters.AddWithValue("@prescription", model.Prescription);
-                    sqlCommand.Parameters.AddWithValue("@expiration_date", $"{model.ExpirationDate.Month}/{model.ExpirationDate.Day}/{model.ExpirationDate.Year}");
-                    sqlCommand.Parameters.AddWithValue("@warehouse_Id", DataLists.WarehousesData.Find(x => x.Name == model.Warehouse).Id);
-                    sqlCommand.Parameters.AddWithValue("@medicationForm_Id", DataLists.MedicationFormsData.Find(x => x.Form == model.Form).Id);
-                    sqlCommand.Parameters.AddWithValue("@manufacturer_Id", DataLists.ManufacturersData.Find(x => x.Name == model.Manufacturer).Id);
-                    sqlCommand.Parameters.AddWithValue("@category_Id", DataLists.CategoriesData.Find(x => x.Name == model.Category).Id);
                     sqlCommand.ExecuteNonQuery();
-
                 }
                 catch (Exception ex)
                 {
@@ -109,14 +108,13 @@ namespace Pharmacy
         {
             using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Purchases(Date, Cost, Provider_Id) VALUES (@date, @cost, @provider_Id)", databaseConnection))
             {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@date", $"{model.DeliveryDate.Month}/{model.DeliveryDate.Day}/{model.DeliveryDate.Year}");
+                sqlCommand.Parameters.AddWithValue("@cost", model.Cost);
+                sqlCommand.Parameters.AddWithValue("@provider_Id", DataLists.ProvidersData.Find(x => x.Name == model.Provider).Id);
                 try
                 {
-                    sqlCommand.Parameters.Clear();
-                    sqlCommand.Parameters.AddWithValue("@date", $"{model.DeliveryDate.Month}/{model.DeliveryDate.Day}/{model.DeliveryDate.Year}");
-                    sqlCommand.Parameters.AddWithValue("@cost", model.Cost);
-                    sqlCommand.Parameters.AddWithValue("@provider_Id", DataLists.ProvidersData.Find(x => x.Name == model.Provider).Id);
                     sqlCommand.ExecuteNonQuery();
-
                 }
                 catch (Exception ex)
                 {
@@ -127,20 +125,38 @@ namespace Pharmacy
 
         private void WriteDataToSales(SaleModel model, SqlConnection databaseConnection)
         {
-            using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Sales(Price, Date) VALUES (@price, @date", databaseConnection))
+            using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Sales(Price, Date) VALUES (@price, @date)", databaseConnection))
             {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@price", model.Price);
+                sqlCommand.Parameters.AddWithValue("@date", $"{model.Date.Month}/{model.Date.Day}/{model.Date.Year}");
                 try
                 {
-                    sqlCommand.Parameters.Clear();
-                    sqlCommand.Parameters.AddWithValue("@price", model.Price);
-                    sqlCommand.Parameters.AddWithValue("@date", $"{model.Date.Month}/{model.Date.Day}/{model.Date.Year}");
                     sqlCommand.ExecuteNonQuery();
-
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+            using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Sold_medications (Sale_Id, Medication_Id, Count) VALUES (@sale_Id, @medication_Id, @count)", databaseConnection))
+            {
+                foreach(var row in DataLists.SoldMedicationsData)
+                {
+                    sqlCommand.Parameters.Clear();
+                    sqlCommand.Parameters.AddWithValue("@sale_Id", row.SaleId);
+                    sqlCommand.Parameters.AddWithValue("@medication_Id", row.MedicationId);
+                    sqlCommand.Parameters.AddWithValue("@count", row.Count);
+                    try
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                DataLists.SoldMedicationsData.Clear();
             }
         }
 
@@ -148,14 +164,13 @@ namespace Pharmacy
         {
             using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Manufacturers(Name, Country, License) VALUES (@name, @country, @license)", databaseConnection))
             {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@name", model.Name);
+                sqlCommand.Parameters.AddWithValue("@country", model.Country);
+                sqlCommand.Parameters.AddWithValue("@license", model.License);
                 try
                 {
-                    sqlCommand.Parameters.Clear();
-                    sqlCommand.Parameters.AddWithValue("@name", model.Name);
-                    sqlCommand.Parameters.AddWithValue("@country", model.Country);
-                    sqlCommand.Parameters.AddWithValue("@license", model.License);
                     sqlCommand.ExecuteNonQuery();
-
                 }
                 catch (Exception ex)
                 {
@@ -168,12 +183,11 @@ namespace Pharmacy
         {
             using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO Warehouses(Name) VALUES (@name)", databaseConnection))
             {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@name", model.Name);
                 try
                 {
-                    sqlCommand.Parameters.Clear();
-                    sqlCommand.Parameters.AddWithValue("@name", model.Name);
                     sqlCommand.ExecuteNonQuery();
-
                 }
                 catch (Exception ex)
                 {
@@ -195,11 +209,13 @@ namespace Pharmacy
                     {
                         while (dataReader.Read())
                         {
+                            if (DataLists.MedicationsData.Any(x => x.Id == dataReader.GetInt32(0)))
+                                continue;
                             medicationRow = new MedicationModel
                                 (
                                 dataReader.GetInt32(0), dataReader.GetString(1), dataReader.GetBoolean(2), dataReader.GetInt32(3), dataReader.GetString(7), dataReader.GetBoolean(4), dataReader.GetDateTime(5), dataReader.GetDecimal(6), dataReader.GetString(8), dataReader.GetString(9), dataReader.GetString(10), dataReader.GetString(11)
                                 );
-                            DataLists.AddToDataList(medicationRow, DataLists.MedicationsData);
+                            DataLists.Add(medicationRow);
                         }
                     }
                 }
@@ -215,7 +231,7 @@ namespace Pharmacy
         {
             WarehouseModel warehouseRow = null;
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT Warehouses.* FROM Warehouses", databaseConnection))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT Warehouses.*, STRING_AGG(Medications.Title, ', ') AS Medications FROM Warehouses LEFT JOIN Medications ON Warehouses.Id_Warehouse = Medications.Warehouse_Id GROUP BY Warehouses.Id_Warehouse, Warehouses.Name", databaseConnection))
             {
                 try
                 {
@@ -223,11 +239,14 @@ namespace Pharmacy
                     {
                         while (dataReader.Read())
                         {
+                            if (DataLists.WarehousesData.Any(x => x.Id == dataReader.GetInt32(0)))
+                                continue;
                             warehouseRow = new WarehouseModel
                                 (
                                 dataReader.GetInt32(0), dataReader.GetString(1)
                                 );
-                            DataLists.AddToDataList(warehouseRow, DataLists.WarehousesData);
+                            warehouseRow.Medications = dataReader.GetString(2);
+                            DataLists.Add(warehouseRow);
                         }
                     }
                 }
@@ -241,7 +260,7 @@ namespace Pharmacy
         {
             ManufacturerModel manufacturerRow = null;
 
-            using (SqlCommand sqlCommand = new SqlCommand("SELECT Manufacturers.* FROM Manufacturers", databaseConnection))
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT Manufacturers.*, STRING_AGG(Medications.Title, ', ') AS Medications FROM Manufacturers LEFT JOIN Medications ON Manufacturers.Id_Manufacturer = Medications.Manufacturer_Id GROUP BY Manufacturers.Id_Manufacturer, Manufacturers.Name, Manufacturers.Country, Manufacturers.License", databaseConnection))
             {
                 try
                 {
@@ -249,11 +268,14 @@ namespace Pharmacy
                     {
                         while (dataReader.Read())
                         {
+                            if (DataLists.ManufacturersData.Any(x => x.Id == dataReader.GetInt32(0)))
+                                continue;
                             manufacturerRow = new ManufacturerModel
                                 (
                                 dataReader.GetInt32(0), dataReader.GetString(1), dataReader.GetString(2), dataReader.GetString(3)
                                 );
-                            DataLists.AddToDataList(manufacturerRow, DataLists.ManufacturersData);
+                            manufacturerRow.Medications = dataReader.GetString(4);
+                            DataLists.Add(manufacturerRow);
                         }
                     }
                 }
@@ -274,11 +296,13 @@ namespace Pharmacy
                     {
                         while (dataReader.Read())
                         {
+                            if (DataLists.SalesData.Any(x => x.Id == dataReader.GetInt32(0)))
+                                continue;
                             saleRow = new SaleModel
                                 (
                                 dataReader.GetInt32(0), dataReader.GetDecimal(1), dataReader.GetDateTime(2), dataReader.GetString(3)
                                 );
-                            DataLists.AddToDataList(saleRow, DataLists.SalesData);
+                            DataLists.Add(saleRow);
                         }
                     }
                 }
@@ -300,11 +324,14 @@ namespace Pharmacy
                     { 
                     while (dataReader.Read())
                     {
+                        if (DataLists.PurchasesData.Any(x => x.Id == dataReader.GetInt32(0)))
+                            continue;
                         purchaseRow = new PurchaseModel
                             (
                             dataReader.GetInt32(0), dataReader.GetDateTime(1), dataReader.GetDecimal(2), dataReader.GetString(3), dataReader.GetString(4)
                             );
-                        DataLists.AddToDataList(purchaseRow, DataLists.PurchasesData);
+                           
+                        DataLists.Add(purchaseRow);
                     }
                     }
                 }
@@ -325,11 +352,13 @@ namespace Pharmacy
                     {
                         while (dataReader.Read())
                         {
+                            if (DataLists.CategoriesData.Any(x => x.Id == dataReader.GetInt32(0)))
+                                continue;
                             categoryRow = new CategoryModel
                                 (
                                 dataReader.GetInt32(0), dataReader.GetString(1)
                                 );
-                            DataLists.AddToDataList(categoryRow, DataLists.CategoriesData);
+                            DataLists.Add(categoryRow);
                         }
                     }
                 }
@@ -351,11 +380,13 @@ namespace Pharmacy
                     {
                         while (dataReader.Read())
                         {
+                            if(DataLists.MedicationFormsData.Any(x => x.Id == dataReader.GetInt32(0)))
+                                continue;
                             medicationFormRow = new MedicationFormModel
                                 (
                                 dataReader.GetInt32(0), dataReader.GetString(1)
                                 );
-                            DataLists.AddToDataList(medicationFormRow, DataLists.MedicationFormsData);
+                            DataLists.Add(medicationFormRow);
                         }
                     }
                 }
@@ -377,11 +408,13 @@ namespace Pharmacy
                     {
                         while (dataReader.Read())
                         {
+                            if(DataLists.ProvidersData.Any(x=>x.Id == dataReader.GetInt32(0)))
+                                continue;
                             providerRow = new ProviderModel
                                 (
                                 dataReader.GetInt32(0), dataReader.GetString(1)
                                 );
-                            DataLists.AddToDataList(providerRow, DataLists.ProvidersData);
+                            DataLists.Add(providerRow);
                         }
                     }
                 }

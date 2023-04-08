@@ -20,6 +20,7 @@ namespace Pharmacy
 
         public static void Add(FilesIOLogic filesConnection)
         {
+            _connections.RemoveAll(x => x.Name == filesConnection.Name);
             _connections.Add(filesConnection);
         }
 

@@ -37,7 +37,7 @@ namespace Pharmacy
 
         public ProviderModel(int id, string name)
         {
-            _id = id;
+            Id = id;
             Name = name;
         }
     }

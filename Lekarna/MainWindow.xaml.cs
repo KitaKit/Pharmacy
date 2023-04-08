@@ -71,7 +71,6 @@ namespace Pharmacy
 {
     public partial class MainWindow : Window
     {
-        //private DataLists _addedDataLists = new DataLists();
         public MainWindow()
         {
             InitializeComponent();
@@ -85,7 +84,10 @@ namespace Pharmacy
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
             database.ReadData();
-            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl);
+            if (DataShow.HasData(mainTabControl))
+                DataShow.Refresh(SelectedTable.All, mainTabControl);
+            else
+                DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -99,7 +101,10 @@ namespace Pharmacy
             else
                 return;
 
-            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl);
+            if (DataShow.HasData(mainTabControl))
+                DataShow.Refresh(selectedTable, mainTabControl);
+            else
+                DataShow.ToSelectedDataGrid(selectedTable, mainTabControl);
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -144,6 +149,7 @@ namespace Pharmacy
                     addPurchaseWindow.ShowDialog();
                     break;
             }
+            DataShow.Refresh(selectedTable, mainTabControl);
         }
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -196,8 +202,9 @@ namespace Pharmacy
         }
     }
 }
-//добавление в окне добавлений будет работать так, что при нажатии на кнопку сохранения, новый экземпляр будет добавляться в список, потом обновление отображения списка на экране, потом попытка сохранения в бд и файл по коду который написан выше с пометкой. 
 //при нажатиии на кнопку сохранения при этом будет браться вся изменённая (в основном окне) инфа и сохраняться так же в бд и файл (надо понять как проверять на то, что было изменение или нет, сейчас я знаю, что когда мы меняем инфу в DataGrid в строках, то оно сразу изменяется в списке, который привязан к этому DataGrid'у)
 //при нажатии на кнопку удаления будет удаляться выбранная строка и будет попытка удаления из бд и файла
 //прописать и обдумать сортировку и поиск
 //?что будет если попробовать добавить уже существующие данные?
+//добавить чтобы при считывании из файла из таблиц с покупками и продажами столбец с медикаментами выгружался в список проданых и купленых медикоментов в цикле через создание новых объектов купленного и проданного медикамента
+//написать нажатие на кнопку сохранения, т.е. будет сверка данных из выбранной для сохранения таблицы, если есть отличия, то будет передаваться запрос на изменение. бот предлагает это сделать через метод Except(), который монжо использовать после переопределния методов GetHashCode() и Equals() для каждой модели для сравнения хорошо 

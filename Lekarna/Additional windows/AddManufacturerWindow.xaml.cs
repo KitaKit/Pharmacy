@@ -34,6 +34,7 @@ namespace Pharmacy.Additional_windows
                 );
 
             DataSave.SaveNewData(newManufacturer, SelectedTable.Manufacturers);
+            Close();
         }
     }
 }

@@ -88,21 +88,21 @@ namespace Pharmacy
 
         public MedicationModel(int id, string title, bool availability, int count, string description, bool prescription, DateTime expirationDate, decimal price,  string warehouse, string medicationForm, string manufacturer, string category) : this(title,availability,count,description,prescription,expirationDate,price, warehouse, medicationForm, manufacturer, category)
         {
-            _id = id;
+            Id = id;
         }
         public MedicationModel(string title, bool availability, int count, string description, bool prescription, DateTime expirationDate, decimal price, string warehouse, string medicationForm, string manufacturer, string category)
         {
             Title = title;
-            _availability = availability;
+            Availability = availability;
             Count = count;
             Description = description;
             Price = price;
             ExpirationDate = expirationDate;
-            _prescription = prescription;
-            _warehouse = warehouse;
-            _manufacturer = manufacturer;
-            _category = category;
-            _medicationForm = medicationForm;
+            Prescription = prescription;
+            Warehouse = warehouse;
+            Manufacturer = manufacturer;
+            Category = category;
+            Form = medicationForm;
         }
     }
     public class MedicationClassMap : ClassMap<MedicationModel>

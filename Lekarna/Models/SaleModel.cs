@@ -54,12 +54,11 @@ namespace Pharmacy
         {
             Price = price;
             Date = date;
-
             Medications = medications;
         }
         public SaleModel(int id, decimal price, DateTime date, string medications):this(price, date, medications)
         {
-            _id = id;
+            Id = id;
         }
     }
     public class SaleClassMap : ClassMap<SaleModel>

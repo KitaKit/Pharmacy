@@ -38,7 +38,7 @@ namespace Pharmacy
 
         public CategoryModel(int id, string name)
         {
-            _id = id;
+            Id = id;
             Name = name;
         }
     }

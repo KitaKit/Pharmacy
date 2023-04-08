@@ -38,7 +38,7 @@ namespace Pharmacy
 
         public MedicationFormModel(int id, string form)
         {
-            _id = id;
+            Id = id;
             Form = form;
         }
     }

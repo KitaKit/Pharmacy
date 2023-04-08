@@ -31,6 +31,7 @@ namespace Pharmacy.Additional_windows
             WarehouseModel newWarehouse = new WarehouseModel(DataLists.WarehousesData.Max(x => x.Id) + 1, nameTextBox.Text);
            
             DataSave.SaveNewData(newWarehouse, SelectedTable.Warehouses);
+            Close();
         }
     }
 }
