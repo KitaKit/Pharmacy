@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Markup;
 using System.Xml.Linq;
 
 namespace Pharmacy
@@ -45,78 +46,94 @@ namespace Pharmacy
                 MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        public static void SaveAll(DataLists deletedData, DataLists changedData)
+        public static void SaveAll(DataLists deletedData, DataLists changedData, DataLists mainData)
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
-            if (deletedData.ManufacturersData.Any())
+            SelectedTable selectedTable = SelectedTable.All;
+
+            List<List<object>> deletedDataLists = new List<List<object>>
             {
-                foreach(var row in deletedData.ManufacturersData)
-                {
-                    database.DeleteData(row);
-                }
-            }    
-            if (deletedData.MedicationsData.Any())
+                deletedData.MedicationsData.Cast<object>().ToList(),
+                deletedData.ManufacturersData.Cast<object>().ToList(),
+                deletedData.WarehousesData.Cast<object>().ToList(),
+                deletedData.SalesData.Cast<object>().ToList(),
+                deletedData.PurchasesData.Cast<object>().ToList()
+            };
+
+            List<List<object>> changedDataLists = new List<List<object>>
             {
-                foreach (var row in deletedData.MedicationsData)
-                {
-                    database.DeleteData(row);
-                }
-            }
-            if (deletedData.WarehousesData.Any())
+                changedData.MedicationsData.Cast<object>().ToList(),
+                changedData.ManufacturersData.Cast<object>().ToList(),
+                changedData.WarehousesData.Cast<object>().ToList(),
+                changedData.SalesData.Cast<object>().ToList(),
+                changedData.PurchasesData.Cast<object>().ToList()
+            }; 
+            
+            foreach (var dataList in deletedDataLists)
             {
-                foreach (var row in deletedData.WarehousesData)
+                if (dataList.Any())
                 {
-                    database.DeleteData(row);
-                }
-            }
-            if (deletedData.SalesData.Any())
-            {
-                foreach (var row in deletedData.SalesData)
-                {
-                    database.DeleteData(row);
-                }
-            }
-            if (deletedData.PurchasesData.Any())
-            {
-                foreach (var row in deletedData.PurchasesData)
-                {
-                    database.DeleteData(row);
+                    foreach (var row in dataList)
+                    {
+                        database.DeleteData(row);
+
+                        foreach(var item in changedDataLists)
+                            item.RemoveAll(x => x.GetType() == row.GetType() && (x as dynamic).Id == (row as dynamic).Id);
+                    }
+
+                    if (!FileConnectionsList.IsEmpty())
+                    {
+                        if (dataList.FirstOrDefault() is MedicationModel)
+                            selectedTable = SelectedTable.Medications;
+                        else if (dataList.FirstOrDefault() is WarehouseModel)
+                            selectedTable = SelectedTable.Warehouses;
+                        else if (dataList.FirstOrDefault() is ManufacturerModel)
+                            selectedTable = SelectedTable.Manufacturers;
+                        else if (dataList.FirstOrDefault() is SaleModel)
+                            selectedTable = SelectedTable.Sales;
+                        else if (dataList.FirstOrDefault() is PurchaseModel)
+                            selectedTable = SelectedTable.Purchases;
+                        else
+                            continue;
+
+                        var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
+                        if (requiredFileConnection != null)
+                        {
+                            requiredFileConnection.WriteDataToNew(mainData);
+                        }
+                    }
                 }
             }
 
-            if (changedData.ManufacturersData.Any())
+            foreach (var dataList in changedDataLists)
             {
-                foreach (var row in changedData.ManufacturersData)
+                if (dataList.Any())
                 {
-                    database.EditData(row);
+                    foreach (var row in dataList)
+                    {
+                        database.EditData(row);
+                    }
                 }
-            }
-            if (changedData.MedicationsData.Any())
-            {
-                foreach (var row in changedData.MedicationsData)
+                if (!FileConnectionsList.IsEmpty())
                 {
-                    database.EditData(row);
-                }
-            }
-            if (changedData.WarehousesData.Any())
-            {
-                foreach (var row in changedData.WarehousesData)
-                {
-                    database.EditData(row);
-                }
-            }
-            if (changedData.SalesData.Any())
-            {
-                foreach (var row in changedData.SalesData)
-                {
-                    database.EditData(row);
-                }
-            }
-            if (changedData.PurchasesData.Any())
-            {
-                foreach (var row in changedData.PurchasesData)
-                {
-                    database.EditData(row);
+                    if (dataList.FirstOrDefault() is MedicationModel)
+                        selectedTable = SelectedTable.Medications;
+                    else if (dataList.FirstOrDefault() is WarehouseModel)
+                        selectedTable = SelectedTable.Warehouses;
+                    else if (dataList.FirstOrDefault() is ManufacturerModel)
+                        selectedTable = SelectedTable.Manufacturers;
+                    else if (dataList.FirstOrDefault() is SaleModel)
+                        selectedTable = SelectedTable.Sales;
+                    else if (dataList.FirstOrDefault() is PurchaseModel)
+                        selectedTable = SelectedTable.Purchases;
+                    else
+                        continue;
+
+                    var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
+                    if (requiredFileConnection != null)
+                    {
+                        requiredFileConnection.WriteDataToNew(mainData);
+                    }
                 }
             }
         }

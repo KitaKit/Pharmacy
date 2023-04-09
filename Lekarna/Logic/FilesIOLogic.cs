@@ -24,7 +24,7 @@ namespace Pharmacy
         private FilesConnectionService _fileConnection;
         private string _path;
         private SelectedTable _selectedTable;
-        public SelectedTable SelectedTable { get {return _selectedTable;} }
+        public SelectedTable SelectedTable { get { return _selectedTable; } }
         public string Path { get { return _path; } }
         private string _name;
         public string Name { get { return _name; } }
@@ -35,87 +35,78 @@ namespace Pharmacy
             _name = System.IO.Path.GetFileNameWithoutExtension(_path);
         }
 
-        public FilesIOLogic(FileConnectionType connectionType, SelectedTable selectedTable) : this (connectionType)
+        public FilesIOLogic(FileConnectionType connectionType, SelectedTable selectedTable) : this(connectionType)
         {
             _selectedTable = selectedTable;
         }
 
         public void ReadData(DataLists dataLists)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to load data from {_path} to {_selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            switch (_selectedTable)
             {
-                switch (_selectedTable)
-                {
-                    case SelectedTable.Medications:
-                        dataLists.MedicationsData.AddRange(GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap()));
-                        break;
+                case SelectedTable.Medications:
+                    dataLists.MedicationsData.AddRange(GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap()));
+                    break;
 
-                    case SelectedTable.Warehouses:
-                        dataLists.WarehousesData.AddRange(GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap()));
-                        break;
+                case SelectedTable.Warehouses:
+                    dataLists.WarehousesData.AddRange(GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap()));
+                    break;
 
-                    case SelectedTable.Manufacturers:
-                        dataLists.ManufacturersData.AddRange(GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap()));
-                        break;
+                case SelectedTable.Manufacturers:
+                    dataLists.ManufacturersData.AddRange(GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap()));
+                    break;
 
-                    case SelectedTable.Sales:
-                        dataLists.SalesData.AddRange(GetDataFromFile(new List<SaleModel>(), new SaleClassMap()));
-                        break;
+                case SelectedTable.Sales:
+                    dataLists.SalesData.AddRange(GetDataFromFile(new List<SaleModel>(), new SaleClassMap()));
+                    break;
 
-                    case SelectedTable.Purchases:
-                        dataLists.PurchasesData.AddRange(GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap()));
-                        break;
-                }
+                case SelectedTable.Purchases:
+                    dataLists.PurchasesData.AddRange(GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap()));
+                    break;
             }
         }
         public void WriteDataToNew(DataLists dataLists)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to save data from {_selectedTable} to {_path}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            switch (_selectedTable)
             {
-                switch (_selectedTable)
-                {
-                    case SelectedTable.Medications:
-                        if (dataLists.MedicationsData.Any())
-                        {
-                            WriteDataToFile(dataLists.MedicationsData, new MedicationClassMap());
-                            break;
-                        }
+                case SelectedTable.Medications:
+                    if (dataLists.MedicationsData.Any())
+                    {
+                        WriteDataToFile(dataLists.MedicationsData, new MedicationClassMap());
                         break;
+                    }
+                    break;
 
-                    case SelectedTable.Warehouses:
-                        if (dataLists.WarehousesData.Any())
-                        {
-                            WriteDataToFile(dataLists.WarehousesData, new WarehouseClassMap());
-                            break;
-                        }
+                case SelectedTable.Warehouses:
+                    if (dataLists.WarehousesData.Any())
+                    {
+                        WriteDataToFile(dataLists.WarehousesData, new WarehouseClassMap());
                         break;
+                    }
+                    break;
 
-                    case SelectedTable.Manufacturers:
-                        if (dataLists.ManufacturersData.Any())
-                        {
-                            WriteDataToFile(dataLists.ManufacturersData, new ManufacturerClassMap());
-                            break;
-                        }
+                case SelectedTable.Manufacturers:
+                    if (dataLists.ManufacturersData.Any())
+                    {
+                        WriteDataToFile(dataLists.ManufacturersData, new ManufacturerClassMap());
                         break;
+                    }
+                    break;
 
-                    case SelectedTable.Sales:
-                        if (dataLists.SalesData.Any())
-                        {
-                            WriteDataToFile(dataLists.SalesData, new SaleClassMap());
-                            break;
-                        }
+                case SelectedTable.Sales:
+                    if (dataLists.SalesData.Any())
+                    {
+                        WriteDataToFile(dataLists.SalesData, new SaleClassMap());
                         break;
-
-                    case SelectedTable.Purchases:
-                        if (dataLists.PurchasesData.Any())
-                        {
-                            WriteDataToFile(dataLists.PurchasesData, new PurchaseClassMap());
-                            break;
-                        }
+                    }
+                    break;
+                case SelectedTable.Purchases:
+                    if (dataLists.PurchasesData.Any())
+                    {
+                        WriteDataToFile(dataLists.PurchasesData, new PurchaseClassMap());
                         break;
-                }
+                    }
+                    break;
             }
         }
         public void AppendData<T>(T model)
@@ -142,14 +133,11 @@ namespace Pharmacy
                     break;
             }
         }
-        public void RewriteEditedData()
-        {
-           
-        }
+
         private void WriteDataToFile<T, TMap>(List<T> dataList, TMap classMap) where TMap : ClassMap<T>
         {
 
-            using (StreamWriter writer = new StreamWriter(_path))
+            using (StreamWriter writer = new StreamWriter(_path, false))
             {
                 using (CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
@@ -185,7 +173,7 @@ namespace Pharmacy
         {
             using (StreamWriter writer = new StreamWriter(_path, true))
             {
-                using (CsvWriter csvWriter = new CsvWriter(writer,CultureInfo.InvariantCulture))
+                using (CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
                     var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false, Delimiter = ";" };
                     csvWriter.Context.RegisterClassMap(classMap);

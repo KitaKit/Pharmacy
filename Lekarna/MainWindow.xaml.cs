@@ -63,7 +63,7 @@ namespace Pharmacy
     }
     public partial class MainWindow : Window
     {
-        public DataLists dataLists = new DataLists();
+        public DataLists mainDataLists = new DataLists();
         public DataLists changedDataLists = null;
         public DataLists deletedDataLists = null;
         public MainWindow()
@@ -78,8 +78,8 @@ namespace Pharmacy
         private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
-            database.ReadData(dataLists);
-            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, dataLists);
+            database.ReadData(mainDataLists);
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, mainDataLists);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -87,13 +87,17 @@ namespace Pharmacy
             FilesIOLogic file = new FilesIOLogic(FileConnectionType.Read, selectedTable);
             if (file.Path != null)
             {
-                file.ReadData(dataLists);
-                FileConnectionsList.Add(file);
+                MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to load data from {file.Path} to {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    file.ReadData(mainDataLists);
+                    FileConnectionsList.Add(file);
+                }
             }
             else
                 return;
 
-            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, dataLists);
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, mainDataLists);
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -101,15 +105,17 @@ namespace Pharmacy
             FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, selectedTable);
             if (file.Path != null)
             {
-                file.WriteDataToNew(dataLists);
-                FileConnectionsList.Add(file);
+                MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to save data from {selectedTable} to {file.Path}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    file.WriteDataToNew(mainDataLists);
+                    FileConnectionsList.Add(file);
+                }
             }
-            else
-                return;
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            ChangeData.SaveAll(deletedDataLists, changedDataLists);
+            ChangeData.SaveAll(deletedDataLists, changedDataLists, mainDataLists);
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -118,32 +124,32 @@ namespace Pharmacy
             switch (selectedTable)
             {
                 case SelectedTable.Medications:
-                    AddMedicationWindow addMedicationWindow = new AddMedicationWindow(dataLists);
+                    AddMedicationWindow addMedicationWindow = new AddMedicationWindow(mainDataLists);
                     addMedicationWindow.Owner = this;
                     addMedicationWindow.ShowDialog();
                     break;
                 case SelectedTable.Warehouses:
-                    AddWarehouseWindow addWarehouseWindow = new AddWarehouseWindow(dataLists);
+                    AddWarehouseWindow addWarehouseWindow = new AddWarehouseWindow(mainDataLists);
                     addWarehouseWindow.Owner = this;
                     addWarehouseWindow.ShowDialog();
                     break;
                 case SelectedTable.Manufacturers:
-                    AddManufacturerWindow addManufacturerWindow = new AddManufacturerWindow(dataLists);
+                    AddManufacturerWindow addManufacturerWindow = new AddManufacturerWindow(mainDataLists);
                     addManufacturerWindow.Owner = this;
                     addManufacturerWindow.ShowDialog();
                     break;
                 case SelectedTable.Sales:
-                    AddSaleWindow addSaleWindow = new AddSaleWindow(dataLists);
+                    AddSaleWindow addSaleWindow = new AddSaleWindow(mainDataLists);
                     addSaleWindow.Owner = this;
                     addSaleWindow.ShowDialog();
                     break;
                 case SelectedTable.Purchases:
-                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow(dataLists);
+                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow(mainDataLists);
                     addPurchaseWindow.Owner = this;
                     addPurchaseWindow.ShowDialog();
                     break;
             }
-            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, dataLists);
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, mainDataLists);
         }
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -176,8 +182,9 @@ namespace Pharmacy
                     break;
             }
             deletedDataLists.Add(selectedRow);
-            dataLists.Delete(selectedRow);
-            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, dataLists);
+            mainDataLists.Delete(selectedRow);
+
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, mainDataLists);
         }
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -193,3 +200,4 @@ namespace Pharmacy
 //?что будет если попробовать добавить уже существующие данные?
 //добавить чтобы при считывании из файла из таблиц с покупками и продажами столбец с медикаментами выгружался в список проданых и купленых медикоментов в цикле через создание новых объектов купленного и проданного медикамента
 //написать нажатие на кнопку сохранения, т.е. будет сверка данных из выбранной для сохранения таблицы, если есть отличия, то будет передаваться запрос на изменение. бот предлагает это сделать через метод Except(), который монжо использовать после переопределния методов GetHashCode() и Equals() для каждой модели для сравнения хорошо 
+//при изменении данных, будет перехватываться событие изменения CellEditEnding, там мы будем брать изменённый объект и сохранять его в список изменений, потом этот список выгружать в бд
