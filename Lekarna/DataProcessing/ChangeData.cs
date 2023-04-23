@@ -111,28 +111,29 @@ namespace Pharmacy
                 {
                     foreach (var row in dataList)
                     {
-                        database.EditData(row);
+                        database.EditData(row, mainData);
                     }
-                }
-                if (!FileConnectionsList.IsEmpty())
-                {
-                    if (dataList.FirstOrDefault() is MedicationModel)
-                        selectedTable = SelectedTable.Medications;
-                    else if (dataList.FirstOrDefault() is WarehouseModel)
-                        selectedTable = SelectedTable.Warehouses;
-                    else if (dataList.FirstOrDefault() is ManufacturerModel)
-                        selectedTable = SelectedTable.Manufacturers;
-                    else if (dataList.FirstOrDefault() is SaleModel)
-                        selectedTable = SelectedTable.Sales;
-                    else if (dataList.FirstOrDefault() is PurchaseModel)
-                        selectedTable = SelectedTable.Purchases;
-                    else
-                        continue;
 
-                    var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
-                    if (requiredFileConnection != null)
+                    if (!FileConnectionsList.IsEmpty())
                     {
-                        requiredFileConnection.WriteDataToNew(mainData);
+                        if (dataList.FirstOrDefault() is MedicationModel)
+                            selectedTable = SelectedTable.Medications;
+                        else if (dataList.FirstOrDefault() is WarehouseModel)
+                            selectedTable = SelectedTable.Warehouses;
+                        else if (dataList.FirstOrDefault() is ManufacturerModel)
+                            selectedTable = SelectedTable.Manufacturers;
+                        else if (dataList.FirstOrDefault() is SaleModel)
+                            selectedTable = SelectedTable.Sales;
+                        else if (dataList.FirstOrDefault() is PurchaseModel)
+                            selectedTable = SelectedTable.Purchases;
+                        else
+                            continue;
+
+                        var requiredFileConnection = FileConnectionsList.Connections.SingleOrDefault(x => x.SelectedTable == selectedTable);
+                        if (requiredFileConnection != null)
+                        {
+                            requiredFileConnection.WriteDataToNew(mainData);
+                        }
                     }
                 }
             }

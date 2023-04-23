@@ -37,6 +37,8 @@ namespace Pharmacy
                 _dataLists.MedicationsData.Max(x => x.Id) + 1, titleTextBox.Text, (bool)availabilityCheckBox.IsChecked, int.Parse(countTextBox.Text), descriptionTextBox.Text, (bool)prescriptionCheckBox.IsChecked, (DateTime)expirationDateDatePicker.SelectedDate, decimal.Parse(priceTextBox.Text), warehouseComboBox.SelectedValue.ToString(), formComboBox.SelectedValue.ToString(), manufacturerComboBox.SelectedValue.ToString(), categoryComboBox.SelectedValue.ToString()
                 );
 
+            _dataLists.WarehousesData.Find(x => x.Name == newMedication.Warehouse).Medications += (", " + newMedication.Title);
+            _dataLists.ManufacturersData.Find(x => x.Name == newMedication.Manufacturer).Medications += (", " + newMedication.Title);
             ChangeData.SaveNew(newMedication, SelectedTable.Medications, _dataLists);
             Close();
         }

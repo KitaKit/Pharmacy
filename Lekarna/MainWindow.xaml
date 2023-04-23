@@ -18,16 +18,14 @@
             </MenuItem>
         </Menu>
         <Menu Height="18" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <MenuItem Header="Search" Width="50">
-            </MenuItem>
-            <MenuItem Header="Sort" Width="50">
-            </MenuItem>
+            <MenuItem x:Name="menuItemSearch" Header="Search" Width="50" Click="menuItemSearch_Click"/>
+            <MenuItem Header="Sort" Width="50"/>
         </Menu>
         <TabControl TabStripPlacement="Bottom" Margin="0,18,0,30" x:Name="mainTabControl">
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridMedicationsScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridMedications_CellEditEnding">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -54,7 +52,7 @@
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridWarehousesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                        <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridWarehouses_CellEditEnding">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -72,7 +70,7 @@
             <TabItem Header="Manufacturers" x:Name="tabItemManufacturers">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridManufacturersScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                        <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridManufacturers_CellEditEnding">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -92,7 +90,7 @@
             <TabItem Header="Sales" x:Name="tabItemSales">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridSalesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                        <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridSales_CellEditEnding">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -111,7 +109,7 @@
             <TabItem Header="Purchases" x:Name="tabItemPurchases">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridPurchasesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                        <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridPurchases_CellEditEnding">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -138,6 +136,8 @@
             <Button x:Name="saveButton" Content="Save" Width="70" Margin="3" Click="saveButton_Click"/>
             <Button Content="Close" Width="70" Margin="3"/>
         </StackPanel>
-
+        <StackPanel x:Name="stackPanelSearch" Height="20" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Visibility="Collapsed">
+            <TextBox x:Name="textBoxSearch" TextChanged="textBoxSearch_TextChanged"/>
+        </StackPanel>
     </Grid>
 </Window>

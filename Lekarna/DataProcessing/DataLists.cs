@@ -59,7 +59,16 @@ namespace Pharmacy
         public void Delete<T>(T data)
         {
             if (data is MedicationModel)
-                MedicationsData.Remove(data as MedicationModel);
+            {
+                var model = data as MedicationModel;
+                MedicationsData.Remove(model);
+
+                string reference = WarehousesData.Find(x => x.Name == model.Warehouse).Medications;
+                WarehousesData.Find(x => x.Name == model.Warehouse).Medications = reference.Remove(reference.IndexOf(model.Title), model.Title.Length).TrimStart(',', ' ');
+
+                reference = ManufacturersData.Find(x => x.Name == model.Manufacturer).Medications;
+                ManufacturersData.Find(x => x.Name == model.Manufacturer).Medications = reference.Remove(reference.IndexOf(model.Title), model.Title.Length).TrimStart(',', ' ');
+            }
             else if (data is WarehouseModel)
                 WarehousesData.Remove(data as WarehouseModel);
             else if (data is ManufacturerModel)

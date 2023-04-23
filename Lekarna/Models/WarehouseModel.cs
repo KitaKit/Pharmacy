@@ -15,7 +15,7 @@ namespace Pharmacy
     {
         private int _id;
         private string _name;
-        private string _medication;
+        private string _medications;
         public WarehouseModel() { }
         public int Id
         {
@@ -36,7 +36,7 @@ namespace Pharmacy
                     _name = value;
             }
         }
-        public string Medications { get { return _medication; } set { _medication = value; } }
+        public string Medications { get { return _medications; } set { _medications = value; } }
         public WarehouseModel(string name)
         {
             Name = name;

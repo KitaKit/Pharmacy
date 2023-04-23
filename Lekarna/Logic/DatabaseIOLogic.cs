@@ -35,7 +35,6 @@ namespace Pharmacy
                 ReadCategoriesTableData(pharmacyConnection, dataLists);
                 ReadMedicationFormsTableData(pharmacyConnection, dataLists);
                 ReadProvidersTableData(pharmacyConnection, dataLists);
-                pharmacyConnection.Close();
             }
         }
 
@@ -69,18 +68,183 @@ namespace Pharmacy
                     default:
                         break;
                 }
-                pharmacyConnection.Close();
             }
         }
 
         public void DeleteData<T>(T model)
         {
+            DatabaseConnectionService.Connect();
+            using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
+            {
+                pharmacyConnection.Open();
+                SqlTransaction transaction = pharmacyConnection.BeginTransaction();
+                try
+                {
+                    using (SqlCommand sqlCommand = new SqlCommand())
+                    {
+                        sqlCommand.Connection = pharmacyConnection;
 
+                        if (model is MedicationModel)
+                        {
+                            sqlCommand.CommandText = $"DELETE FROM Medications WHERE Id = {(model as MedicationModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        else if (model is WarehouseModel)
+                        {
+                            sqlCommand.CommandText = $"DELETE FROM Warehouses WHERE Id = {(model as WarehouseModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        else if (model is ManufacturerModel)
+                        {
+                            sqlCommand.CommandText = $"DELETE FROM Manufacturers WHERE Id = {(model as ManufacturerModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        else if (model is SaleModel)
+                        {
+                            sqlCommand.CommandText = $"DELETE FROM Sales WHERE Id = {(model as SaleModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                            sqlCommand.CommandText = $"DELETE FROM Sold_medications WHERE Id = {(model as SaleModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        else if (model is PurchaseModel)
+                        {
+                            sqlCommand.CommandText = $"DELETE FROM Purchases WHERE Id = {(model as PurchaseModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                            sqlCommand.CommandText = $"DELETE FROM Purchased_medications WHERE Id = {(model as PurchaseModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
-        public void EditData<T>(T model)
+        public void EditData<T>(T model, DataLists dataLists)
         {
 
+            DatabaseConnectionService.Connect();
+            using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
+            {
+                try
+                {
+                    pharmacyConnection.Open();
+
+                    if (model is MedicationModel)
+                    {
+                        EditDataInMedications(model as MedicationModel, pharmacyConnection, dataLists);
+                    }
+                    else if (model is WarehouseModel)
+                    {
+                        EditDataInWarehouses(model as WarehouseModel, pharmacyConnection);
+                    }
+                    else if (model is ManufacturerModel)
+                    {
+                        EditDataInManufacturers(model as ManufacturerModel, pharmacyConnection);
+                    }
+                    else if (model is SaleModel)
+                    {
+                        EditDataInSales(model as SaleModel, pharmacyConnection, dataLists);
+                    }
+                    else if (model is PurchaseModel)
+                    {
+                        EditDataInPurchases(model as PurchaseModel, pharmacyConnection, dataLists);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void EditDataInPurchases(PurchaseModel model, SqlConnection databaseConnection, DataLists dataLists)
+        {
+            using (SqlCommand sqlCommand =  new SqlCommand())
+            {
+
+            }
+        }
+
+        private void EditDataInSales(SaleModel model, SqlConnection databaseConnection, DataLists dataLists)
+        {
+            using (SqlCommand sqlCommand = new SqlCommand())
+            {
+
+            }
+        }
+
+        private void EditDataInManufacturers(ManufacturerModel model, SqlConnection databaseConnection)
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("UPDATE Manufacturers SET Name = @name, Country = @country, License = @license WHERE Id = @id", databaseConnection))
+            {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@id", model.Id);
+                sqlCommand.Parameters.AddWithValue("@name", model.Name);
+                sqlCommand.Parameters.AddWithValue("@country", model.Country);
+                sqlCommand.Parameters.AddWithValue("@license", model.License);
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void EditDataInWarehouses(WarehouseModel model, SqlConnection databaseConnection)
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("UPDATE Warehouses SET Name = @name WHERE Id = @id", databaseConnection))
+            {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@id", model.Id);
+                sqlCommand.Parameters.AddWithValue("@name", model.Name);
+
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void EditDataInMedications(MedicationModel model, SqlConnection databaseConnection, DataLists dataLists)
+        {
+            using (SqlCommand sqlCommand = new SqlCommand("UPDATE Medications SET Title = @title, Count = @count, Availability = @availability, Description = @description, Prescription = @prescription, Expiration_date = @expiration_date, Price = @price, Warehouse_Id = @warehouse_Id, MedicationForm_Id = @medicationForm_Id, Manufacturer_Id = @manufacturer_Id, Category_Id = @category_Id WHERE Id = @id", databaseConnection))
+            {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@id", model.Id);
+                sqlCommand.Parameters.AddWithValue("@title", model.Title);
+                sqlCommand.Parameters.AddWithValue("@count", model.Count);
+                sqlCommand.Parameters.AddWithValue("@price", model.Price);
+                sqlCommand.Parameters.AddWithValue("@availability", model.Availability);
+                sqlCommand.Parameters.AddWithValue("@description", model.Description);
+                sqlCommand.Parameters.AddWithValue("@prescription", model.Prescription);
+                sqlCommand.Parameters.AddWithValue("@expiration_date", $"{model.ExpirationDate.Month}/{model.ExpirationDate.Day}/{model.ExpirationDate.Year}");
+                sqlCommand.Parameters.AddWithValue("@warehouse_Id", dataLists.WarehousesData.Find(x => x.Name == model.Warehouse).Id);
+                sqlCommand.Parameters.AddWithValue("@medicationForm_Id", dataLists.MedicationFormsData.Find(x => x.Form == model.Form).Id);
+                sqlCommand.Parameters.AddWithValue("@manufacturer_Id", dataLists.ManufacturersData.Find(x => x.Name == model.Manufacturer).Id);
+                sqlCommand.Parameters.AddWithValue("@category_Id", dataLists.CategoriesData.Find(x => x.Name == model.Category).Id);
+
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         private void WriteDataToMedications(MedicationModel model, SqlConnection databaseConnection, DataLists dataLists)

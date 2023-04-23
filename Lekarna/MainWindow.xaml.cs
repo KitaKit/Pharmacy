@@ -1,8 +1,11 @@
 ﻿using Pharmacy.Additional_windows;
+using System;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 /*
 --------------------Список того, что работает прямо сейчас:--------------------
 
@@ -63,9 +66,9 @@ namespace Pharmacy
     }
     public partial class MainWindow : Window
     {
-        public DataLists mainDataLists = new DataLists();
-        public DataLists changedDataLists = null;
-        public DataLists deletedDataLists = null;
+        private DataLists _mainDataLists = new DataLists();
+        private DataLists _changedDataLists = new DataLists();
+        private DataLists _deletedDataLists = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -78,8 +81,8 @@ namespace Pharmacy
         private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
-            database.ReadData(mainDataLists);
-            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, mainDataLists);
+            database.ReadData(_mainDataLists);
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -90,14 +93,14 @@ namespace Pharmacy
                 MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to load data from {file.Path} to {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    file.ReadData(mainDataLists);
+                    file.ReadData(_mainDataLists);
                     FileConnectionsList.Add(file);
                 }
             }
             else
                 return;
 
-            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, mainDataLists);
+            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, _mainDataLists);
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -108,14 +111,14 @@ namespace Pharmacy
                 MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to save data from {selectedTable} to {file.Path}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    file.WriteDataToNew(mainDataLists);
+                    file.WriteDataToNew(_mainDataLists);
                     FileConnectionsList.Add(file);
                 }
             }
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            ChangeData.SaveAll(deletedDataLists, changedDataLists, mainDataLists);
+            ChangeData.SaveAll(_deletedDataLists, _changedDataLists, _mainDataLists);
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -124,39 +127,39 @@ namespace Pharmacy
             switch (selectedTable)
             {
                 case SelectedTable.Medications:
-                    AddMedicationWindow addMedicationWindow = new AddMedicationWindow(mainDataLists);
+                    AddMedicationWindow addMedicationWindow = new AddMedicationWindow(_mainDataLists);
                     addMedicationWindow.Owner = this;
                     addMedicationWindow.ShowDialog();
                     break;
                 case SelectedTable.Warehouses:
-                    AddWarehouseWindow addWarehouseWindow = new AddWarehouseWindow(mainDataLists);
+                    AddWarehouseWindow addWarehouseWindow = new AddWarehouseWindow(_mainDataLists);
                     addWarehouseWindow.Owner = this;
                     addWarehouseWindow.ShowDialog();
                     break;
                 case SelectedTable.Manufacturers:
-                    AddManufacturerWindow addManufacturerWindow = new AddManufacturerWindow(mainDataLists);
+                    AddManufacturerWindow addManufacturerWindow = new AddManufacturerWindow(_mainDataLists);
                     addManufacturerWindow.Owner = this;
                     addManufacturerWindow.ShowDialog();
                     break;
                 case SelectedTable.Sales:
-                    AddSaleWindow addSaleWindow = new AddSaleWindow(mainDataLists);
+                    AddSaleWindow addSaleWindow = new AddSaleWindow(_mainDataLists);
                     addSaleWindow.Owner = this;
                     addSaleWindow.ShowDialog();
                     break;
                 case SelectedTable.Purchases:
-                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow(mainDataLists);
+                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow(_mainDataLists);
                     addPurchaseWindow.Owner = this;
                     addPurchaseWindow.ShowDialog();
                     break;
             }
-            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, mainDataLists);
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
         }
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
             var selectedRow = ((((mainTabControl.SelectedItem as TabItem).Content as Grid).Children[0] as ScrollViewer).Content as DataGrid).SelectedItem;
             MessageBoxResult messageBoxResult = MessageBoxResult.None;
-            deletedDataLists = new DataLists();
+            _deletedDataLists = new DataLists();
 
             switch (selectedTable)
             {
@@ -181,10 +184,10 @@ namespace Pharmacy
                     selectedRow = selectedRow as PurchaseModel;
                     break;
             }
-            deletedDataLists.Add(selectedRow);
-            mainDataLists.Delete(selectedRow);
+            _deletedDataLists.Add(selectedRow);
+            _mainDataLists.Delete(selectedRow);
 
-            DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, mainDataLists);
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
         }
         private void DataGridScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -192,12 +195,121 @@ namespace Pharmacy
             scv.ScrollToVerticalOffset(scv.VerticalOffset - (e.Delta / 5));
             e.Handled = true;
         }
+
+        private void dataGridMedications_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.Column.DisplayIndex == 2)
+                if (_mainDataLists.CategoriesData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+                {
+                    MessageBox.Show("Wrong category!");
+                    return;
+                }
+            if (e.Column.DisplayIndex == 3)
+                if (_mainDataLists.MedicationFormsData.FirstOrDefault(x => x.Form == (e.EditingElement as TextBox).Text) == null)
+                {
+                    MessageBox.Show("Wrong form!");
+                    return;
+                }
+            if (e.Column.DisplayIndex == 6)
+                if (_mainDataLists.WarehousesData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+                {
+                    MessageBox.Show("Wrong warehouse!");
+                    return;
+                }
+            if (e.Column.DisplayIndex == 10)
+                if (_mainDataLists.ManufacturersData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+                {
+                    MessageBox.Show("Wrong manufacturer!");
+                    return;
+                }
+
+            _changedDataLists.Add(e.Row.Item as MedicationModel);
+        }
+
+        private void dataGridWarehouses_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            _changedDataLists.Add(e.Row.Item as WarehouseModel);
+        }
+
+        private void dataGridManufacturers_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            _changedDataLists.Add(e.Row.Item as ManufacturerModel);
+        }
+
+        private void dataGridSales_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            _changedDataLists.Add(e.Row.Item as SaleModel);
+        }
+
+        private void dataGridPurchases_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            _changedDataLists.Add(e.Row.Item as PurchaseModel);
+        }
+
+        private void menuItemSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if (stackPanelSearch.Visibility == Visibility.Visible)
+            {
+                DoubleAnimation animation = new DoubleAnimation
+                {
+                    From = stackPanelSearch.ActualHeight,
+                    To = 0,
+                    Duration = TimeSpan.FromSeconds(0.5)
+                };
+                stackPanelSearch.BeginAnimation(HeightProperty, animation);
+                stackPanelSearch.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                stackPanelSearch.Visibility = Visibility.Visible;
+                DoubleAnimation animation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = stackPanelSearch.ActualHeight + 20,
+                    Duration = TimeSpan.FromSeconds(0.5)
+                };
+                stackPanelSearch.BeginAnimation(HeightProperty, animation);
+            }
+        }
+
+        private void textBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchedWord = textBoxSearch.Text;
+            dynamic searchedRows = null;
+            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+
+            if (string.IsNullOrEmpty(searchedWord))
+                DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, _mainDataLists);
+            else if (string.IsNullOrWhiteSpace(searchedWord))
+                return;
+            else
+            {
+                switch (selectedTable)
+                {
+                    case SelectedTable.Medications:
+                        searchedRows = _mainDataLists.MedicationsData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Title.Contains(searchedWord) || x.Description.Contains(searchedWord)).Distinct().ToList();
+                        break;
+                    case SelectedTable.Warehouses:
+                        searchedRows = _mainDataLists.WarehousesData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Name.Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        break;
+                    case SelectedTable.Manufacturers:
+                        searchedRows = _mainDataLists.ManufacturersData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Name.Contains(searchedWord) || x.Country.Contains(searchedWord) || x.License.Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        break;
+                    case SelectedTable.Sales:
+                        searchedRows = _mainDataLists.SalesData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        break;
+                    case SelectedTable.Purchases:
+                        searchedRows = _mainDataLists.PurchasesData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        break;
+                }
+                DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, null, searchedRows);
+            }
+        }
     }
 }
-//при нажатиии на кнопку сохранения при этом будет браться вся изменённая (в основном окне) инфа и сохраняться так же в бд и файл (надо понять как проверять на то, что было изменение или нет, сейчас я знаю, что когда мы меняем инфу в DataGrid в строках, то оно сразу изменяется в списке, который привязан к этому DataGrid'у)
-//при нажатии на кнопку удаления будет удаляться выбранная строка и будет попытка удаления из бд и файла
-//прописать и обдумать сортировку и поиск
+//при нажатиии на кнопку сохранения при этом будет браться вся изменённая (в основном окне) инфа и сохраняться так же в бд и файл (надо понять как проверять на то, что было изменение или нет, сейчас я знаю, что когда мы меняем инфу в DataGrid в строках, то оно сразу изменяется в списке, который привязан к этому DataGrid'у) - вроде готова часть, но ничего не проверено, может не работать
+//при нажатии на кнопку удаления будет удаляться выбранная строка и будет попытка удаления из бд и файла - вроде готово, но не проверено 
+//прописать и обдумать сортировку и поиск - поиск готов
 //?что будет если попробовать добавить уже существующие данные?
 //добавить чтобы при считывании из файла из таблиц с покупками и продажами столбец с медикаментами выгружался в список проданых и купленых медикоментов в цикле через создание новых объектов купленного и проданного медикамента
-//написать нажатие на кнопку сохранения, т.е. будет сверка данных из выбранной для сохранения таблицы, если есть отличия, то будет передаваться запрос на изменение. бот предлагает это сделать через метод Except(), который монжо использовать после переопределния методов GetHashCode() и Equals() для каждой модели для сравнения хорошо 
-//при изменении данных, будет перехватываться событие изменения CellEditEnding, там мы будем брать изменённый объект и сохранять его в список изменений, потом этот список выгружать в бд
+//при изменении данных, будет перехватываться событие изменения CellEditEnding, там мы будем брать изменённый объект и сохранять его в список изменений, потом этот список выгружать в бд - вроде готова часть, но не проверено
