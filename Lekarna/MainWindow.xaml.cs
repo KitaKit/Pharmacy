@@ -1,10 +1,12 @@
 ﻿using Pharmacy.Additional_windows;
+using Pharmacy.Sorting_models;
 using System;
 using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 /*
 --------------------Список того, что работает прямо сейчас:--------------------
@@ -74,8 +76,7 @@ namespace Pharmacy
             InitializeComponent();
         }
         private void PharmacyMainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-
+        { 
         }
 
         private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
@@ -83,6 +84,7 @@ namespace Pharmacy
             DatabaseIOLogic database = new DatabaseIOLogic();
             database.ReadData(_mainDataLists);
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
+            MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -101,6 +103,7 @@ namespace Pharmacy
                 return;
 
             DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, _mainDataLists);
+            MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -153,6 +156,7 @@ namespace Pharmacy
                     break;
             }
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
+            MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
         }
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -188,12 +192,7 @@ namespace Pharmacy
             _mainDataLists.Delete(selectedRow);
 
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
-        }
-        private void DataGridScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - (e.Delta / 5));
-            e.Handled = true;
+            MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
         }
 
         private void dataGridMedications_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -249,27 +248,9 @@ namespace Pharmacy
         private void menuItemSearch_Click(object sender, RoutedEventArgs e)
         {
             if (stackPanelSearch.Visibility == Visibility.Visible)
-            {
-                DoubleAnimation animation = new DoubleAnimation
-                {
-                    From = stackPanelSearch.ActualHeight,
-                    To = 0,
-                    Duration = TimeSpan.FromSeconds(0.5)
-                };
-                stackPanelSearch.BeginAnimation(HeightProperty, animation);
-                stackPanelSearch.Visibility = Visibility.Collapsed;
-            }
+                MenuItemAnimations.Invisible(stackPanelSearch, HeightProperty);
             else
-            {
-                stackPanelSearch.Visibility = Visibility.Visible;
-                DoubleAnimation animation = new DoubleAnimation
-                {
-                    From = 0,
-                    To = stackPanelSearch.ActualHeight + 20,
-                    Duration = TimeSpan.FromSeconds(0.5)
-                };
-                stackPanelSearch.BeginAnimation(HeightProperty, animation);
-            }
+                MenuItemAnimations.Visible(stackPanelSearch, HeightProperty, 50);
         }
 
         private void textBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -302,8 +283,115 @@ namespace Pharmacy
                         searchedRows = _mainDataLists.PurchasesData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
                         break;
                 }
-                DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, null, searchedRows);
+                DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, searchedRows);
             }
+        }
+
+        private void menuItemSort_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
+
+            switch (selectedTable)
+            {
+                case SelectedTable.Medications:
+                    if (stackPanelMedicationsSort.Visibility == Visibility.Visible)
+                        MenuItemAnimations.Invisible(stackPanelMedicationsSort, HeightProperty);
+                    else
+                        MenuItemAnimations.Visible(stackPanelMedicationsSort, HeightProperty, 225);
+                    break;
+                case SelectedTable.Warehouses:
+                    break;
+                case SelectedTable.Manufacturers:
+                    break;
+                case SelectedTable.Sales:
+                    break;
+                case SelectedTable.Purchases:
+                    break;
+            }
+        }
+
+        private void buttonClearSearchText_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxSearch.Text = string.Empty;
+        }
+        private void buttonSortCount_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            button.Content = button.Content.ToString() == "Count from" ? "Count up to" : "Count from";
+        }
+
+        private void buttonSortPrice_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            button.Content = button.Content.ToString() == "Price from" ? "Price up to" : "Price from";
+        }
+        private void DataGridScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
+        }
+
+        private void buttonSortApply_Click(object sender, RoutedEventArgs e)
+        {
+            MedicationsSort.Sort(comboBoxSortForm, comboBoxSortCategory, comboBoxSortAvailability, buttonSortCount, textBoxSortCount, comboBoxSortWarehouse, comboBoxSortPrescription, buttonSortPrice, textBoxSortPrice, comboBoxSortManufacturer, _mainDataLists.MedicationsData,dataGridMedications, mainTabControl);
+        }
+
+        private bool isComboBoxDropDownOpened = false;
+
+        private void PharmacyMainWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var sourceElement = e.OriginalSource as FrameworkElement;
+
+            if (!isComboBoxDropDownOpened)
+            {
+
+                if (IsDescendantOfStackPanel(sourceElement, stackPanelMedicationsSort))
+                    return;
+
+                if (IsDescendantOfStackPanel(sourceElement, stackPanelSearch))
+                    return;
+
+                if (stackPanelMedicationsSort.Visibility == Visibility.Visible)
+                    MenuItemAnimations.Invisible(stackPanelMedicationsSort, HeightProperty);
+                if (stackPanelSearch.Visibility == Visibility.Visible)
+                    MenuItemAnimations.Invisible(stackPanelSearch, HeightProperty);
+            }
+        }
+        private void ComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+            isComboBoxDropDownOpened = true;
+        }
+
+        private void ComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            isComboBoxDropDownOpened = false;
+        }
+
+        private bool IsDescendantOfStackPanel(DependencyObject element, StackPanel stackPanel)
+        {
+            if (element == null)
+                return false;
+
+            if (element == stackPanel)
+                return true;
+
+            return IsDescendantOfStackPanel(VisualTreeHelper.GetParent(element), stackPanel);
+        }
+
+        private void buttonSortClear_Click(object sender, RoutedEventArgs e)
+        {
+            comboBoxSortForm.SelectedIndex = -1;
+            comboBoxSortCategory.SelectedIndex = -1;
+            comboBoxSortAvailability.SelectedIndex = -1;
+            textBoxSortCount.Text = Convert.ToString(0);
+            comboBoxSortWarehouse.SelectedIndex = -1;
+            comboBoxSortPrescription.SelectedIndex = -1;
+            textBoxSortPrice.Text = Convert.ToString(0);
+            comboBoxSortManufacturer.SelectedIndex = -1;
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
         }
     }
 }

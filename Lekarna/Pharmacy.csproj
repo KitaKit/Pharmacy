@@ -111,6 +111,7 @@
     <Compile Include="Additional windows\AddWarehouseWindow.xaml.cs">
       <DependentUpon>AddWarehouseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Animations\MenuItemAnimations.cs" />
     <Compile Include="DataProcessing\DataLists.cs" />
     <Compile Include="DataProcessing\DataShow.cs" />
     <Compile Include="DataProcessing\FileConnectionsList.cs" />
@@ -128,6 +129,11 @@
     <Compile Include="Models\WarehouseModel.cs" />
     <Compile Include="DataProcessing\ChangeData.cs" />
     <Compile Include="Services\FilesConnectionService.cs" />
+    <Compile Include="Sorting models\ManufacturersSort.cs" />
+    <Compile Include="Sorting models\MedicationsSort.cs" />
+    <Compile Include="Sorting models\PurchasesSort.cs" />
+    <Compile Include="Sorting models\SalesSort.cs" />
+    <Compile Include="Sorting models\WarehousesSort.cs" />
     <Compile Include="Validation rules\CheckedBoxesValidation.cs" />
     <Compile Include="Validation rules\CountryValidation.cs" />
     <Compile Include="Validation rules\LicenseValidation.cs" />

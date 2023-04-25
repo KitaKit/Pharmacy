@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pharmacy"
         mc:Ignorable="d"
-        Title="Pharmacy" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200" Loaded="PharmacyMainWindow_Loaded">
+        Title="Pharmacy" Height="600" Width="950" WindowStartupLocation="CenterScreen" MinWidth="400" MinHeight="200" Loaded="PharmacyMainWindow_Loaded" PreviewMouseDown="PharmacyMainWindow_PreviewMouseDown">
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -19,7 +19,7 @@
         </Menu>
         <Menu Height="18" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem x:Name="menuItemSearch" Header="Search" Width="50" Click="menuItemSearch_Click"/>
-            <MenuItem Header="Sort" Width="50"/>
+            <MenuItem x:Name="menuItemSort" Header="Sort" Width="50" Click="menuItemSort_Click"/>
         </Menu>
         <TabControl TabStripPlacement="Bottom" Margin="0,18,0,30" x:Name="mainTabControl">
             <TabItem Header="Medications" x:Name="tabItemMedications">
@@ -136,8 +136,81 @@
             <Button x:Name="saveButton" Content="Save" Width="70" Margin="3" Click="saveButton_Click"/>
             <Button Content="Close" Width="70" Margin="3"/>
         </StackPanel>
-        <StackPanel x:Name="stackPanelSearch" Height="20" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Visibility="Collapsed">
-            <TextBox x:Name="textBoxSearch" TextChanged="textBoxSearch_TextChanged"/>
+        <StackPanel x:Name="stackPanelSearch" Height="0" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Visibility="Collapsed">
+            <TextBox x:Name="textBoxSearch" TextChanged="textBoxSearch_TextChanged" Height="25"/>
+            <Button x:Name="buttonClearSearchText" Content="Clear" HorizontalAlignment="Right" Margin="0.5" Width="45" Height="24" Click="buttonClearSearchText_Click"/>
         </StackPanel>
+
+        <StackPanel x:Name="stackPanelMedicationsSort" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+            <StackPanel.DataContext>
+                <local:MedicationModel/>
+            </StackPanel.DataContext>
+            <Grid Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Form" Grid.Row="0" Grid.Column="0"/>
+                <ComboBox x:Name="comboBoxSortForm" Grid.Row="0" Grid.Column="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed"/>
+
+                <Label Content="Category" Grid.Row="1" Grid.Column="0"/>
+                <ComboBox x:Name="comboBoxSortCategory" Grid.Row="1" Grid.Column="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed"/>
+
+                <Label Content="Availability" Grid.Row="2" Grid.Column="0"/>
+                <ComboBox x:Name="comboBoxSortAvailability" Grid.Row="2" Grid.Column="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed">
+                    <ComboBoxItem Content="True"/>
+                    <ComboBoxItem Content="False"/>
+                </ComboBox>
+
+                <Button x:Name="buttonSortCount" Content="Count from" Grid.Row="3" Grid.Column="0" Click="buttonSortCount_Click"/>
+                <TextBox x:Name="textBoxSortCount" Grid.Row="3" Grid.Column="1" Margin="1">
+                    <TextBox.Text>
+                        <Binding Path="Count" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Content="Warehouse" Grid.Row="4" Grid.Column="0"/>
+                <ComboBox x:Name="comboBoxSortWarehouse" Grid.Row="4" Grid.Column="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed"/>
+
+                <Label Content="Prescription" Grid.Row="5" Grid.Column="0"/>
+                <ComboBox x:Name="comboBoxSortPrescription" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed">
+                    <ComboBoxItem Content="True"/>
+                    <ComboBoxItem Content="False"/>
+                </ComboBox>
+
+                <Button x:Name="buttonSortPrice" Content="Price from" Grid.Row="6" Grid.Column="0" Click="buttonSortPrice_Click"/>
+                <TextBox x:Name="textBoxSortPrice" Grid.Row="6" Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Content="Manufacturer" Grid.Row="7" Grid.Column="0"/>
+                <ComboBox x:Name="comboBoxSortManufacturer" Grid.Row="7" Grid.Column="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed"/>
+
+                <Button x:Name="buttonSortApply" Grid.Row="8" Grid.Column="0" Margin="1" VerticalAlignment="Center" Height="20" Content="Apply" Click="buttonSortApply_Click"/>
+                <Button x:Name="buttonSortClear" Grid.Row="8" Grid.Column="1" Margin="1" VerticalAlignment="Center" Height="20" Content="Clear" Click="buttonSortClear_Click"/>
+            </Grid>
+        </StackPanel>
+
     </Grid>
 </Window>
