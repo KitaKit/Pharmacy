@@ -193,7 +193,7 @@
                     <ComboBoxItem Content="False"/>
                 </ComboBox>
 
-                <Button x:Name="buttonSortPrice" Content="Price from" Grid.Row="6" Grid.Column="0" Click="buttonSortPrice_Click"/>
+                 <Button x:Name="buttonSortPrice" Content="Price from" Grid.Row="6" Grid.Column="0" Click="buttonSortPrice_Click"/>
                 <TextBox x:Name="textBoxSortPrice" Grid.Row="6" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
@@ -211,6 +211,113 @@
                 <Button x:Name="buttonSortClear" Grid.Row="8" Grid.Column="1" Margin="1" VerticalAlignment="Center" Height="20" Content="Clear" Click="buttonSortClear_Click"/>
             </Grid>
         </StackPanel>
+        <StackPanel x:Name="stackPanelSortWarehouses" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+            <WrapPanel x:Name="wrapPanelSortWarehouses" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2">
+            </WrapPanel>
+            <Grid VerticalAlignment="Bottom" Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonSortWarehousesApply" Content="Apply" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="0" Click="buttonSortWarehousesApply_Click"/>
+                <Button x:Name="buttonSortWarehousesClear" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="1" Click="buttonSortWarehousesClear_Click"/>
+            </Grid>
+        </StackPanel>
+        
+        <StackPanel x:Name="stackPanelSortManufacturers" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Country" Grid.Column="0"/>
+                <ComboBox x:Name="comboBoxSortManufacturersCountry" Grid.Column="1" Margin="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed"/>
+            </Grid>
+            <WrapPanel Name="wrapPanelSortManufacturers">
+                
+            </WrapPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonSortManufacturersApply" Content="Apply" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="0" Click="buttonSortManufacturersApply_Click"/>
+                <Button x:Name="buttonSortManufacturersClear" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="1" Click="buttonSortManufacturersClear_Click"/>
+            </Grid>
+        </StackPanel>
+        
+        <StackPanel x:Name="stackPanelSortSales" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+            <StackPanel.DataContext>
+                <local:SaleModel/>
+            </StackPanel.DataContext>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonSalesSortPrice" Content="Price from" Grid.Column="0" Click="buttonSalesSortPrice_Click"/>
+                <TextBox x:Name="textBoxSalesSortPrice" Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+            <WrapPanel Name="wrapPanelSortSales">
 
+            </WrapPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonSortSalesApply" Content="Apply" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="0" Click="buttonSortSalesApply_Click"/>
+                <Button x:Name="buttonSortSalesClear" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="1" Click="buttonSortSalesClear_Click"/>
+            </Grid>
+        </StackPanel>
+        
+        <StackPanel x:Name="stackPanelSortPurchases" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+            <StackPanel.DataContext>
+                <local:PurchaseModel/>
+            </StackPanel.DataContext>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="buttonPurchasesSortCost" Content="Cost from" Grid.Column="0" Click="buttonPurchasesSortCost_Click" Grid.Row="0"/>
+                <TextBox x:Name="textBoxPurchasesSortCost" Grid.Column="1" Grid.Row="0">
+                    <TextBox.Text>
+                        <Binding Path="Cost" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Content="Country" Grid.Column="0" Grid.Row="1"/>
+                <ComboBox x:Name="comboBoxSortPurchasesProvider" Grid.Column="1" Margin="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed" Grid.Row="1"/>
+            </Grid>
+            <WrapPanel Name="wrapPanelSortPurchases">
+
+            </WrapPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonSortPurchasesApply" Content="Apply" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="0" Click="buttonSortPurchasesApply_Click"/>
+                <Button x:Name="buttonSortPurchasesClear" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Width="60" Grid.Column="1" Click="buttonSortPurchasesClear_Click"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

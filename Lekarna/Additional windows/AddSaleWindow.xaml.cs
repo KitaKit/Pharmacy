@@ -63,10 +63,9 @@ namespace Pharmacy.Additional_windows
 
         private void addSaleWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            DataContext = new SaleModel(0, DateTime.Now, null);
             foreach (var row in _dataLists.MedicationsData)
             {
-                DataContext = new SaleModel(0, DateTime.Now, null);
-
                 CheckBox checkBox = new CheckBox();
                 checkBox.Content = row.Title;
                 checkBox.Margin = new Thickness(1, 1, 1, 1);

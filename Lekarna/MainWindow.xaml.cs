@@ -85,6 +85,10 @@ namespace Pharmacy
             database.ReadData(_mainDataLists);
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
             MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
+            WarehousesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortWarehouses);
+            ManufacturersSort.SetParameters(comboBoxSortManufacturersCountry, wrapPanelSortManufacturers, _mainDataLists);
+            SalesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortSales);
+            PurchasesSort.SetParameters(_mainDataLists, wrapPanelSortPurchases, comboBoxSortPurchasesProvider);
         }
         private void menuItemLoadFromCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -104,6 +108,10 @@ namespace Pharmacy
 
             DataShow.ToSelectedDataGrid(selectedTable, mainTabControl, _mainDataLists);
             MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
+            WarehousesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortWarehouses);
+            ManufacturersSort.SetParameters(comboBoxSortManufacturersCountry, wrapPanelSortManufacturers, _mainDataLists);
+            SalesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortSales);
+            PurchasesSort.SetParameters(_mainDataLists, wrapPanelSortPurchases, comboBoxSortPurchasesProvider);
         }
         private void menuItemSaveToNewCSVFile_Click(object sender, RoutedEventArgs e)
         {
@@ -157,6 +165,10 @@ namespace Pharmacy
             }
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
             MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
+            WarehousesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortWarehouses);
+            ManufacturersSort.SetParameters(comboBoxSortManufacturersCountry, wrapPanelSortManufacturers, _mainDataLists);
+            SalesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortSales);
+            PurchasesSort.SetParameters(_mainDataLists, wrapPanelSortPurchases, comboBoxSortPurchasesProvider);
         }
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -193,6 +205,10 @@ namespace Pharmacy
 
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
             MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
+            WarehousesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortWarehouses);
+            ManufacturersSort.SetParameters(comboBoxSortManufacturersCountry, wrapPanelSortManufacturers, _mainDataLists);
+            SalesSort.SetParameters(_mainDataLists.MedicationsData, wrapPanelSortSales);
+            PurchasesSort.SetParameters(_mainDataLists, wrapPanelSortPurchases, comboBoxSortPurchasesProvider);
         }
 
         private void dataGridMedications_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -300,12 +316,28 @@ namespace Pharmacy
                         MenuItemAnimations.Visible(stackPanelMedicationsSort, HeightProperty, 225);
                     break;
                 case SelectedTable.Warehouses:
+                    if (stackPanelSortWarehouses.Visibility == Visibility.Visible)
+                        MenuItemAnimations.Invisible(stackPanelSortWarehouses, HeightProperty);
+                    else
+                        MenuItemAnimations.Visible(stackPanelSortWarehouses, HeightProperty, 225);
                     break;
                 case SelectedTable.Manufacturers:
+                    if (stackPanelSortManufacturers.Visibility == Visibility.Visible)
+                        MenuItemAnimations.Invisible(stackPanelSortManufacturers, HeightProperty);
+                    else
+                        MenuItemAnimations.Visible(stackPanelSortManufacturers, HeightProperty, 225);
                     break;
                 case SelectedTable.Sales:
+                    if (stackPanelSortSales.Visibility == Visibility.Visible)
+                        MenuItemAnimations.Invisible(stackPanelSortSales, HeightProperty);
+                    else
+                        MenuItemAnimations.Visible(stackPanelSortSales, HeightProperty, 225);
                     break;
                 case SelectedTable.Purchases:
+                    if (stackPanelSortPurchases.Visibility == Visibility.Visible)
+                        MenuItemAnimations.Invisible(stackPanelSortPurchases, HeightProperty);
+                    else
+                        MenuItemAnimations.Visible(stackPanelSortPurchases, HeightProperty, 225);
                     break;
             }
         }
@@ -347,17 +379,18 @@ namespace Pharmacy
 
             if (!isComboBoxDropDownOpened)
             {
-
-                if (IsDescendantOfStackPanel(sourceElement, stackPanelMedicationsSort))
-                    return;
-
-                if (IsDescendantOfStackPanel(sourceElement, stackPanelSearch))
-                    return;
-
-                if (stackPanelMedicationsSort.Visibility == Visibility.Visible)
+                if (stackPanelMedicationsSort.Visibility == Visibility.Visible && !IsDescendantOfStackPanel(sourceElement, stackPanelMedicationsSort))
                     MenuItemAnimations.Invisible(stackPanelMedicationsSort, HeightProperty);
-                if (stackPanelSearch.Visibility == Visibility.Visible)
+                if (stackPanelSearch.Visibility == Visibility.Visible && !IsDescendantOfStackPanel(sourceElement, stackPanelSearch))
                     MenuItemAnimations.Invisible(stackPanelSearch, HeightProperty);
+                if(stackPanelSortWarehouses.Visibility == Visibility.Visible && !IsDescendantOfStackPanel(sourceElement, stackPanelSortWarehouses))
+                    MenuItemAnimations.Invisible(stackPanelSortWarehouses, HeightProperty);
+                if(stackPanelSortManufacturers.Visibility == Visibility.Visible && !IsDescendantOfStackPanel(sourceElement, stackPanelSortManufacturers))
+                    MenuItemAnimations.Invisible(stackPanelSortManufacturers, HeightProperty);
+                if(stackPanelSortSales.Visibility == Visibility.Visible && !IsDescendantOfStackPanel(sourceElement, stackPanelSortSales))
+                    MenuItemAnimations.Invisible(stackPanelSortSales, HeightProperty);
+                if(stackPanelSortPurchases.Visibility == Visibility.Visible && !IsDescendantOfStackPanel(sourceElement, stackPanelSortPurchases))
+                    MenuItemAnimations.Invisible(stackPanelSortPurchases, HeightProperty);
             }
         }
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
@@ -391,7 +424,81 @@ namespace Pharmacy
             comboBoxSortPrescription.SelectedIndex = -1;
             textBoxSortPrice.Text = Convert.ToString(0);
             comboBoxSortManufacturer.SelectedIndex = -1;
-            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
+            DataShow.ToSelectedDataGrid(SelectedTable.Medications, mainTabControl, _mainDataLists.MedicationsData);
+        }
+
+        private void buttonSortWarehousesApply_Click(object sender, RoutedEventArgs e)
+        {
+            WarehousesSort.Sort(wrapPanelSortWarehouses, _mainDataLists.WarehousesData, mainTabControl);
+        }
+
+        private void buttonSortWarehousesClear_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(var box in wrapPanelSortWarehouses.Children.OfType<CheckBox>())
+            {
+                box.IsChecked = false;
+            }
+            DataShow.ToSelectedDataGrid(SelectedTable.Warehouses, mainTabControl, _mainDataLists.WarehousesData);
+        }
+
+        private void buttonSortManufacturersApply_Click(object sender, RoutedEventArgs e)
+        {
+            ManufacturersSort.Sort(wrapPanelSortManufacturers, comboBoxSortManufacturersCountry, _mainDataLists.ManufacturersData, mainTabControl);
+        }
+
+        private void buttonSortManufacturersClear_Click(object sender, RoutedEventArgs e)
+        {
+            comboBoxSortManufacturersCountry.SelectedIndex = -1;
+            foreach(var box in wrapPanelSortManufacturers.Children.OfType<CheckBox>())
+            {
+                box.IsChecked = false;
+            }
+            DataShow.ToSelectedDataGrid(SelectedTable.Manufacturers, mainTabControl, _mainDataLists.ManufacturersData);
+        }
+
+        private void buttonSortPurchasesApply_Click(object sender, RoutedEventArgs e)
+        {
+            PurchasesSort.Sort(_mainDataLists.PurchasesData, wrapPanelSortPurchases, comboBoxSortPurchasesProvider, buttonPurchasesSortCost, textBoxPurchasesSortCost, mainTabControl);
+        }
+
+        private void buttonSortPurchasesClear_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxPurchasesSortCost.Text = Convert.ToString(0);
+            comboBoxSortPurchasesProvider.SelectedIndex = -1;
+            foreach (var box in wrapPanelSortPurchases.Children.OfType<CheckBox>())
+            {
+                box.IsChecked = false;
+            }
+            DataShow.ToSelectedDataGrid(SelectedTable.Purchases, mainTabControl, _mainDataLists.PurchasesData);
+        }
+
+        private void buttonPurchasesSortCost_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            button.Content = button.Content.ToString() == "Cost from" ? "Cost up to" : "Cost from";
+        }
+
+        private void buttonSortSalesApply_Click(object sender, RoutedEventArgs e)
+        {
+            SalesSort.Sort(buttonSalesSortPrice, textBoxSalesSortPrice, wrapPanelSortSales, _mainDataLists.SalesData, mainTabControl);
+        }
+
+        private void buttonSortSalesClear_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxSalesSortPrice.Text = Convert.ToString(0);
+            foreach (var box in wrapPanelSortSales.Children.OfType<CheckBox>())
+            {
+                box.IsChecked = false;
+            }
+            DataShow.ToSelectedDataGrid(SelectedTable.Sales, mainTabControl, _mainDataLists.SalesData);
+        }
+
+        private void buttonSalesSortPrice_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            button.Content = button.Content.ToString() == "Price from" ? "Price up to" : "Price from";
         }
     }
 }
