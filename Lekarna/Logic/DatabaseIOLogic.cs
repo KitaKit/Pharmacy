@@ -77,12 +77,13 @@ namespace Pharmacy
             using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
             {
                 pharmacyConnection.Open();
-                SqlTransaction transaction = pharmacyConnection.BeginTransaction();
-                try
+                using (SqlTransaction transaction = pharmacyConnection.BeginTransaction())
                 {
-                    using (SqlCommand sqlCommand = new SqlCommand())
+                    try
                     {
+                        SqlCommand sqlCommand = new SqlCommand();
                         sqlCommand.Connection = pharmacyConnection;
+                        sqlCommand.Transaction = transaction;
 
                         if (model is MedicationModel)
                         {
@@ -101,26 +102,26 @@ namespace Pharmacy
                         }
                         else if (model is SaleModel)
                         {
-                            sqlCommand.CommandText = $"DELETE FROM Sales WHERE Id = {(model as SaleModel).Id}";
-                            sqlCommand.ExecuteNonQuery();
                             sqlCommand.CommandText = $"DELETE FROM Sold_medications WHERE Id = {(model as SaleModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                            sqlCommand.CommandText = $"DELETE FROM Sales WHERE Id = {(model as SaleModel).Id}";
                             sqlCommand.ExecuteNonQuery();
                         }
                         else if (model is PurchaseModel)
                         {
-                            sqlCommand.CommandText = $"DELETE FROM Purchases WHERE Id = {(model as PurchaseModel).Id}";
-                            sqlCommand.ExecuteNonQuery();
                             sqlCommand.CommandText = $"DELETE FROM Purchased_medications WHERE Id = {(model as PurchaseModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                            sqlCommand.CommandText = $"DELETE FROM Purchases WHERE Id = {(model as PurchaseModel).Id}";
                             sqlCommand.ExecuteNonQuery();
                         }
 
                         transaction.Commit();
                     }
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
@@ -165,17 +166,39 @@ namespace Pharmacy
 
         private void EditDataInPurchases(PurchaseModel model, SqlConnection databaseConnection, DataLists dataLists)
         {
-            using (SqlCommand sqlCommand =  new SqlCommand())
+            using (SqlCommand sqlCommand =  new SqlCommand("UPDATE Purchases SET Cost = @cost, Date = @date WHERE Id = @id", databaseConnection))
             {
-
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@id", model.Id);
+                sqlCommand.Parameters.AddWithValue("@cost", model.Cost);
+                sqlCommand.Parameters.AddWithValue("@date", model.DeliveryDate);
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
         private void EditDataInSales(SaleModel model, SqlConnection databaseConnection, DataLists dataLists)
         {
-            using (SqlCommand sqlCommand = new SqlCommand())
+            using (SqlCommand sqlCommand = new SqlCommand("UPDATE Sales SET Price = @price, Date = @date WHERE Id = @id", databaseConnection))
             {
-
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Parameters.AddWithValue("@id", model.Id);
+                sqlCommand.Parameters.AddWithValue("@price", model.Price);
+                sqlCommand.Parameters.AddWithValue("@date", model.Date);
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 

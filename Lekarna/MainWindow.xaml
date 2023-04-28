@@ -25,7 +25,7 @@
             <TabItem Header="Medications" x:Name="tabItemMedications">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridMedicationsScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridMedications_CellEditEnding">
+                        <DataGrid x:Name="dataGridMedications" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridMedications_CellEditEnding" BeginningEdit="dataGrid_GeneralBeginningEdit">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -33,15 +33,63 @@
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" x:Name="dataGridMedicationsColumnId" Binding="{Binding Id}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle" Binding="{Binding Title}"/>
-                                <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory" Binding="{Binding Category}"/>
+                                <DataGridTextColumn Header="Title" x:Name="dataGridMedicationsColumnTitle">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Title" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:NameValidation />
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Category" x:Name="dataGridMedicationsColumnCategory" Binding="{Binding Category}"/>
                                 <DataGridTextColumn Header="Form" x:Name="dataGridMedicationsColumnForm" Binding="{Binding Form}"/>
-                                <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability" Binding="{Binding Availability}"/>
-                                <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount" Binding="{Binding Count}"/>
+                                <DataGridTextColumn Header="Availability" x:Name="dataGridMedicationsColumnAvailability">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Availability" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:BoolValidation/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Count" x:Name="dataGridMedicationsColumnCount">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Count" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn Header="Warehouse" x:Name="dataGridMedicationsColumnWarehouse" Binding="{Binding Warehouse}"/>
-                                <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription" Binding="{Binding Prescription}"/>
-                                <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate" Binding="{Binding ExpirationDate}"/>
-                                <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice" Binding="{Binding Price}"/>
+                                <DataGridTextColumn Header="Prescription" x:Name="dataGridMedicationsColumnPrescription">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Prescription" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:BoolValidation/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="ExpirationDate" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Price" x:Name="dataGridMedicationsColumnPrice">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn Header="Manufacturer" x:Name="dataGridMedicationsColumnManufacturer" Binding="{Binding Manufacturer}"/>
                                 <DataGridTextColumn Header="Description" Width="*" x:Name="dataGridMedicationsColumnDescription" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}"/>
                             </DataGrid.Columns>
@@ -52,7 +100,7 @@
             <TabItem Header="Warehouses" x:Name="tabItemWarehouses">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridWarehousesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridWarehouses_CellEditEnding">
+                        <DataGrid x:Name="dataGridWarehouses" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridWarehouses_CellEditEnding" BeginningEdit="dataGrid_GeneralBeginningEdit">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -60,8 +108,16 @@
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*" />
+                                <DataGridTextColumn Header="Name">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:NameValidation />
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
@@ -70,7 +126,7 @@
             <TabItem Header="Manufacturers" x:Name="tabItemManufacturers">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridManufacturersScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridManufacturers_CellEditEnding">
+                        <DataGrid x:Name="dataGridManufacturers" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridManufacturers_CellEditEnding" BeginningEdit="dataGrid_GeneralBeginningEdit">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -78,10 +134,34 @@
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                                <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
-                                <DataGridTextColumn Header="License" Binding="{Binding License}"/>
-                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*"/>
+                                <DataGridTextColumn Header="Name">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:NameValidation />
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Country">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Country" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:CountryValidation/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="License">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="License" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:LicenseValidation/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
@@ -90,7 +170,7 @@
             <TabItem Header="Sales" x:Name="tabItemSales">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridSalesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridSales_CellEditEnding">
+                        <DataGrid x:Name="dataGridSales" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridSales_CellEditEnding" BeginningEdit="dataGrid_GeneralBeginningEdit">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -98,9 +178,25 @@
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
-                                <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*"/>
+                                <DataGridTextColumn Header="Price">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Price" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Date">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Date" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
@@ -109,7 +205,7 @@
             <TabItem Header="Purchases" x:Name="tabItemPurchases">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer x:Name="dataGridPurchasesScrollViewer" PanningMode="Both" PanningRatio="0.2" PreviewMouseWheel ="DataGridScrollViewer_PreviewMouseWheel">
-                        <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridPurchases_CellEditEnding">
+                        <DataGrid x:Name="dataGridPurchases" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CellEditEnding="dataGridPurchases_CellEditEnding" BeginningEdit="dataGrid_GeneralBeginningEdit">
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -117,10 +213,26 @@
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="DeliveryDate" Binding="{Binding DeliveryDate}"/>
-                                <DataGridTextColumn Header="Cost" Binding="{Binding Cost}"/>
-                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="250"/>
-                                <DataGridTextColumn Header="Provider" Binding="{Binding Provider}"/>
+                                <DataGridTextColumn Header="DeliveryDate">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="DeliveryDate" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Cost">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Cost" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="250" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Provider" Binding="{Binding Provider}" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>

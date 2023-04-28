@@ -54,7 +54,11 @@ using System.Windows.Media.Animation;
 //*поиск и сортировка
 //*удаление данных
 
-
+/*
+ * меняю warehouse name меняется в medications
+ * manufacturers medications.manufacturer
+ * 
+ */
 namespace Pharmacy
 {
     public enum SelectedTable
@@ -70,13 +74,14 @@ namespace Pharmacy
     {
         private DataLists _mainDataLists = new DataLists();
         private DataLists _changedDataLists = new DataLists();
-        private DataLists _deletedDataLists = null;
+        private DataLists _deletedDataLists = new DataLists();
+        private dynamic originalGridRowValue = null;
         public MainWindow()
         {
             InitializeComponent();
         }
         private void PharmacyMainWindow_Loaded(object sender, RoutedEventArgs e)
-        { 
+        {
         }
 
         private void menuItemLoadFromDataBase_Click(object sender, RoutedEventArgs e)
@@ -130,6 +135,7 @@ namespace Pharmacy
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             ChangeData.SaveAll(_deletedDataLists, _changedDataLists, _mainDataLists);
+            DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -175,8 +181,6 @@ namespace Pharmacy
             SelectedTable selectedTable = (SelectedTable)mainTabControl.SelectedIndex;
             var selectedRow = ((((mainTabControl.SelectedItem as TabItem).Content as Grid).Children[0] as ScrollViewer).Content as DataGrid).SelectedItem;
             MessageBoxResult messageBoxResult = MessageBoxResult.None;
-            _deletedDataLists = new DataLists();
-
             switch (selectedTable)
             {
                 case SelectedTable.Medications:
@@ -185,10 +189,20 @@ namespace Pharmacy
                     break;
                 case SelectedTable.Warehouses:
                     messageBoxResult = MessageBox.Show($"Do you want to delete information about {(selectedRow as WarehouseModel).Name} from {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (!string.IsNullOrEmpty((selectedRow as WarehouseModel).Medications))
+                    {
+                        MessageBox.Show("There are medicines in this warehouse, you cannot delete a filled warehouse!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     selectedRow = selectedRow as WarehouseModel;
                     break;
                 case SelectedTable.Manufacturers:
                     messageBoxResult = MessageBox.Show($"Do you want to delete information about {(selectedRow as ManufacturerModel).Name} from {selectedTable}?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (!string.IsNullOrEmpty((selectedRow as ManufacturerModel).Medications))
+                    {
+                        MessageBox.Show("We buy medicines from this manufacturer, you can't delete the manufacturer we work with!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     selectedRow = selectedRow as ManufacturerModel;
                     break;
                 case SelectedTable.Sales:
@@ -200,8 +214,13 @@ namespace Pharmacy
                     selectedRow = selectedRow as PurchaseModel;
                     break;
             }
-            _deletedDataLists.Add(selectedRow);
-            _mainDataLists.Delete(selectedRow);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                _deletedDataLists.Add(selectedRow);
+                _mainDataLists.Delete(selectedRow);
+            }
+            else
+                return;
 
             DataShow.ToSelectedDataGrid(SelectedTable.All, mainTabControl, _mainDataLists);
             MedicationsSort.SetParameters(_mainDataLists, stackPanelMedicationsSort);
@@ -213,52 +232,134 @@ namespace Pharmacy
 
         private void dataGridMedications_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            if (e.Column.DisplayIndex == 2)
-                if (_mainDataLists.CategoriesData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+            if (Validation.GetHasError(e.EditingElement))
+            {
+                return;
+            }
+            var editedCell = e.EditingElement as TextBox;
+            var newVal = editedCell.Text;
+            if (originalGridRowValue != newVal)
+            {
+                if(e.Column.DisplayIndex == 1)
                 {
-                    MessageBox.Show("Wrong category!");
-                    return;
+                    dynamic toReplace = _mainDataLists.WarehousesData.Where(x => x.Medications.Contains(originalGridRowValue)).ToList();
+                    foreach(var model in toReplace)
+                    {
+                        model.Medications.Replace(originalGridRowValue, newVal);
+                    }
+                    toReplace = _mainDataLists.ManufacturersData.Where(x => x.Medications.Contains(originalGridRowValue)).ToList();
+                    foreach (var model in toReplace)
+                    {
+                        model.Medications.Replace(originalGridRowValue, newVal);
+                    }
+                    toReplace = _mainDataLists.SalesData.Where(x => x.Medications.Contains(originalGridRowValue)).ToList();
+                    foreach (var model in toReplace)
+                    {
+                        model.Medications.Replace(originalGridRowValue, newVal);
+                    }
+                    toReplace = _mainDataLists.PurchasesData.Where(x => x.Medications.Contains(originalGridRowValue)).ToList();
+                    foreach (var model in toReplace)
+                    {
+                        model.Medications.Replace(originalGridRowValue, newVal);
+                    }
                 }
-            if (e.Column.DisplayIndex == 3)
-                if (_mainDataLists.MedicationFormsData.FirstOrDefault(x => x.Form == (e.EditingElement as TextBox).Text) == null)
-                {
-                    MessageBox.Show("Wrong form!");
-                    return;
-                }
-            if (e.Column.DisplayIndex == 6)
-                if (_mainDataLists.WarehousesData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
-                {
-                    MessageBox.Show("Wrong warehouse!");
-                    return;
-                }
-            if (e.Column.DisplayIndex == 10)
-                if (_mainDataLists.ManufacturersData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
-                {
-                    MessageBox.Show("Wrong manufacturer!");
-                    return;
-                }
+                if (e.Column.DisplayIndex == 2)
+                    if (_mainDataLists.CategoriesData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+                    {
+                        MessageBox.Show("Wrong category!");
+                        newVal = originalGridRowValue;
+                        return;
+                    }
+                if (e.Column.DisplayIndex == 3)
+                    if (_mainDataLists.MedicationFormsData.FirstOrDefault(x => x.Form == (e.EditingElement as TextBox).Text) == null)
+                    {
+                        MessageBox.Show("Wrong form!");
+                        newVal = originalGridRowValue;
+                        return;
+                    }
+                if (e.Column.DisplayIndex == 6)
+                    if (_mainDataLists.WarehousesData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+                    {
+                        MessageBox.Show("Wrong warehouse!");
+                        newVal = originalGridRowValue;
+                        return;
+                    }
+                if (e.Column.DisplayIndex == 10)
+                    if (_mainDataLists.ManufacturersData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+                    {
+                        MessageBox.Show("Wrong manufacturer!");
+                        newVal = originalGridRowValue;
+                        return;
+                    }
 
-            _changedDataLists.Add(e.Row.Item as MedicationModel);
+                _changedDataLists.Add(e.Row.Item as MedicationModel);
+            }
         }
 
         private void dataGridWarehouses_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            _changedDataLists.Add(e.Row.Item as WarehouseModel);
+            if (Validation.GetHasError(e.EditingElement))
+            {
+                return;
+            }
+            var editedCell = e.EditingElement as TextBox;
+            var newVal = editedCell.Text;
+            if (e.Column.DisplayIndex == 1)
+            {
+                dynamic toReplace = _mainDataLists.MedicationsData.Where(x=>x.Warehouse.Contains(originalGridRowValue)).ToList();
+                foreach (var model in toReplace)
+                {
+                    model.Warehouse.Replace(originalGridRowValue, newVal);
+                }
+            }
+            if (originalGridRowValue != newVal)
+                _changedDataLists.Add(e.Row.Item as WarehouseModel);
         }
 
         private void dataGridManufacturers_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            _changedDataLists.Add(e.Row.Item as ManufacturerModel);
+            if (Validation.GetHasError(e.EditingElement))
+            {
+                return;
+            }
+            var editedCell = e.EditingElement as TextBox;
+            var newVal = editedCell.Text;
+            if (e.Column.DisplayIndex == 1)
+            {
+                dynamic toReplace = _mainDataLists.MedicationsData.Where(x => x.Manufacturer.Contains(originalGridRowValue)).ToList();
+                foreach (var model in toReplace)
+                {
+                    model.Manufacturer.Replace(originalGridRowValue, newVal);
+                }
+            }
+            if (originalGridRowValue != newVal)
+            {
+                _changedDataLists.Add(e.Row.Item as ManufacturerModel);
+            }
         }
 
         private void dataGridSales_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            _changedDataLists.Add(e.Row.Item as SaleModel);
+            if (Validation.GetHasError(e.EditingElement))
+            {
+                return;
+            }
+            var editedCell = e.EditingElement as TextBox;
+            var newVal = editedCell.Text;
+            if (originalGridRowValue != newVal)
+                _changedDataLists.Add(e.Row.Item as SaleModel);
         }
 
         private void dataGridPurchases_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            _changedDataLists.Add(e.Row.Item as PurchaseModel);
+            if (Validation.GetHasError(e.EditingElement))
+            {
+                return;
+            }
+            var editedCell = e.EditingElement as TextBox;
+            var newVal = editedCell.Text;
+            if (originalGridRowValue != newVal)
+                _changedDataLists.Add(e.Row.Item as PurchaseModel);
         }
 
         private void menuItemSearch_Click(object sender, RoutedEventArgs e)
@@ -499,6 +600,14 @@ namespace Pharmacy
             Button button = sender as Button;
 
             button.Content = button.Content.ToString() == "Price from" ? "Price up to" : "Price from";
+        }
+
+        private void dataGrid_GeneralBeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            var row = e.Row.Item;
+            var column = e.Column;
+            var value = (column.GetCellContent(row) as TextBlock).Text;
+            originalGridRowValue = value;
         }
     }
 }
