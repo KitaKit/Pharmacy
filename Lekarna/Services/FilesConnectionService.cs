@@ -7,8 +7,7 @@ namespace Pharmacy
     public enum FileConnectionType
     {
         Read, 
-        WriteToNew,
-        Append
+        Write
     }
     public class FilesConnectionService
     {
@@ -28,7 +27,7 @@ namespace Pharmacy
                         if (openFileDialog.ShowDialog() == true)
                             _filePath = openFileDialog.FileName;
                         break;
-                    case FileConnectionType.WriteToNew:
+                    case FileConnectionType.Write:
                         SaveFileDialog saveFileDialog = new SaveFileDialog();
                         saveFileDialog.InitialDirectory = "C:\\Documents";
                         saveFileDialog.Filter = "CSV files(*.csv)|*.csv";
@@ -36,11 +35,6 @@ namespace Pharmacy
                         {
                             _filePath = saveFileDialog.FileName;
                         }
-                        break;
-                    case FileConnectionType.Append:
-
-                        break;
-                    default:
                         break;
                 }
             }

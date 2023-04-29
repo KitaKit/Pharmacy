@@ -75,7 +75,7 @@ namespace Pharmacy
         {
             _selectedTable = DataGridTables.GetSelectedTable();
 
-            FilesIOLogic file = new FilesIOLogic(FileConnectionType.WriteToNew, _selectedTable);
+            FilesIOLogic file = new FilesIOLogic(FileConnectionType.Write, _selectedTable);
 
             if (file.Path != null)
             {
@@ -519,7 +519,6 @@ namespace Pharmacy
                     break;
             }
         }
-
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("Do you want to exit?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question);

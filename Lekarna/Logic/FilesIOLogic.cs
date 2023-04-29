@@ -39,11 +39,8 @@ namespace Pharmacy
                     if (fileDataMedications != null)
                     {
                         foreach (var row in fileDataMedications)
-                            if (dataLists.MedicationsData.Any(x => x.Id == row.Id))
-                                fileDataMedications.Remove(row);
-
-                        if (fileDataMedications.Count > 0)
-                            dataLists.MedicationsData.AddRange(fileDataMedications);
+                            if (!dataLists.MedicationsData.Any(x => x.Id == row.Id))
+                                dataLists.MedicationsData.Add(row);
                     }
                     else
                         return false;
@@ -54,12 +51,8 @@ namespace Pharmacy
                     if (fileDataWarehouses != null)
                     {
                         foreach (var row in fileDataWarehouses)
-                            if (dataLists.WarehousesData.Any(x => x.Id == row.Id))
-                                fileDataWarehouses.Remove(row);
-
-                        if (fileDataWarehouses.Count > 0)
-                            dataLists.WarehousesData.AddRange(fileDataWarehouses);
-
+                            if (!dataLists.WarehousesData.Any(x => x.Id == row.Id))
+                                dataLists.WarehousesData.Add(row);
                     }
                     else
                         return false;
@@ -70,11 +63,8 @@ namespace Pharmacy
                     if (fileDataManufacturers != null)
                     {
                         foreach (var row in fileDataManufacturers)
-                            if (dataLists.ManufacturersData.Any(x => x.Id == row.Id))
-                                fileDataManufacturers.Remove(row);
-
-                        if (fileDataManufacturers.Count > 0)
-                            dataLists.ManufacturersData.AddRange(fileDataManufacturers);
+                            if (!dataLists.ManufacturersData.Any(x => x.Id == row.Id))
+                                dataLists.ManufacturersData.Add(row);
                     }
                     else
                         return false;
@@ -85,11 +75,8 @@ namespace Pharmacy
                     if (fileDataSales != null)
                     {
                         foreach (var row in fileDataSales)
-                            if (dataLists.SalesData.Any(x => x.Id == row.Id))
-                                fileDataSales.Remove(row);
-
-                        if (fileDataSales.Count > 0)
-                            dataLists.SalesData.AddRange(fileDataSales);
+                            if (!dataLists.SalesData.Any(x => x.Id == row.Id))
+                                dataLists.SalesData.Add(row);
                     }
                     else
                         return false;
@@ -101,10 +88,7 @@ namespace Pharmacy
                     {
                         foreach (var row in fileDataPurchases)
                             if (dataLists.PurchasesData.Any(x => x.Id == row.Id))
-                                fileDataPurchases.Remove(row);
-
-                        if (fileDataPurchases.Count > 0)
-                            dataLists.PurchasesData.AddRange(fileDataPurchases);
+                                dataLists.PurchasesData.Add(row);
                     }
                     else
                         return false;

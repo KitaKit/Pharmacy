@@ -74,7 +74,7 @@
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Header="ExpirationDate" x:Name="dataGridMedicationsColumnExpirationDate">
                                     <DataGridTextColumn.Binding>
-                                        <Binding Path="ExpirationDate" UpdateSourceTrigger="PropertyChanged" StringFormat="{}{0:dd.MM.yyyy}">
+                                        <Binding Path="ExpirationDate" UpdateSourceTrigger="PropertyChanged" StringFormat="dd.MM.yyyy">
                                             <Binding.ValidationRules>
                                                 <ExceptionValidationRule/>
                                             </Binding.ValidationRules>
