@@ -22,7 +22,10 @@ namespace Pharmacy
         public static void ShowDataToTable(dynamic data, SelectedTable table = SelectedTable.None)
         {
             if (data == null || (data is IList && (data as IList).Count == 0))
+            {
+                MessageBox.Show("No data to Show!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
+            }
 
             SelectedTable selectedTable;
 

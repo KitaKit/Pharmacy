@@ -255,11 +255,14 @@ namespace Pharmacy
                 MenuItemAnimations.Invisible(stackPanelSearch, HeightProperty);
             else
                 MenuItemAnimations.Visible(stackPanelSearch, HeightProperty, 50);
+
+            _selectedTable = DataGridTables.GetSelectedTable();
         }
         private void textBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var searchedWord = textBoxSearch.Text;
+            var searchedWord = textBoxSearch.Text.ToLower();
             dynamic searchedRows = null;
+
 
             if (string.IsNullOrEmpty(searchedWord))
                 DataGridTables.ShowDataToTable(_mainDataLists);
@@ -270,19 +273,19 @@ namespace Pharmacy
                 switch (_selectedTable)
                 {
                     case SelectedTable.Medications:
-                        searchedRows = _mainDataLists.MedicationsData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Title.Contains(searchedWord) || x.Description.Contains(searchedWord)).Distinct().ToList();
+                        searchedRows = _mainDataLists.MedicationsData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Title.ToLower().Contains(searchedWord) || x.Description.ToLower().Contains(searchedWord)).Distinct().ToList();
                         break;
                     case SelectedTable.Warehouses:
-                        searchedRows = _mainDataLists.WarehousesData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Name.Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        searchedRows = _mainDataLists.WarehousesData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Name.ToLower().Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
                         break;
                     case SelectedTable.Manufacturers:
-                        searchedRows = _mainDataLists.ManufacturersData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Name.Contains(searchedWord) || x.Country.Contains(searchedWord) || x.License.Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        searchedRows = _mainDataLists.ManufacturersData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Name.ToLower().Contains(searchedWord) || x.Country.ToLower().Contains(searchedWord) || x.License.Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
                         break;
                     case SelectedTable.Sales:
-                        searchedRows = _mainDataLists.SalesData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        searchedRows = _mainDataLists.SalesData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
                         break;
                     case SelectedTable.Purchases:
-                        searchedRows = _mainDataLists.PurchasesData.Where(x => x.Id.ToString().Contains(searchedWord) || x.Medications.Contains(searchedWord)).Distinct().ToList();
+                        searchedRows = _mainDataLists.PurchasesData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
                         break;
                 }
 

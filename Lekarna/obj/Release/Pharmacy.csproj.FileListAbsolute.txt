@@ -1,0 +1,47 @@
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Database\Pharmacy.mdf
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Database\Pharmacy_log.ldf
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Pharmacy.exe.config
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Pharmacy.exe
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Pharmacy.pdb
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\CsvHelper.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Microsoft.Bcl.HashCode.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Buffers.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Memory.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Numerics.Vectors.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Threading.Tasks.Extensions.dll
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\CsvHelper.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\Microsoft.Bcl.HashCode.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Buffers.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Memory.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Numerics.Vectors.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\bin\Release\System.Threading.Tasks.Extensions.xml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.csproj.AssemblyReference.cache
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.csproj.SuggestedBindingRedirects.cache
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddManufacturerWindow.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddMedicationWindow.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddPurchaseWindow.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddSaleWindow.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddWarehouseWindow.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\MainWindow.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\App.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy_Content.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy_MarkupCompile.cache
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy_MarkupCompile.lref
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddManufacturerWindow.baml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddMedicationWindow.baml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddPurchaseWindow.baml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddSaleWindow.baml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Additional windows\AddWarehouseWindow.baml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\MainWindow.baml
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.g.resources
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.Properties.Resources.resources
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.csproj.GenerateResource.cache
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.csproj.CoreCompileInputs.cache
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.csproj.CopyComplete
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.exe
+C:\Users\sosit\Documents\GitHub\Pharmacy\Lekarna\obj\Release\Pharmacy.pdb
