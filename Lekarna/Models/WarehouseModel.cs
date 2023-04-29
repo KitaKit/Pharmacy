@@ -1,13 +1,4 @@
 ﻿using CsvHelper.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//Здесь объектно описана таблица Warehouses из БД
-
-// Zde je objektivně popsána tabulka Warehouses z databáze
 
 namespace Pharmacy
 {

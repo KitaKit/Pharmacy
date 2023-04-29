@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Common;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using CsvHelper;
 using CsvHelper.Configuration;
-
-//Здесь будет описана логика работы с CSV файлом
-
-//Logika práce so súborom CSV bude popísaná tu
 
 namespace Pharmacy
 {
@@ -183,18 +173,3 @@ namespace Pharmacy
         }
     }
 }
-
-
-/*======================================================THERE ARE JUST TEST OPTIONS HERE======================================================*/
-/*public void ReadFile(string filePath, DataLists dataLists)
-        {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                using (CsvReader csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
-                {
-                    csvReader.Context.RegisterClassMap<MedicationClassMap>();
-                    dataLists.MedicationsData = csvReader.GetRecords<MedicationModel>().ToList();
-
-                }
-            }
-        }*/

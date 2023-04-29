@@ -1,10 +1,6 @@
 ﻿using CsvHelper.Configuration;
 using System;
 
-//Здесь объектно описана таблица Medications из БД
-
-// Zde je objektivně popsána tabulka Medications z databáze
-
 namespace Pharmacy
 {
     public class MedicationModel
@@ -69,7 +65,7 @@ namespace Pharmacy
             set
             {
                 if (_expirationDate != value && value != null)
-                    _expirationDate = value; 
+                    _expirationDate = value.Date; 
             }
         }
         public decimal Price 

@@ -1,10 +1,6 @@
 ﻿using CsvHelper.Configuration;
 using System;
 
-//Здесь объектно описана таблица Purchases из БД
-
-// Zde je objektivně popsána tabulka Purchases z databáze
-
 namespace Pharmacy
 {
     public class PurchaseModel
@@ -31,7 +27,7 @@ namespace Pharmacy
             set 
             {
                 if (_deliveryDate != value && value != null)
-                    _deliveryDate = value;
+                    _deliveryDate = value.Date;
             }
         }
         public decimal Cost 

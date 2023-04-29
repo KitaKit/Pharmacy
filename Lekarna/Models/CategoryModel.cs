@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//Здесь объектно описана таблица Categories из БД
-
-// Zde je objektivně popsána tabulka Categories z databáze
-
-namespace Pharmacy
+﻿namespace Pharmacy
 {
     public class CategoryModel
     {

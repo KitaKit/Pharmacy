@@ -1,16 +1,7 @@
-﻿using Microsoft.SqlServer.Server;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Xml.Linq;
 
 namespace Pharmacy
 {
@@ -128,7 +119,6 @@ namespace Pharmacy
 
         public void EditData<T>(T model, DataLists dataLists)
         {
-
             DatabaseConnectionService.Connect();
             using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
             {
@@ -150,11 +140,11 @@ namespace Pharmacy
                     }
                     else if (model is SaleModel)
                     {
-                        EditDataInSales(model as SaleModel, pharmacyConnection, dataLists);
+                        EditDataInSales(model as SaleModel, pharmacyConnection);
                     }
                     else if (model is PurchaseModel)
                     {
-                        EditDataInPurchases(model as PurchaseModel, pharmacyConnection, dataLists);
+                        EditDataInPurchases(model as PurchaseModel, pharmacyConnection);
                     }
                 }
                 catch (Exception ex)
@@ -164,7 +154,7 @@ namespace Pharmacy
             }
         }
 
-        private void EditDataInPurchases(PurchaseModel model, SqlConnection databaseConnection, DataLists dataLists)
+        private void EditDataInPurchases(PurchaseModel model, SqlConnection databaseConnection)
         {
             using (SqlCommand sqlCommand =  new SqlCommand("UPDATE Purchases SET Cost = @cost, Date = @date WHERE Id = @id", databaseConnection))
             {
@@ -183,7 +173,7 @@ namespace Pharmacy
             }
         }
 
-        private void EditDataInSales(SaleModel model, SqlConnection databaseConnection, DataLists dataLists)
+        private void EditDataInSales(SaleModel model, SqlConnection databaseConnection)
         {
             using (SqlCommand sqlCommand = new SqlCommand("UPDATE Sales SET Price = @price, Date = @date WHERE Id = @id", databaseConnection))
             {
@@ -663,79 +653,3 @@ namespace Pharmacy
         }
     }
 }
-
-
-
-/*======================================================THERE ARE JUST TEST OPTIONS HERE======================================================*/
-
-/*private List<T> ReadTableData<T>(SqlConnection databaseConnection, string tableName, Func<SqlDataReader, T> createObject)
-{
-    var data = new List<T>();
-    SqlDataReader dataReader = null;
-    try
-    {
-        SqlCommand sqlCommand = new SqlCommand($"SELECT * FROM {tableName}", databaseConnection);
-        dataReader = sqlCommand.ExecuteReader();
-        while (dataReader.Read())
-        {
-            data.Add(createObject(dataReader));
-        }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show(ex.Message);
-    }
-    finally
-    {
-        if (dataReader != null && !(dataReader.IsClosed))
-            dataReader.Close();
-    }
-    return data;
-}
-
-
-_medicationsData = ReadTableData(databaseConnection, "Medications", dataReader =>
-    new MedicationModel(
-        dataReader.GetInt32(0),
-        dataReader.GetString(1),
-        dataReader.GetBoolean(2),
-        dataReader.GetInt32(3),
-        dataReader.GetString(7),
-        dataReader.GetBoolean(4),
-        dataReader.GetDateTime(5),
-        dataReader.GetDecimal(6)
-    )
-);
-
-_warehousesData = ReadTableData(databaseConnection, "Warehouses", dataReader =>
-    new WarehouseModel(
-        dataReader.GetInt32(0),
-        dataReader.GetString(1)
-    )
-);
-
-_manufacturersData = ReadTableData(databaseConnection, "Manufacturers", dataReader =>
-    new ManufacturerModel(
-        dataReader.GetInt32(0),
-        dataReader.GetString(1),
-        dataReader.GetString(2),
-        dataReader.GetString(3)
-    )
-);
-
-_salesData = ReadTableData(databaseConnection, "Sales", dataReader =>
-    new SaleModel(
-        dataReader.GetInt32(0),
-        dataReader.GetDecimal(1),
-        dataReader.GetDateTime(2)
-    )
-);
-
-_purchasesData = ReadTableData(databaseConnection, "Purchases", dataReader =>
-    new PurchaseModel(
-        dataReader.GetInt32(0),
-        dataReader.GetInt32(1),
-        dataReader.GetDateTime(2),
-        dataReader.GetDecimal(3)
-    )
-);*/

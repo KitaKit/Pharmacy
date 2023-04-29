@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,37 +7,46 @@ namespace Pharmacy.Sorting_models
 {
     public static class PurchasesSort
     {
-        public static void SetParameters(DataLists dataLists, WrapPanel sortPanel, ComboBox providers)
+        private static MainWindow _mainWindow = Application.Current.MainWindow as MainWindow;
+        private static ComboBox _providers = _mainWindow.comboBoxSortPurchasesProvider;
+        private static WrapPanel _sortPanel = _mainWindow.wrapPanelSortPurchases;
+        private static Button _bCost = _mainWindow.buttonPurchasesSortCost;
+        private static TextBox _cost = _mainWindow.textBoxPurchasesSortCost;
+        private static DataGrid _dataGrid = _mainWindow.dataGridPurchases;
+        private static bool _wasSorted = false;
+        public static void SetParameters(DataLists dataLists)
         {
-            providers.ItemsSource = dataLists.ProvidersData.Select(x => x.Name);
+            _providers.ItemsSource = dataLists.ProvidersData.Select(x => x.Name);
 
             foreach (var row in dataLists.MedicationsData)
             {
                 CheckBox box = new CheckBox();
                 box.Content = row.Title;
                 box.Margin = new Thickness(1, 1, 1, 1);
-                sortPanel.Children.Add(box);
+                _sortPanel.Children.Add(box);
             }
         }
-        public static void Sort(List<PurchaseModel> purchases, WrapPanel sortPanel, ComboBox providers, Button buttonCost, TextBox cost, TabControl tabControl)
+        public static void Sort(List<PurchaseModel> purchases)
         {
-            
-
-            if (Validation.GetHasError(cost))
+            if (Validation.GetHasError(_cost))
                 return;
-            List<PurchaseModel> checkedPurchases = purchases;
-            var checkBoxes = sortPanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
-            if (!string.IsNullOrEmpty(cost.Text) && int.Parse(cost.Text) != 0)
+            if (_wasSorted)
+                _dataGrid.ItemsSource = purchases;
+
+            List<PurchaseModel> checkedPurchases = purchases;
+            var checkBoxes = _sortPanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+
+            if (!string.IsNullOrEmpty(_cost.Text) && int.Parse(_cost.Text) != 0)
             {
-                if (buttonCost.Content.ToString() == "Cost from")
-                    checkedPurchases = checkedPurchases.Where(x => x.Cost > int.Parse(cost.Text)).ToList();
+                if (_bCost.Content.ToString() == "Cost from")
+                    checkedPurchases = checkedPurchases.Where(x => x.Cost > int.Parse(_cost.Text)).ToList();
                 else
-                    checkedPurchases = checkedPurchases.Where(x => x.Cost < int.Parse(cost.Text)).ToList();
+                    checkedPurchases = checkedPurchases.Where(x => x.Cost < int.Parse(_cost.Text)).ToList();
             }
 
-            if (providers.SelectedIndex != -1)
-                checkedPurchases = checkedPurchases.Where(x => x.Provider == providers.SelectedValue.ToString()).ToList();
+            if (_providers.SelectedIndex != -1)
+                checkedPurchases = checkedPurchases.Where(x => x.Provider == _providers.SelectedValue.ToString()).ToList();
 
             if (checkBoxes.Any())
             {
@@ -55,7 +59,7 @@ namespace Pharmacy.Sorting_models
                 MessageBox.Show("There is no data with such parameters!", "No data", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-            DataShow.ToSelectedDataGrid(SelectedTable.Purchases, tabControl, checkedPurchases);
+            DataGridTables.ShowDataToTable(checkedPurchases);
         }
     }
 

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Pharmacy
@@ -13,7 +8,7 @@ namespace Pharmacy
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            var regex = new Regex("^[a-zA-Z0-9_-]*$");
+            var regex = new Regex("^[a-zA-Z0-9_ -]*$");
 
             if (value == null || string.IsNullOrEmpty(value.ToString()) || !regex.IsMatch(value.ToString()))
             {

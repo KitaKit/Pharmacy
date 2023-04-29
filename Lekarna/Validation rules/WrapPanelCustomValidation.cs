@@ -1,9 +1,4 @@
-﻿using CsvHelper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,7 +11,7 @@ namespace Pharmacy
             var checkBoxes = wrapPanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
             if (!checkBoxes.Any())
             {
-                MessageBox.Show("");
+                MessageBox.Show("At least 1 element must be selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 
@@ -25,7 +20,7 @@ namespace Pharmacy
                 var medicationCount = (wrapPanel.Children[wrapPanel.Children.IndexOf(item) + 1] as TextBox).Text;
                 if (string.IsNullOrEmpty(medicationCount) || !int.TryParse(medicationCount, out _))
                 {
-                    MessageBox.Show("");
+                    MessageBox.Show("Invalid value in the quantity line!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
             }
