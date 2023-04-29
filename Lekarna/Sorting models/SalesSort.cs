@@ -15,6 +15,9 @@ namespace Pharmacy.Sorting_models
         private static bool _wasSorting = false;
         public static void SetParameters(List<MedicationModel> medications)
         {
+            if (_sortPanel.Children.Count > 0)
+
+                _sortPanel.Children.Clear();
             foreach (var row in medications)
             {
                 CheckBox box = new CheckBox();

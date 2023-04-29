@@ -93,14 +93,14 @@ namespace Pharmacy
                         }
                         else if (model is SaleModel)
                         {
-                            sqlCommand.CommandText = $"DELETE FROM Sold_medications WHERE Id = {(model as SaleModel).Id}";
+                            sqlCommand.CommandText = $"DELETE FROM Sold_medications WHERE Sale_Id = {(model as SaleModel).Id}";
                             sqlCommand.ExecuteNonQuery();
                             sqlCommand.CommandText = $"DELETE FROM Sales WHERE Id = {(model as SaleModel).Id}";
                             sqlCommand.ExecuteNonQuery();
                         }
                         else if (model is PurchaseModel)
                         {
-                            sqlCommand.CommandText = $"DELETE FROM Purchased_medications WHERE Id = {(model as PurchaseModel).Id}";
+                            sqlCommand.CommandText = $"DELETE FROM Purchased_medications WHERE Purchase_Id = {(model as PurchaseModel).Id}";
                             sqlCommand.ExecuteNonQuery();
                             sqlCommand.CommandText = $"DELETE FROM Purchases WHERE Id = {(model as PurchaseModel).Id}";
                             sqlCommand.ExecuteNonQuery();

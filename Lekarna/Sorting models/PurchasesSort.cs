@@ -18,6 +18,9 @@ namespace Pharmacy.Sorting_models
         {
             _providers.ItemsSource = dataLists.ProvidersData.Select(x => x.Name);
 
+            if (_sortPanel.Children.Count > 0)
+                _sortPanel.Children.Clear();
+
             foreach (var row in dataLists.MedicationsData)
             {
                 CheckBox box = new CheckBox();

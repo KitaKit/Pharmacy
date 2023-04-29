@@ -16,6 +16,9 @@ namespace Pharmacy.Sorting_models
         {
             _country.ItemsSource = dataLists.ManufacturersData.Select(x => x.Country).Distinct();
 
+            if (_sortPanel.Children.Count > 0)
+                _sortPanel.Children.Clear();
+
             foreach (var row in dataLists.MedicationsData)
             {
                 CheckBox box = new CheckBox();
