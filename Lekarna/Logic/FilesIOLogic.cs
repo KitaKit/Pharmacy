@@ -30,30 +30,87 @@ namespace Pharmacy
             _selectedTable = selectedTable;
         }
 
-        public void ReadData(DataLists dataLists)
+        public bool ReadData(DataLists dataLists)
         {
             switch (_selectedTable)
             {
                 case SelectedTable.Medications:
-                    dataLists.MedicationsData.AddRange(GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap()));
+                    var fileDataMedications = GetDataFromFile(new List<MedicationModel>(), new MedicationClassMap());
+                    if (fileDataMedications != null)
+                    {
+                        foreach (var row in fileDataMedications)
+                            if (dataLists.MedicationsData.Any(x => x.Id == row.Id))
+                                fileDataMedications.Remove(row);
+
+                        if (fileDataMedications.Count > 0)
+                            dataLists.MedicationsData.AddRange(fileDataMedications);
+                    }
+                    else
+                        return false;
                     break;
 
                 case SelectedTable.Warehouses:
-                    dataLists.WarehousesData.AddRange(GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap()));
+                    var fileDataWarehouses = GetDataFromFile(new List<WarehouseModel>(), new WarehouseClassMap());
+                    if (fileDataWarehouses != null)
+                    {
+                        foreach (var row in fileDataWarehouses)
+                            if (dataLists.WarehousesData.Any(x => x.Id == row.Id))
+                                fileDataWarehouses.Remove(row);
+
+                        if (fileDataWarehouses.Count > 0)
+                            dataLists.WarehousesData.AddRange(fileDataWarehouses);
+
+                    }
+                    else
+                        return false;
                     break;
 
                 case SelectedTable.Manufacturers:
-                    dataLists.ManufacturersData.AddRange(GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap()));
+                    var fileDataManufacturers = GetDataFromFile(new List<ManufacturerModel>(), new ManufacturerClassMap());
+                    if (fileDataManufacturers != null)
+                    {
+                        foreach (var row in fileDataManufacturers)
+                            if (dataLists.ManufacturersData.Any(x => x.Id == row.Id))
+                                fileDataManufacturers.Remove(row);
+
+                        if (fileDataManufacturers.Count > 0)
+                            dataLists.ManufacturersData.AddRange(fileDataManufacturers);
+                    }
+                    else
+                        return false;
                     break;
 
                 case SelectedTable.Sales:
-                    dataLists.SalesData.AddRange(GetDataFromFile(new List<SaleModel>(), new SaleClassMap()));
+                    var fileDataSales = GetDataFromFile(new List<SaleModel>(), new SaleClassMap());
+                    if (fileDataSales != null)
+                    {
+                        foreach (var row in fileDataSales)
+                            if (dataLists.SalesData.Any(x => x.Id == row.Id))
+                                fileDataSales.Remove(row);
+
+                        if (fileDataSales.Count > 0)
+                            dataLists.SalesData.AddRange(fileDataSales);
+                    }
+                    else
+                        return false;
                     break;
 
                 case SelectedTable.Purchases:
-                    dataLists.PurchasesData.AddRange(GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap()));
+                    var fileDataPurchases = GetDataFromFile(new List<PurchaseModel>(), new PurchaseClassMap());
+                    if (fileDataPurchases != null)
+                    {
+                        foreach (var row in fileDataPurchases)
+                            if (dataLists.PurchasesData.Any(x => x.Id == row.Id))
+                                fileDataPurchases.Remove(row);
+
+                        if (fileDataPurchases.Count > 0)
+                            dataLists.PurchasesData.AddRange(fileDataPurchases);
+                    }
+                    else
+                        return false;
                     break;
             }
+            return true;
         }
         public void WriteDataToNew(DataLists dataLists)
         {

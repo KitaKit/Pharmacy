@@ -78,6 +78,10 @@ namespace Pharmacy
 
                         if (model is MedicationModel)
                         {
+                            sqlCommand.CommandText = $"DELETE FROM Sold_medications WHERE Medication_Id = {(model as MedicationModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
+                            sqlCommand.CommandText = $"DELETE FROM Purchased_medications WHERE Medication_Id = {(model as MedicationModel).Id}";
+                            sqlCommand.ExecuteNonQuery();
                             sqlCommand.CommandText = $"DELETE FROM Medications WHERE Id = {(model as MedicationModel).Id}";
                             sqlCommand.ExecuteNonQuery();
                         }

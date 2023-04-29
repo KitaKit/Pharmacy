@@ -58,7 +58,8 @@ namespace Pharmacy
 
             if (messageBoxResult == MessageBoxResult.Yes)
             {
-                file.ReadData(_mainDataLists);
+                if (!file.ReadData(_mainDataLists))
+                    return;
                 FileConnectionsList.Add(file);
             }
 
@@ -95,6 +96,9 @@ namespace Pharmacy
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!_deletedDataLists.HasItems() && !_changedDataLists.HasItems())
+                return;
+
             if (ChangeData.SaveAll(_deletedDataLists, _changedDataLists, _mainDataLists))
             {
                 DataGridTables.ShowDataToTable(_mainDataLists, SelectedTable.All);
@@ -147,10 +151,12 @@ namespace Pharmacy
         }
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            _selectedTable = DataGridTables.GetSelectedTable();
-
             var selectedRow = ((((mainTabControl.SelectedItem as TabItem).Content as Grid).Children[0] as ScrollViewer).Content as DataGrid).SelectedItem;
+            if (selectedRow == null)
+                return;
+
             MessageBoxResult messageBoxResult = MessageBoxResult.None;
+            _selectedTable = DataGridTables.GetSelectedTable();
 
             switch (_selectedTable)
             {
