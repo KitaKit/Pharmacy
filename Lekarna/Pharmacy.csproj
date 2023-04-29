@@ -133,6 +133,7 @@
     <Compile Include="Sorting models\MedicationsSort.cs" />
     <Compile Include="Sorting models\PurchasesSort.cs" />
     <Compile Include="Sorting models\SalesSort.cs" />
+    <Compile Include="Sorting models\SearchModel.cs" />
     <Compile Include="Sorting models\WarehousesSort.cs" />
     <Compile Include="Validation rules\CountryValidation.cs" />
     <Compile Include="Validation rules\LicenseValidation.cs" />

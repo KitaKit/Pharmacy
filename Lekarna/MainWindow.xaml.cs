@@ -271,36 +271,10 @@ namespace Pharmacy
         private void textBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             var searchedWord = textBoxSearch.Text.ToLower();
-            dynamic searchedRows = null;
+            var searchedRows = SearchModel.GetSearchedRows(searchedWord, _mainDataLists);
 
-
-            if (string.IsNullOrEmpty(searchedWord))
-                DataGridTables.ShowDataToTable(_mainDataLists);
-            else if (string.IsNullOrWhiteSpace(searchedWord))
-                return;
-            else
-            {
-                switch (_selectedTable)
-                {
-                    case SelectedTable.Medications:
-                        searchedRows = _mainDataLists.MedicationsData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Title.ToLower().Contains(searchedWord) || x.Description.ToLower().Contains(searchedWord)).Distinct().ToList();
-                        break;
-                    case SelectedTable.Warehouses:
-                        searchedRows = _mainDataLists.WarehousesData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Name.ToLower().Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
-                        break;
-                    case SelectedTable.Manufacturers:
-                        searchedRows = _mainDataLists.ManufacturersData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Name.ToLower().Contains(searchedWord) || x.Country.ToLower().Contains(searchedWord) || x.License.Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
-                        break;
-                    case SelectedTable.Sales:
-                        searchedRows = _mainDataLists.SalesData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
-                        break;
-                    case SelectedTable.Purchases:
-                        searchedRows = _mainDataLists.PurchasesData.Where(x => x.Id.ToString().ToLower().Contains(searchedWord) || x.Medications.ToLower().Contains(searchedWord)).Distinct().ToList();
-                        break;
-                }
-
+            if (searchedRows != null)
                 DataGridTables.ShowDataToTable(searchedRows);
-            }
         }
 //---------------------------------------------------------------------------------------------------------------------------------------------------//
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
