@@ -58,7 +58,7 @@ namespace Pharmacy
         public PurchaseClassMap()
         {
             Map(x => x.Id).Name("Id");
-            Map(x => x.DeliveryDate).Name("DeliveryDate");
+            Map(x => x.DeliveryDate).Name("DeliveryDate").TypeConverterOption.Format("dd.MM.yyyy");
             Map(x => x.Cost).Name("Cost");
             Map(x => x.Medications).Name("Medications");
             Map(x => x.Provider).Name("Provider");

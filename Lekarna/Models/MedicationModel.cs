@@ -110,7 +110,7 @@ namespace Pharmacy
             Map(x => x.Availability).Name("Availability");
             Map(x => x.Count).Name("Count");
             Map(x => x.Prescription).Name("Prescription");
-            Map(x => x.ExpirationDate).Name("ExpirationDate");
+            Map(x => x.ExpirationDate).Name("ExpirationDate").TypeConverterOption.Format("dd.MM.yyyy");
             Map(x => x.Price).Name("Price");
             Map(x => x.Description).Name("Description");
             Map(x => x.Category).Name("Category");

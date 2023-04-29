@@ -87,7 +87,7 @@ namespace Pharmacy
                     if (fileDataPurchases != null)
                     {
                         foreach (var row in fileDataPurchases)
-                            if (dataLists.PurchasesData.Any(x => x.Id == row.Id))
+                            if (!dataLists.PurchasesData.Any(x => x.Id == row.Id))
                                 dataLists.PurchasesData.Add(row);
                     }
                     else

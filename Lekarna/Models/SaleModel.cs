@@ -59,7 +59,7 @@ namespace Pharmacy
         {
             Map(x => x.Id).Name("Id");
             Map(x => x.Price).Name("Price");
-            Map(x => x.Date).Name("Date");
+            Map(x => x.Date).Name("Date").TypeConverterOption.Format("dd.MM.yyyy");
             Map(x => x.Medications).Name("Medications");
         }
     }
