@@ -26,17 +26,20 @@ namespace Pharmacy.Additional_windows
             string medication = null;
             List<string> checkedMedications = new List<string>();
             decimal cost = 0;
-
+            MedicationModel medicationModel = null;
+            int medicationCount = 0;
             var checkBoxes = medicationsWrapPanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+
             foreach (var item in checkBoxes)
             {
                 if (item is CheckBox && item.IsChecked == true)
                 {
                     medication = item.Content.ToString();
                     checkedMedications.Add(medication);
-                    var medicationModel = _dataLists.MedicationsData.Find(x => x.Title == medication);
-                    _dataLists.Add(new SoldMedicationModel(nextId,medicationModel.Id, int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item) + 1] as TextBox).Text)));
-                    cost += medicationModel.Price;
+                    medicationModel = _dataLists.MedicationsData.Find(x => x.Title == medication);
+                    medicationCount = int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item) + 1] as TextBox).Text);
+                    _dataLists.Add(new SoldMedicationModel(nextId, medicationModel.Id, medicationCount));
+                    cost += (medicationModel.Price*medicationCount);
                 }
             }
             string medications = string.Join(", ", checkedMedications);
@@ -61,7 +64,7 @@ namespace Pharmacy.Additional_windows
                 medicationsWrapPanel.Children.Add(checkBox);
 
                 TextBox textBox = new TextBox();
-                textBox.Width = 30;
+                textBox.Width = 50;
                 textBox.Margin = new Thickness(1, 1, 5, 1);
                 medicationsWrapPanel.Children.Add(textBox);
             }

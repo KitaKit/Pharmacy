@@ -24,8 +24,18 @@ namespace Pharmacy
                 _dataLists.MedicationsData.Max(x => x.Id) + 1, titleTextBox.Text, (bool)availabilityCheckBox.IsChecked, int.Parse(countTextBox.Text), descriptionTextBox.Text, (bool)prescriptionCheckBox.IsChecked, (DateTime)expirationDateDatePicker.SelectedDate, decimal.Parse(priceTextBox.Text), warehouseComboBox.SelectedValue.ToString(), formComboBox.SelectedValue.ToString(), manufacturerComboBox.SelectedValue.ToString(), categoryComboBox.SelectedValue.ToString()
                 );
 
-            _dataLists.WarehousesData.Find(x => x.Name == newMedication.Warehouse).Medications += (", " + newMedication.Title);
-            _dataLists.ManufacturersData.Find(x => x.Name == newMedication.Manufacturer).Medications += (", " + newMedication.Title);
+            var refMedications = _dataLists.WarehousesData.Find(x => x.Name == newMedication.Warehouse).Medications;
+            if (string.IsNullOrEmpty(refMedications))
+                refMedications = newMedication.Title;
+            else
+                refMedications += (", " + newMedication.Title);
+
+            refMedications = _dataLists.ManufacturersData.Find(x => x.Name == newMedication.Manufacturer).Medications;
+            if (string.IsNullOrEmpty(refMedications))
+                refMedications = newMedication.Title;
+            else
+                refMedications += (", " + newMedication.Title);
+
             ChangeData.SaveNew(newMedication, SelectedTable.Medications, _dataLists);
             Close();
         }

@@ -95,9 +95,13 @@ namespace Pharmacy
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            ChangeData.SaveAll(_deletedDataLists, _changedDataLists, _mainDataLists);
+            if (ChangeData.SaveAll(_deletedDataLists, _changedDataLists, _mainDataLists))
+            {
+                DataGridTables.ShowDataToTable(_mainDataLists, SelectedTable.All);
 
-            DataGridTables.ShowDataToTable(_mainDataLists, SelectedTable.All);
+                _changedDataLists.ClearAll();
+                _deletedDataLists.ClearAll();
+            }
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -221,25 +225,25 @@ namespace Pharmacy
                     if (stackPanelSortWarehouses.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortWarehouses, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortWarehouses, HeightProperty, 225);
+                        MenuItemAnimations.Visible(stackPanelSortWarehouses, HeightProperty, 180);
                     break;
                 case SelectedTable.Manufacturers:
                     if (stackPanelSortManufacturers.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortManufacturers, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortManufacturers, HeightProperty, 225);
+                        MenuItemAnimations.Visible(stackPanelSortManufacturers, HeightProperty, 200);
                     break;
                 case SelectedTable.Sales:
                     if (stackPanelSortSales.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortSales, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortSales, HeightProperty, 225);
+                        MenuItemAnimations.Visible(stackPanelSortSales, HeightProperty, 190);
                     break;
                 case SelectedTable.Purchases:
                     if (stackPanelSortPurchases.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortPurchases, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortPurchases, HeightProperty, 225);
+                        MenuItemAnimations.Visible(stackPanelSortPurchases, HeightProperty, 220);
                     break;
             }
         }
@@ -362,7 +366,7 @@ namespace Pharmacy
         private void buttonSortManufacturersClear_Click(object sender, RoutedEventArgs e)
         {
             comboBoxSortManufacturersCountry.SelectedIndex = -1;
-            foreach (var box in wrapPanelSortManufacturers.Children.OfType<CheckBox>())
+            foreach (var box in sortPanelManufacturers.Children.OfType<CheckBox>())
             {
                 box.IsChecked = false;
             }
@@ -371,7 +375,7 @@ namespace Pharmacy
 
         private void buttonSortWarehousesClear_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var box in wrapPanelSortWarehouses.Children.OfType<CheckBox>())
+            foreach (var box in sortPanelWarehouses.Children.OfType<CheckBox>())
             {
                 box.IsChecked = false;
             }
@@ -382,7 +386,7 @@ namespace Pharmacy
         {
             textBoxPurchasesSortCost.Text = Convert.ToString(0);
             comboBoxSortPurchasesProvider.SelectedIndex = -1;
-            foreach (var box in wrapPanelSortPurchases.Children.OfType<CheckBox>())
+            foreach (var box in sortPanelPurchases.Children.OfType<CheckBox>())
             {
                 box.IsChecked = false;
             }
@@ -392,7 +396,7 @@ namespace Pharmacy
         private void buttonSortSalesClear_Click(object sender, RoutedEventArgs e)
         {
             textBoxSalesSortPrice.Text = Convert.ToString(0);
-            foreach (var box in wrapPanelSortSales.Children.OfType<CheckBox>())
+            foreach (var box in sortPanelSales.Children.OfType<CheckBox>())
             {
                 box.IsChecked = false;
             }
@@ -507,6 +511,22 @@ namespace Pharmacy
                 case SelectedTable.Purchases:
                     _changedDataLists.Add(e.Row.Item as PurchaseModel);
                     break;
+            }
+        }
+
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Do you want to exit?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                if (_changedDataLists.HasItems() || _deletedDataLists.HasItems())
+                {
+                    messageBoxResult = MessageBox.Show("Do you want to save all changes?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                        ChangeData.SaveAll(_deletedDataLists, _changedDataLists, _mainDataLists);
+                }
+                Application.Current.Shutdown();
             }
         }
     }

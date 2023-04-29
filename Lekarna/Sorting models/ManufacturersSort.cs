@@ -8,7 +8,7 @@ namespace Pharmacy.Sorting_models
     public static class ManufacturersSort
     {
         private static MainWindow _mainWindow = Application.Current.MainWindow as MainWindow;
-        private static WrapPanel _sortPanel = _mainWindow.wrapPanelSortManufacturers;
+        private static WrapPanel _sortPanel = _mainWindow.sortPanelManufacturers;
         private static ComboBox _country = _mainWindow.comboBoxSortManufacturersCountry;
         private static DataGrid _dataGrid = _mainWindow.dataGridManufacturers;
         private static bool _wasSorted = false;

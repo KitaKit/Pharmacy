@@ -8,7 +8,7 @@ namespace Pharmacy.Sorting_models
     public static class WarehousesSort
     {
         private static MainWindow _mainWindow = Application.Current.MainWindow as MainWindow;
-        private static WrapPanel _sortPanel = _mainWindow.wrapPanelSortWarehouses;
+        private static WrapPanel _sortPanel = _mainWindow.sortPanelWarehouses;
         private static DataGrid _dataGrid = _mainWindow.dataGridWarehouses;
         private static bool _wasSorted = false;
 

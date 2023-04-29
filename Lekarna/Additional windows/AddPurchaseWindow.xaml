@@ -6,14 +6,13 @@
         xmlns:local="clr-namespace:Pharmacy.Additional_windows"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Add purchase" Height="450" Width="800" WindowStartupLocation="CenterOwner" Loaded="addPurchaseWindow_Loaded">
+        Title="Add purchase" Height="370" Width="650" WindowStartupLocation="CenterOwner" Loaded="addPurchaseWindow_Loaded">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -30,13 +29,14 @@
                 </Binding>
             </DatePicker.SelectedDate>
         </DatePicker>
-
-        <Label Grid.Row="1" Grid.Column="0" Content="Medications:"/>
-        <WrapPanel x:Name="medicationsWrapPanel" Grid.Row="1" Grid.Column="1" Margin="5"/>
-
-        <Label Grid.Row="2" Grid.Column="0" Content="Provider:"/>
-        <ComboBox x:Name="providerComboBox" Grid.Row="2" Grid.Column="1" Margin="5"/>
-
-        <Button x:Name="saveButton" Content="Save" Width="70" Height="25" Margin="3" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="saveButton_Click"/>
+        
+        <Label Grid.Row="1" Grid.Column="0" Content="Provider:"/>
+        <ComboBox x:Name="providerComboBox" Grid.Row="1" Grid.Column="1" Margin="5"/>
+        
+        <Label Grid.Row="2" Grid.Column="0" Content="Medications:"/>
+        <ScrollViewer x:Name="wrapPanelScrollViewer" PanningMode="Both" PanningRatio="0.2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" CanContentScroll="True"  Grid.Row="2" Grid.Column="1">
+            <WrapPanel x:Name="medicationsWrapPanel" Margin="5" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </ScrollViewer>
+        <Button x:Name="saveButton" Content="Save" Width="70" Height="25" Margin="3" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="saveButton_Click"/>
     </Grid>
 </Window>

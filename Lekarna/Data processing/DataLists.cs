@@ -85,6 +85,27 @@ namespace Pharmacy
                 PurchasedMedicationsData.Remove(data as PurchasedMedicationModel);
         }
 
+        public void ClearAll()
+        {
+            _medicationsData.Clear();
+            _warehousesData.Clear();
+            _salesData.Clear();
+            _purchasesData.Clear();
+            _medicationFormsData.Clear();
+            _categoriesData.Clear();
+            _manufacturersData.Clear();
+            _providersData.Clear();
+            _purchasedMedicationsData.Clear();
+            _soldMedicationsData.Clear();
+        }
+
+        public bool HasItems()
+        {
+            if(_medicationsData.Any() || _warehousesData.Any() || _manufacturersData.Any() || _salesData.Any() || _purchasesData.Any() || _medicationFormsData.Any() || _categoriesData.Any() || _providersData.Any() || _purchasedMedicationsData.Any() || _soldMedicationsData.Any())
+                return true;
+            return false;
+        }
+
         public static void ReplaceInStringInModel<T>(string originalValue, string newValue, Func<T, bool> predicateWhere, List<T> data)
         {
             var toReplace = data.Where(predicateWhere).ToList();

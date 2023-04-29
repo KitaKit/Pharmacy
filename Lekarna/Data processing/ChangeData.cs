@@ -39,7 +39,7 @@ namespace Pharmacy
                 MessageBox.Show("There is no connection to the database or the corresponding table file is not open", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        public static void SaveAll(DataLists deletedData, DataLists changedData, DataLists mainData)
+        public static bool SaveAll(DataLists deletedData, DataLists changedData, DataLists mainData)
         {
             DatabaseIOLogic database = new DatabaseIOLogic();
             SelectedTable selectedTable = SelectedTable.All;
@@ -68,7 +68,8 @@ namespace Pharmacy
                 {
                     foreach (var row in dataList)
                     {
-                        database.DeleteData(row);
+                        if (!database.DeleteData(row))
+                            return false;
 
                         foreach(var item in changedDataLists)
                             item.RemoveAll(x => x.GetType() == row.GetType() && (x as dynamic).Id == (row as dynamic).Id);
@@ -104,7 +105,8 @@ namespace Pharmacy
                 {
                     foreach (var row in dataList)
                     {
-                        database.EditData(row, mainData);
+                        if (!database.EditData(row, mainData))
+                            return false;
                     }
 
                     if (!FileConnectionsList.IsEmpty())
@@ -130,6 +132,7 @@ namespace Pharmacy
                     }
                 }
             }
+            return true;
         }
     }
 }

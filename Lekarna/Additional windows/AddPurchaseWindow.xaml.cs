@@ -25,6 +25,8 @@ namespace Pharmacy.Additional_windows
             string medication = null;
             decimal cost = 0;
             List<string> checkedMedications = new List<string>();
+            MedicationModel medicationModel = null;
+            int medicationCount = 0;
 
             var checkBoxes = medicationsWrapPanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
             foreach (var item in checkBoxes)
@@ -33,9 +35,10 @@ namespace Pharmacy.Additional_windows
                 {
                     medication = item.Content.ToString();
                     checkedMedications.Add(medication);
-                    var medicationModel = _dataLists.MedicationsData.Find(x => x.Title == medication);
-                    _dataLists.Add(new PurchasedMedicationModel(medicationModel.Id, nextId, int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item) + 1] as TextBox).Text)));
-                    cost += medicationModel.Price;
+                    medicationModel = _dataLists.MedicationsData.Find(x => x.Title == medication);
+                    medicationCount = int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item) + 1] as TextBox).Text);
+                    _dataLists.Add(new PurchasedMedicationModel(medicationModel.Id, nextId, medicationCount));
+                    cost += (medicationModel.Price*medicationCount);
                 }
             }
             string medications = string.Join(", ", checkedMedications);
@@ -61,8 +64,8 @@ namespace Pharmacy.Additional_windows
                 medicationsWrapPanel.Children.Add(checkBox);
 
                 TextBox textBox = new TextBox();
-                textBox.Width = 30;
-                textBox.Margin = new Thickness(1, 1, 5, 1);
+                textBox.Width = 50;
+                textBox.Margin = new Thickness(1, 1, 1, 1);
                 medicationsWrapPanel.Children.Add(textBox);
 
                 providerComboBox.ItemsSource = _dataLists.ProvidersData.Select(x => x.Name);

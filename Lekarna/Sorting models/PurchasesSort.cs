@@ -9,7 +9,7 @@ namespace Pharmacy.Sorting_models
     {
         private static MainWindow _mainWindow = Application.Current.MainWindow as MainWindow;
         private static ComboBox _providers = _mainWindow.comboBoxSortPurchasesProvider;
-        private static WrapPanel _sortPanel = _mainWindow.wrapPanelSortPurchases;
+        private static WrapPanel _sortPanel = _mainWindow.sortPanelPurchases;
         private static Button _bCost = _mainWindow.buttonPurchasesSortCost;
         private static TextBox _cost = _mainWindow.textBoxPurchasesSortCost;
         private static DataGrid _dataGrid = _mainWindow.dataGridPurchases;

@@ -62,7 +62,7 @@ namespace Pharmacy
             }
         }
 
-        public void DeleteData<T>(T model)
+        public bool DeleteData<T>(T model)
         {
             DatabaseConnectionService.Connect();
             using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
@@ -107,17 +107,19 @@ namespace Pharmacy
                         }
 
                         transaction.Commit();
+                        return true;
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
                         MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
                     }
                 }
             }
         }
 
-        public void EditData<T>(T model, DataLists dataLists)
+        public bool EditData<T>(T model, DataLists dataLists)
         {
             DatabaseConnectionService.Connect();
             using (SqlConnection pharmacyConnection = DatabaseConnectionService.DbConnection)
@@ -146,10 +148,12 @@ namespace Pharmacy
                     {
                         EditDataInPurchases(model as PurchaseModel, pharmacyConnection);
                     }
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
                 }
             }
         }
