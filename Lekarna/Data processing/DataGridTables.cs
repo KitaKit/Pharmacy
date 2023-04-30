@@ -40,10 +40,13 @@ namespace Pharmacy
                     if (data is DataLists)
                     {
                         if (_medicationsGrid.HasItems && _medicationsGrid.ItemsSource == data.MedicationsData)
+                        {
+                            _medicationsGrid.Items.SortDescriptions.Clear();
                             _medicationsGrid.Items.Refresh();
+                        }
                         else
                             if ((data as DataLists).MedicationsData.Any())
-                            _medicationsGrid.ItemsSource = data.MedicationsData;
+                                _medicationsGrid.ItemsSource = data.MedicationsData;
                     }
                     else
                         _medicationsGrid.ItemsSource = data;
@@ -52,10 +55,13 @@ namespace Pharmacy
                     if (data is DataLists)
                     {
                         if (_warehousesGrid.HasItems && _warehousesGrid.ItemsSource == data.WarehousesData)
+                        {
+                            _warehousesGrid.Items.SortDescriptions.Clear();
                             _warehousesGrid.Items.Refresh();
+                        }
                         else
                             if ((data as DataLists).WarehousesData.Any())
-                            _warehousesGrid.ItemsSource = data.WarehousesData;
+                                _warehousesGrid.ItemsSource = data.WarehousesData;
                     }
                     else
                         _warehousesGrid.ItemsSource = data;
@@ -64,7 +70,10 @@ namespace Pharmacy
                     if (data is DataLists)
                     {
                         if (_manufacturersGrid.HasItems && _manufacturersGrid.ItemsSource == data.ManufacturersData)
+                        { 
+                            _manufacturersGrid.Items.SortDescriptions.Clear();
                             _manufacturersGrid.Items.Refresh();
+                        }
                         else
                         {
                             if ((data as DataLists).ManufacturersData.Any())
@@ -78,7 +87,10 @@ namespace Pharmacy
                     if (data is DataLists)
                     {
                         if (_salesGrid.HasItems && _salesGrid.ItemsSource == data.SalesData)
+                        {
+                            _salesGrid.Items.SortDescriptions.Clear();
                             _salesGrid.Items.Refresh();
+                        }
                         else
                         {
                             if ((data as DataLists).SalesData.Any())
@@ -92,7 +104,10 @@ namespace Pharmacy
                     if (data is DataLists)
                     {
                         if (_purchasesGrid.HasItems && _purchasesGrid.ItemsSource == data.PurchasesData)
+                        {
+                            _purchasesGrid.Items.SortDescriptions.Clear();
                             _purchasesGrid.Items.Refresh();
+                        }
                         else
                         {
                             if ((data as DataLists).PurchasesData.Any())

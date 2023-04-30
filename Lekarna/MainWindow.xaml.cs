@@ -132,12 +132,12 @@ namespace Pharmacy
                     addManufacturerWindow.ShowDialog();
                     break;
                 case SelectedTable.Sales:
-                    AddSaleWindow addSaleWindow = new AddSaleWindow(_mainDataLists);
+                    AddSaleWindow addSaleWindow = new AddSaleWindow(_mainDataLists, _changedDataLists, _deletedDataLists);
                     addSaleWindow.Owner = this;
                     addSaleWindow.ShowDialog();
                     break;
                 case SelectedTable.Purchases:
-                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow(_mainDataLists);
+                    AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow(_mainDataLists, _changedDataLists, _deletedDataLists);
                     addPurchaseWindow.Owner = this;
                     addPurchaseWindow.ShowDialog();
                     break;
@@ -227,31 +227,31 @@ namespace Pharmacy
                     if (stackPanelMedicationsSort.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelMedicationsSort, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelMedicationsSort, HeightProperty, 225);
+                        MenuItemAnimations.Visible(stackPanelMedicationsSort, HeightProperty, 220);
                     break;
                 case SelectedTable.Warehouses:
                     if (stackPanelSortWarehouses.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortWarehouses, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortWarehouses, HeightProperty, 180);
+                        MenuItemAnimations.Visible(stackPanelSortWarehouses, HeightProperty, 190);
                     break;
                 case SelectedTable.Manufacturers:
                     if (stackPanelSortManufacturers.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortManufacturers, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortManufacturers, HeightProperty, 200);
+                        MenuItemAnimations.Visible(stackPanelSortManufacturers, HeightProperty, 215);
                     break;
                 case SelectedTable.Sales:
                     if (stackPanelSortSales.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortSales, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortSales, HeightProperty, 190);
+                        MenuItemAnimations.Visible(stackPanelSortSales, HeightProperty, 210);
                     break;
                 case SelectedTable.Purchases:
                     if (stackPanelSortPurchases.Visibility == Visibility.Visible)
                         MenuItemAnimations.Invisible(stackPanelSortPurchases, HeightProperty);
                     else
-                        MenuItemAnimations.Visible(stackPanelSortPurchases, HeightProperty, 220);
+                        MenuItemAnimations.Visible(stackPanelSortPurchases, HeightProperty, 235);
                     break;
             }
         }

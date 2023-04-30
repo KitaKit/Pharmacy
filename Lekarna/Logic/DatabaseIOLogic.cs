@@ -523,7 +523,7 @@ namespace Pharmacy
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show($"{ex.Message}, {saleRow.Id}");
                 }
             }
         }
@@ -552,7 +552,7 @@ namespace Pharmacy
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show($"{ex.Message}, {purchaseRow.Id}");
                 }
             }
         }

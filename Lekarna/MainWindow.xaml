@@ -253,7 +253,7 @@
             <Button x:Name="buttonClearSearchText" Content="Clear" HorizontalAlignment="Right" Margin="0.5" Width="45" Height="24" Click="buttonClearSearchText_Click"/>
         </StackPanel>
 
-        <StackPanel x:Name="stackPanelMedicationsSort" Height="0" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+        <StackPanel x:Name="stackPanelMedicationsSort" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18 5 0" Background="WhiteSmoke" Visibility="Collapsed">
             <StackPanel.DataContext>
                 <local:MedicationModel/>
             </StackPanel.DataContext>
@@ -338,7 +338,7 @@
             </Grid>
         </StackPanel>
         
-        <StackPanel x:Name="stackPanelSortManufacturers" Height="0" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+        <StackPanel x:Name="stackPanelSortManufacturers" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18 5 0" Background="WhiteSmoke" Visibility="Collapsed">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -360,7 +360,7 @@
             </Grid>
         </StackPanel>
         
-        <StackPanel x:Name="stackPanelSortSales" Height="0" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+        <StackPanel x:Name="stackPanelSortSales" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18 5 0" Background="WhiteSmoke" Visibility="Collapsed">
             <StackPanel.DataContext>
                 <local:SaleModel/>
             </StackPanel.DataContext>
@@ -393,7 +393,7 @@
             </Grid>
         </StackPanel>
         
-        <StackPanel x:Name="stackPanelSortPurchases" Height="0" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18" Background="WhiteSmoke" Visibility="Collapsed">
+        <StackPanel x:Name="stackPanelSortPurchases" Height="0" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 18 5 0" Background="WhiteSmoke" Visibility="Collapsed">
             <StackPanel.DataContext>
                 <local:PurchaseModel/>
             </StackPanel.DataContext>

@@ -9,10 +9,14 @@ namespace Pharmacy.Additional_windows
     public partial class AddPurchaseWindow : Window
     {
         private DataLists _dataLists = null;
-        public AddPurchaseWindow(DataLists dataLists)
+        private DataLists _changedData = null;
+        private DataLists _deletedData = null;
+        public AddPurchaseWindow(DataLists dataLists, DataLists changedData, DataLists deletedData)
         {
             InitializeComponent();
             _dataLists = dataLists;
+            _changedData = changedData;
+            _deletedData = deletedData;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
@@ -37,7 +41,11 @@ namespace Pharmacy.Additional_windows
                     checkedMedications.Add(medication);
                     medicationModel = _dataLists.MedicationsData.Find(x => x.Title == medication);
                     medicationCount = int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item) + 1] as TextBox).Text);
+                    if (medicationModel.Count == 0)
+                        medicationModel.Availability = true;
+                    medicationModel.Count += medicationCount;
                     _dataLists.Add(new PurchasedMedicationModel(medicationModel.Id, nextId, medicationCount));
+                    _changedData.Add(medicationModel);
                     cost += (medicationModel.Price*medicationCount);
                 }
             }
@@ -48,6 +56,7 @@ namespace Pharmacy.Additional_windows
                 nextId, (DateTime)deliveryDateDatePicker.SelectedDate, cost, providerComboBox.SelectedValue.ToString(), medications
                 );
 
+            ChangeData.SaveAll(_deletedData, _changedData, _dataLists);
             ChangeData.SaveNew(newPurchase, SelectedTable.Purchases, _dataLists);
             Close();
         }

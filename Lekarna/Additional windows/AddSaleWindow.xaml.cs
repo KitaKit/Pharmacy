@@ -10,15 +10,19 @@ namespace Pharmacy.Additional_windows
     public partial class AddSaleWindow : Window
     {
         private DataLists _dataLists = null;
-        public AddSaleWindow(DataLists dataLists)
+        private DataLists _changedData = null;
+        private DataLists _deletedData = null;
+        public AddSaleWindow(DataLists dataLists, DataLists changedData, DataLists deletedData)
         {
             InitializeComponent();
             _dataLists = dataLists;
+            _changedData = changedData;
+            _deletedData = deletedData;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!WrapPanelCustomValidation.IsValid(medicationsWrapPanel) || dateDatePicker.SelectedDate == null || Validation.GetHasError(dateDatePicker))
+            if (!WrapPanelCustomValidation.IsValid(medicationsWrapPanel, _dataLists.MedicationsData) || dateDatePicker.SelectedDate == null || Validation.GetHasError(dateDatePicker))
                 return;
 
             DatabaseIOLogic db = new DatabaseIOLogic();
@@ -38,7 +42,11 @@ namespace Pharmacy.Additional_windows
                     checkedMedications.Add(medication);
                     medicationModel = _dataLists.MedicationsData.Find(x => x.Title == medication);
                     medicationCount = int.Parse((medicationsWrapPanel.Children[medicationsWrapPanel.Children.IndexOf(item) + 1] as TextBox).Text);
+                    medicationModel.Count -= medicationCount;
+                    if (medicationModel.Count == 0)
+                        medicationModel.Availability = false;
                     _dataLists.Add(new SoldMedicationModel(nextId, medicationModel.Id, medicationCount));
+                    _changedData.Add(medicationModel);
                     cost += (medicationModel.Price*medicationCount);
                 }
             }
@@ -49,6 +57,7 @@ namespace Pharmacy.Additional_windows
                 nextId, cost, (DateTime)dateDatePicker.SelectedDate, medications
                 );
 
+            ChangeData.SaveAll(_deletedData, _changedData, _dataLists);
             ChangeData.SaveNew(newSale, SelectedTable.Sales, _dataLists);
             Close();
         }

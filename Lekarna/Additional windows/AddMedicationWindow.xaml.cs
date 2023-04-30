@@ -18,10 +18,19 @@ namespace Pharmacy
         {
             if (Validation.GetHasError(titleTextBox) || string.IsNullOrEmpty(titleTextBox.Text) || categoryComboBox.SelectedItem == null || formComboBox.SelectedItem == null || Validation.GetHasError(countTextBox) || string.IsNullOrEmpty(countTextBox.Text) || warehouseComboBox.SelectedItem == null || Validation.GetHasError(expirationDateDatePicker) || expirationDateDatePicker.SelectedDate == null || Validation.GetHasError(priceTextBox) || string.IsNullOrEmpty(priceTextBox.Text) || manufacturerComboBox.SelectedItem == null || string.IsNullOrEmpty(descriptionTextBox.Text))
                 return;
+           
+            var count = int.Parse(countTextBox.Text);
+            if (count > 0)
+                prescriptionCheckBox.IsChecked = true;
+            else if (count <= 0)
+            {
+                prescriptionCheckBox.IsChecked = false;
+                countTextBox.Text = "0";
+            }
 
             MedicationModel newMedication = new MedicationModel
                 (
-                _dataLists.MedicationsData.Max(x => x.Id) + 1, titleTextBox.Text, (bool)availabilityCheckBox.IsChecked, int.Parse(countTextBox.Text), descriptionTextBox.Text, (bool)prescriptionCheckBox.IsChecked, (DateTime)expirationDateDatePicker.SelectedDate, decimal.Parse(priceTextBox.Text), warehouseComboBox.SelectedValue.ToString(), formComboBox.SelectedValue.ToString(), manufacturerComboBox.SelectedValue.ToString(), categoryComboBox.SelectedValue.ToString()
+                _dataLists.MedicationsData.Max(x => x.Id) + 1, titleTextBox.Text, (bool)availabilityCheckBox.IsChecked, count, descriptionTextBox.Text, (bool)prescriptionCheckBox.IsChecked, (DateTime)expirationDateDatePicker.SelectedDate, decimal.Parse(priceTextBox.Text), warehouseComboBox.SelectedValue.ToString(), formComboBox.SelectedValue.ToString(), manufacturerComboBox.SelectedValue.ToString(), categoryComboBox.SelectedValue.ToString()
                 );
 
             var refMedications = _dataLists.WarehousesData.Find(x => x.Name == newMedication.Warehouse).Medications;
