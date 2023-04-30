@@ -1,12 +1,14 @@
 ﻿using Pharmacy.Additional_windows;
 using Pharmacy.Sorting_models;
 using System;
-using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Threading;
+
 
 namespace Pharmacy
 {
@@ -276,7 +278,7 @@ namespace Pharmacy
             if (searchedRows != null)
                 DataGridTables.ShowDataToTable(searchedRows);
         }
-//---------------------------------------------------------------------------------------------------------------------------------------------------//
+        //---------------------------------------------------------------------------------------------------------------------------------------------------//
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
         {
             isComboBoxDropDownOpened = true;

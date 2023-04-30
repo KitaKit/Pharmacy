@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using CsvHelper;
 using CsvHelper.Configuration;
 
@@ -96,14 +98,14 @@ namespace Pharmacy
             }
             return true;
         }
-        public void WriteDataToNew(DataLists dataLists)
+        public async void WriteDataToNew(DataLists dataLists)
         {
             switch (_selectedTable)
             {
                 case SelectedTable.Medications:
                     if (dataLists.MedicationsData.Any())
                     {
-                        WriteDataToFile(dataLists.MedicationsData, new MedicationClassMap());
+                        await Task.Run(() => WriteDataToFile(dataLists.MedicationsData, new MedicationClassMap()));
                         break;
                     }
                     break;
@@ -111,7 +113,7 @@ namespace Pharmacy
                 case SelectedTable.Warehouses:
                     if (dataLists.WarehousesData.Any())
                     {
-                        WriteDataToFile(dataLists.WarehousesData, new WarehouseClassMap());
+                        await Task.Run(() => WriteDataToFile(dataLists.WarehousesData, new WarehouseClassMap()));
                         break;
                     }
                     break;
@@ -119,7 +121,7 @@ namespace Pharmacy
                 case SelectedTable.Manufacturers:
                     if (dataLists.ManufacturersData.Any())
                     {
-                        WriteDataToFile(dataLists.ManufacturersData, new ManufacturerClassMap());
+                        await Task.Run(() => WriteDataToFile(dataLists.ManufacturersData, new ManufacturerClassMap()));
                         break;
                     }
                     break;
@@ -127,40 +129,40 @@ namespace Pharmacy
                 case SelectedTable.Sales:
                     if (dataLists.SalesData.Any())
                     {
-                        WriteDataToFile(dataLists.SalesData, new SaleClassMap());
+                        await Task.Run(() => WriteDataToFile(dataLists.SalesData, new SaleClassMap()));
                         break;
                     }
                     break;
                 case SelectedTable.Purchases:
                     if (dataLists.PurchasesData.Any())
                     {
-                        WriteDataToFile(dataLists.PurchasesData, new PurchaseClassMap());
+                        await Task.Run(() => WriteDataToFile(dataLists.PurchasesData, new PurchaseClassMap()));
                         break;
                     }
                     break;
             }
         }
-        public void AppendData<T>(T model)
+        public async void AppendData<T>(T model)
         {
             switch (_selectedTable)
             {
                 case SelectedTable.Medications:
-                    AppendDataToFile(model as MedicationModel, new MedicationClassMap());
+                    await Task.Run(() => AppendDataToFile(model as MedicationModel, new MedicationClassMap()));
                     break;
                 case SelectedTable.Warehouses:
-                    AppendDataToFile(model as WarehouseModel, new WarehouseClassMap());
+                    await Task.Run(() => AppendDataToFile(model as WarehouseModel, new WarehouseClassMap()));
                     break;
 
                 case SelectedTable.Manufacturers:
-                    AppendDataToFile(model as ManufacturerModel, new ManufacturerClassMap());
+                    await Task.Run(() => AppendDataToFile(model as ManufacturerModel, new ManufacturerClassMap()));
                     break;
 
                 case SelectedTable.Sales:
-                    AppendDataToFile(model as SaleModel, new SaleClassMap());
+                    await Task.Run(() => AppendDataToFile(model as SaleModel, new SaleClassMap()));
                     break;
 
                 case SelectedTable.Purchases:
-                    AppendDataToFile(model as PurchaseModel, new PurchaseClassMap());
+                    await Task.Run (() => AppendDataToFile(model as PurchaseModel, new PurchaseClassMap()));
                     break;
             }
         }
