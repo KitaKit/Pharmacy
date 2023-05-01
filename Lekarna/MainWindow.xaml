@@ -231,7 +231,7 @@
                                         </Binding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Provider" Binding="{Binding Provider}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Provider" Binding="{Binding Provider}"/>
                                 <DataGridTextColumn Header="Medications" Binding="{Binding Medications}" ElementStyle="{StaticResource WrapText}" Width="*" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -319,7 +319,7 @@
                 <Label Content="Manufacturer" Grid.Row="7" Grid.Column="0"/>
                 <ComboBox x:Name="comboBoxSortManufacturer" Grid.Row="7" Grid.Column="1" DropDownOpened="ComboBox_DropDownOpened" DropDownClosed="ComboBox_DropDownClosed"/>
 
-                <Button x:Name="buttonSortApply" Grid.Row="8" Grid.Column="0" Margin="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Content="Apply" Click="buttonSortApply_Click" Width="60"/>
+                <Button x:Name="buttonSortApply" Grid.Row="8" Grid.Column="0" Margin="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="20" Content="Apply" Click="buttonSortApply_Click" Width="Auto"/>
                 <Button x:Name="buttonSortClear" Grid.Row="8" Grid.Column="1" Margin="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Content="Clear" Click="buttonSortMedicationsClear_Click" Width="60"/>
             </Grid>
         </StackPanel>

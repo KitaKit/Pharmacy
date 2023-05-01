@@ -491,6 +491,13 @@ namespace Pharmacy
                     break;
 
                 case SelectedTable.Purchases:
+                    if (e.Column.DisplayIndex == 3)
+                        if (_mainDataLists.ProvidersData.FirstOrDefault(x => x.Name == (e.EditingElement as TextBox).Text) == null)
+                        {
+                            MessageBox.Show("Wrong provider!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            newVal = originalGridRowValue;
+                            return;
+                        }
                     _changedDataLists.Add(e.Row.Item as PurchaseModel);
                     break;
             }
