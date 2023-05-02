@@ -8,7 +8,7 @@ namespace Pharmacy
     {
         static private bool _isConnected = false;
         static public bool IsConnected => _isConnected;
-        static private readonly string _databasePath = Path.Combine(Environment.CurrentDirectory, "Database\\Pharmacy.mdf");
+        static private readonly string _databasePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Environment.CurrentDirectory)), "Database\\Pharmacy.mdf");
         static private SqlConnection _dbConnection = null;
         static public SqlConnection DbConnection => _dbConnection;
 
